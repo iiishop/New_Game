@@ -43,12 +43,5 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
     {
         Destroy(this.gameObject);
     }
-    
-    //子弹运行前设定大小
-    /*protected void ChangeSize(){
-        transform.localScale = Vector3.one * size;
-    }
-    protected void Move(){
-        transform.Translate(Vector3.forward *speed);//创建物体的角度的方向平移，需优化为实际方向
-    }*/
+
 }

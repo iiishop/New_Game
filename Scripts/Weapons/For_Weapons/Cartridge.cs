@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class Cartridge : MonoBehaviour
 {
     private Rigidbody rb;
-
+    public float deathTime =3f;
     public float Force;
 
     void Start()
@@ -21,5 +21,10 @@ public class Cartridge : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         rb.AddForce(new Vector3(Mathf.Cos((Program.Weapon_Rotation+90) / 180 * Mathf.PI) * Force,
             Mathf.Sin((Program.Weapon_Rotation+90) / 180 * Mathf.PI) * Force, force2)); //*f.localEulerAngles.z);
+        Invoke("destory",deathTime);
+    }
+    public virtual void destory()
+    {
+        Destroy(this.gameObject);
     }
 }
