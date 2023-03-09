@@ -70,7 +70,7 @@ namespace Weapons
             return true;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             ROT();
             Follow();
@@ -113,7 +113,7 @@ namespace Weapons
                 Quaternion.Euler(Father.transform.eulerAngles) * new Vector3(Follow_Offset.x*Follow_Face, Follow_Offset.y,Follow_Offset.z) + Father.transform.position, Follow_Speed);
             //让物体在y轴上下浮动
             transform.position = new Vector3(transform.position.x,
-                transform.position.y + Mathf.Sin(Time.time * Float_Speed) * Float_Amplitude, 
+                Follow_Offset.y + Mathf.Sin(Time.unscaledTime * Float_Speed) * Float_Amplitude, 
                 transform.position.z);
         }
     }

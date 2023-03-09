@@ -20,7 +20,7 @@ public class Program : MonoBehaviour
     public static void TimeChange(float time)
     {
         Time_Scale = time;
-        //Time.timeScale = Time_Scale;
+        Time.timeScale = Time_Scale;
     }
 
     private void Update()
