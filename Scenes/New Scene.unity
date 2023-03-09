@@ -1183,9 +1183,7 @@ MonoBehaviour:
   Now_Magazing: 0
   Is_Reloading: 0
   Fire_Particle: {fileID: 1861357995}
-  New_Bullet: {fileID: 0}
   Main_Camera: {fileID: 629566653}
-  Father: {fileID: 0}
   Follow_Speed: 0
   Follow_Offset: {x: 0, y: 0, z: 0}
   Float_Speed: 0
@@ -1212,9 +1210,7 @@ MonoBehaviour:
   Now_Magazing: 0
   Is_Reloading: 0
   Fire_Particle: {fileID: 1861357995}
-  New_Bullet: {fileID: 0}
   Main_Camera: {fileID: 629566653}
-  Father: {fileID: 0}
   Follow_Speed: 0.2
   Follow_Offset: {x: 0.48, y: 0.8, z: 0}
   Float_Speed: 2
@@ -1235,6 +1231,7 @@ GameObject:
   - component: {fileID: 1709751546}
   - component: {fileID: 1709751547}
   - component: {fileID: 1709751548}
+  - component: {fileID: 1709751550}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -1332,7 +1329,7 @@ BoxCollider:
   m_GameObject: {fileID: 1709751541}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.40891233, y: 1.2924795, z: 0.36658406}
   m_Center: {x: -0.017393604, y: -0.01945272, z: 0}
@@ -1397,6 +1394,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd6366c98a699744e9b8885b48a77b3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Program_Save_Object: {fileID: 11400000, guid: 69cc7ee974fb41c4ebf9fd6c67d14dc5, type: 2}
+--- !u!136 &1709751550
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709751541}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 1.3224654
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1854043976
 PrefabInstance:
   m_ObjectHideFlags: 0

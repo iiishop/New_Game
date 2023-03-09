@@ -17,6 +17,7 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
     {
         rb2d = this.GetComponent<Rigidbody2D>();
         Move();
+        deathTime = deathTime / Program.Time_Scale;
     }
 
     public virtual void Move()

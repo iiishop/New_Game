@@ -19,9 +19,9 @@ namespace Weapons
         public int Now_Magazing = 0;        //当前弹夹内的子弹数量
         public bool Is_Reloading = false;   //是否正在装弹
         public ParticleSystem Fire_Particle;
-        public GameObject New_Bullet;
+        GameObject New_Bullet;
         public Camera Main_Camera;
-        public GameObject Father;
+        GameObject Father;
         
         public float Follow_Speed;
         public Vector3 Follow_Offset;
