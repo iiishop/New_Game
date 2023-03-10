@@ -1185,7 +1185,7 @@ MonoBehaviour:
   Fire_Particle: {fileID: 1861357995}
   Main_Camera: {fileID: 629566653}
   Follow_Speed: 0.02
-  Follow_Offset: {x: 0.48, y: 1.47, z: 0}
+  Follow_Offset: {x: 0.45, y: 0.85, z: 0}
   Float_Speed: 1
   Float_Amplitude: 0.06
 --- !u!1 &1602817504
