@@ -103,18 +103,22 @@ namespace Weapons
             else
                 Follow_Face = -1;
 
-            this.transform.localEulerAngles = new Vector3(0, this.transform.localEulerAngles.y, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+            this.transform.localEulerAngles = new Vector3(0, this.transform.localEulerAngles.y,
+                Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
 
         }
 
         private void Follow()
         {
-            transform.position=Vector3.Lerp(transform.position, 
-                Quaternion.Euler(Father.transform.eulerAngles) * new Vector3(Follow_Offset.x*Follow_Face, Follow_Offset.y,Follow_Offset.z) + Father.transform.position, Follow_Speed);
+            
             //让物体在y轴上下浮动
             transform.position = new Vector3(transform.position.x,
-                Follow_Offset.y + Mathf.Sin(Time.unscaledTime * Float_Speed) * Float_Amplitude, 
+                Follow_Offset.y + Father.transform.position.y + Mathf.Sin(Time.unscaledTime * Float_Speed) * Float_Amplitude,
                 transform.position.z);
+            transform.position = Vector3.Lerp(transform.position,
+                Quaternion.Euler(Father.transform.eulerAngles) * new Vector3(Follow_Offset.x * Follow_Face,
+                    Follow_Offset.y + Father.transform.position.y, Follow_Offset.z) + Father.transform.position,
+                Follow_Speed);
         }
     }
 }

@@ -98,7 +98,6 @@ public class PlayerController : MonoBehaviour
             {
                 One_Dash_Start = Time.realtimeSinceStartup;
                 
-                
                 ObjectPool.Instance.GetPool();
             }
             else
