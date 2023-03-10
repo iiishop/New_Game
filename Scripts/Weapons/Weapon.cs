@@ -19,14 +19,14 @@ namespace Weapons
         public int Now_Magazing = 0;        //当前弹夹内的子弹数量
         public bool Is_Reloading = false;   //是否正在装弹
         public ParticleSystem Fire_Particle;
-        GameObject New_Bullet;
+        private GameObject New_Bullet;
         public Camera Main_Camera;
-        GameObject Father;
-        
+        private GameObject Father;
+        [Header("跟随设置")]
         public float Follow_Speed;
         public Vector3 Follow_Offset;
         private int Follow_Face = 1;
-        
+        [Header("漂浮设置")]
         public float Float_Speed;
         public float Float_Amplitude;
 

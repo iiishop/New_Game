@@ -222,6 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e432f4d71815c44863da6a76f5f33f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathTime: 300
   Force: 150
 --- !u!54 &43402875
 Rigidbody:
@@ -802,7 +803,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1709751541}
   offset: {x: 0, y: 1.5, z: -8}
-  speed: 0.07
+  speed: 0.02
 --- !u!1 &734533952
 GameObject:
   m_ObjectHideFlags: 0
@@ -953,7 +954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f45a116f3450ae945822d314c2f88067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5000
+  speed: 1000
   damage: 0
   deathTime: 300
 --- !u!1 &1184612754
@@ -1065,7 +1066,6 @@ GameObject:
   - component: {fileID: 1407034765}
   - component: {fileID: 1407034764}
   - component: {fileID: 1407034768}
-  - component: {fileID: 1407034767}
   m_Layer: 0
   m_Name: XR-56
   m_TagString: Untagged
@@ -1137,7 +1137,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 156a32cfde3324242a1ece28f2b41cb9, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -1161,33 +1161,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1407034767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1407034762}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 368524b5959a3614d9bccaf81ea42f5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Bullet: {fileID: 1065346100}
-  Muzzle: {fileID: 413174993}
-  Cartridge: {fileID: 43402871}
-  Cartridge_Ejector: {fileID: 734533952}
-  Special_Mode: 
-  Ani: {fileID: 1407034765}
-  Full_Magazing: 11
-  Now_Magazing: 0
-  Is_Reloading: 0
-  Fire_Particle: {fileID: 1861357995}
-  Main_Camera: {fileID: 629566653}
-  Follow_Speed: 0
-  Follow_Offset: {x: 0, y: 0, z: 0}
-  Float_Speed: 0
-  Float_Amplitude: 0
 --- !u!114 &1407034768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1211,10 +1184,56 @@ MonoBehaviour:
   Is_Reloading: 0
   Fire_Particle: {fileID: 1861357995}
   Main_Camera: {fileID: 629566653}
-  Follow_Speed: 0.2
-  Follow_Offset: {x: 0.48, y: 0.8, z: 0}
-  Float_Speed: 2
-  Float_Amplitude: 0.015
+  Follow_Speed: 0.02
+  Follow_Offset: {x: 0.48, y: 1.47, z: 0}
+  Float_Speed: 1
+  Float_Amplitude: 0.06
+--- !u!1 &1602817504
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1602817506}
+  - component: {fileID: 1602817505}
+  m_Layer: 0
+  m_Name: ObjectPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1602817505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602817504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfc47bbb3dc138349918b2986be80681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShadowPrefab: {fileID: 5170232149180462432, guid: 82ac444c1d68cfa49aacf8fd1d7f3f2d, type: 3}
+  ShadowPoolSize: 5
+--- !u!4 &1602817506
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602817504}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.9301678, y: 1.2067785, z: 2.2194662}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1709751541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,7 +1245,6 @@ GameObject:
   - component: {fileID: 1709751544}
   - component: {fileID: 1709751543}
   - component: {fileID: 1709751542}
-  - component: {fileID: 1709751545}
   - component: {fileID: 1709751549}
   - component: {fileID: 1709751546}
   - component: {fileID: 1709751547}
@@ -1234,7 +1252,7 @@ GameObject:
   - component: {fileID: 1709751550}
   m_Layer: 0
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1251,8 +1269,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c45c18ca2a4f3046ba93a81e0e1c758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  turnSpeed: 90
+  Speed: 0.01
+  Dash_Time: 0.2
+  Dash_Speed: 0.03
+  Dash_CD: 0
 --- !u!212 &1709751543
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1320,19 +1340,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1709751545
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1709751541}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 0.40891233, y: 1.2924795, z: 0.36658406}
-  m_Center: {x: -0.017393604, y: -0.01945272, z: 0}
 --- !u!54 &1709751546
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1346,7 +1353,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!95 &1709751547
@@ -1361,7 +1368,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: ec5e1db9f0816ab41a87af4b4b3ebce7, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -1742,7 +1749,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  emitterVelocityMode: 0
+  emitterVelocityMode: 1
   looping: 0
   prewarm: 0
   playOnAwake: 0
@@ -2297,7 +2304,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 1000
+    maxNumParticles: 10000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -3826,7 +3833,7 @@ ParticleSystem:
         m_RotationOrder: 4
     inWorldSpace: 0
   InheritVelocityModule:
-    enabled: 1
+    enabled: 0
     m_Mode: 0
     m_Curve:
       serializedVersion: 2
