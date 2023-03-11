@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if (!collision.gameObject.CompareTag("Ground")&& Program.Time_Scale!=1)
+        if (!collision.gameObject.CompareTag("Ground"))
         {
             var dis = collision.transform.position - this.transform.position;
             Can_Move = false;
