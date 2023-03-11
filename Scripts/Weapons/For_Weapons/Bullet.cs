@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
     //成员变量
     public float speed;
     public double damage;
+    public double gittest;
     Rigidbody2D rb2d;
     public float deathTime = 3f;
     void Start()
