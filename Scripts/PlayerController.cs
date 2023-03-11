@@ -81,13 +81,9 @@ public class PlayerController : MonoBehaviour
         {
             GetComponent<Animator>().SetBool("IsMove", false);
         }
-        
-        //this.transform.position += new Vector3(x, 0, z) * Speed;
-
 
         //使用transform来控制玩家的移动
-        transform.Translate(new Vector3(x, this.GetComponent<Rigidbody>().velocity.y, z) * Speed *
-                            Time.unscaledDeltaTime);
+        transform.Translate(new Vector3(x, this.GetComponent<Rigidbody>().velocity.y, z) * Speed * Time.unscaledDeltaTime);
 
         
     }
@@ -117,19 +113,23 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if (!collision.gameObject.CompareTag("Ground"))
+        if (!collision.gameObject.CompareTag("Ground")&& Program.Time_Scale!=1)
         {
             var dis = collision.transform.position - this.transform.position;
             Can_Move = false;
             if (Is_Dashing)
             {
-                transform.Translate(new Vector3(dis.x>0?-1:1, this.GetComponent<Rigidbody>().velocity.y, dis.z>0?-1:1) * Dash_Speed *
-                                    Time.unscaledDeltaTime);
+                transform.Translate(
+                    new Vector3(dis.x > 0 ? -1 : 1, this.GetComponent<Rigidbody>().velocity.y, dis.z > 0 ? -1 : 1) *
+                    Dash_Speed *
+                    Time.unscaledDeltaTime);
             }
-            else
+            else if(x!=0 || z!=0)
             {
-                transform.Translate(new Vector3(dis.x>0?-1:1, this.GetComponent<Rigidbody>().velocity.y, dis.z>0?-1:1) * Speed *
-                                Time.unscaledDeltaTime);
+                transform.Translate(
+                    new Vector3(dis.x > 0 ? -1 : 1, this.GetComponent<Rigidbody>().velocity.y, dis.z > 0 ? -1 : 1) *
+                    Speed *
+                    Time.unscaledDeltaTime);
             }
             
         }
