@@ -869,8 +869,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 1
+  m_Constraints: 14
+  m_CollisionDetection: 0
 --- !u!65 &879230266
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1383,7 +1383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c45c18ca2a4f3046ba93a81e0e1c758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 1
+  Speed: 1.6
   Dash_Time: 0.2
   Dash_Speed: 8
   Dash_CD: 0
@@ -1468,7 +1468,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 120
   m_CollisionDetection: 0
 --- !u!95 &1709751547
 Animator:

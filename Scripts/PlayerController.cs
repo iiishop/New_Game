@@ -89,9 +89,7 @@ public class PlayerController : MonoBehaviour
         transform.Translate(new Vector3(x, this.GetComponent<Rigidbody>().velocity.y, z) * Speed *
                             Time.unscaledDeltaTime);
 
-        //使用rigidbody来控制玩家的移动
-        //this.GetComponent<Rigidbody>().velocity = new Vector3(x, this.GetComponent<Rigidbody>().velocity.y, z) * Speed/Time.fixedUnscaledDeltaTime;
-        //Debug.Log(new Vector3(x, this.GetComponent<Rigidbody>().velocity.y, z) * Speed/Time.fixedUnscaledDeltaTime);
+        
     }
 
     private void Dash(float x, float z)
@@ -99,8 +97,7 @@ public class PlayerController : MonoBehaviour
         Dash_Time_Left -= Time.unscaledDeltaTime;
         if (Is_Dashing)
         {
-            transform.Translate(new Vector3(x, this.GetComponent<Rigidbody>().velocity.y, z) * Dash_Speed *
-                                Time.unscaledDeltaTime);
+            transform.Translate(new Vector3(x, 0, z) * Dash_Speed * Time.unscaledDeltaTime); 
         }
         if (Is_Dashing && One_Dash_Start + One_Dash_Time <= Time.realtimeSinceStartup)
         {
@@ -118,15 +115,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         if (!collision.gameObject.CompareTag("Ground"))
         {
+            var dis = collision.transform.position - this.transform.position;
             Can_Move = false;
-            transform.Translate(new Vector3(-x, this.GetComponent<Rigidbody>().velocity.y, -z) * Speed *
+            if (Is_Dashing)
+            {
+                transform.Translate(new Vector3(dis.x>0?-1:1, this.GetComponent<Rigidbody>().velocity.y, dis.z>0?-1:1) * Dash_Speed *
+                                    Time.unscaledDeltaTime);
+            }
+            else
+            {
+                transform.Translate(new Vector3(dis.x>0?-1:1, this.GetComponent<Rigidbody>().velocity.y, dis.z>0?-1:1) * Speed *
                                 Time.unscaledDeltaTime);
+            }
+            
         }
-        
     }
 
     private void OnCollisionExit(Collision other)
