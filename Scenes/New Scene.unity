@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathTime: 300
-  Force: 150
+  Force: 2.5
 --- !u!54 &43402875
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -954,7 +954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f45a116f3450ae945822d314c2f88067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1000
+  speed: 30
   damage: 0
   deathTime: 300
 --- !u!1 &1184612754
@@ -1269,10 +1269,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c45c18ca2a4f3046ba93a81e0e1c758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 0.01
+  Speed: 1
   Dash_Time: 0.2
-  Dash_Speed: 0.03
+  Dash_Speed: 8
   Dash_CD: 0
+  x: 0
+  z: 0
 --- !u!212 &1709751543
 SpriteRenderer:
   m_ObjectHideFlags: 0

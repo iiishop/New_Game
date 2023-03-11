@@ -14,13 +14,15 @@ public class Cartridge : MonoBehaviour
     void Start()
     {
         //随机取一个范围在-40到-60之间的数
-        var force2 = Random.Range(-50f, -10f);
+        var force2 = Random.Range(-2.5f, -1.5f);
         if(Program.Weapon_Rotation is > 90 and < 270)
             Force = -Force;
 
         rb = this.GetComponent<Rigidbody>();
-        rb.AddForce(new Vector3(Mathf.Cos((Program.Weapon_Rotation+90) / 180 * Mathf.PI) * Force,
-            Mathf.Sin((Program.Weapon_Rotation+90) / 180 * Mathf.PI) * Force, force2)); //*f.localEulerAngles.z);
+
+        rb.velocity = new Vector3(Mathf.Cos((Program.Weapon_Rotation+90) / 180 * Mathf.PI) * force2,
+            Mathf.Sin((Program.Weapon_Rotation + 90) / 180 * Mathf.PI) * Force, force2);
+        
         Invoke("destory",deathTime);
     }
     public virtual void destory()

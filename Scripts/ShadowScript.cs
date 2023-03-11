@@ -16,7 +16,7 @@ public class ShadowScript : MonoBehaviour
     [Header("不透明度控制")] 
     public float Alpha_Start;
     public float Alpha_Mutiplier;
-    private float Alpha;
+    public float Alpha;
     
 
     private void OnEnable()
@@ -40,10 +40,14 @@ public class ShadowScript : MonoBehaviour
     {
         This_Color = new Color(1, 1, 1, Alpha);
         This_Sprite.color = This_Color;
-        Alpha *= Alpha_Mutiplier;
+        
+        var t = Alpha_Mutiplier/Time.fixedDeltaTime;
+        if (t >= 1)
+            t = 0.99f;
+        Alpha *= t;
         
 
-        if (Alpha<=0.1f)
+        if (Alpha<=0.01f)
         {
             ObjectPool.Instance.ReturnPool(this.gameObject);
         }

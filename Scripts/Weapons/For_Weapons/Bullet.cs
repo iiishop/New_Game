@@ -21,9 +21,11 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
 
     public virtual void Move()
     {
-        rb2d.AddForce(new Vector2(Mathf.Cos((Program.Weapon_Rotation) / 180 * Mathf.PI) , 
-            Mathf.Sin((Program.Weapon_Rotation) / 180 * Mathf.PI) ).normalized*speed);
-
+        //rb2d.AddForce(new Vector2(Mathf.Cos((Program.Weapon_Rotation) / 180 * Mathf.PI) , 
+        //    Mathf.Sin((Program.Weapon_Rotation) / 180 * Mathf.PI) )*speed);
+        rb2d.velocity = new Vector2(Mathf.Cos((Program.Weapon_Rotation) / 180 * Mathf.PI) * speed,
+            Mathf.Sin((Program.Weapon_Rotation) / 180 * Mathf.PI) * speed);
+        
         Invoke("destory",deathTime);
     }
 

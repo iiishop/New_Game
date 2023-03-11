@@ -10,10 +10,10 @@ public class CameraTrack : MonoBehaviour
     public float speed = 0.5f;
     void Update()
     {
-
         if (target)
         {
-            transform.position=Vector3.Lerp(transform.position, Quaternion.Euler(target.transform.eulerAngles) * offset + target.transform.position, speed);
+            transform.position = Vector3.Lerp(transform.position,
+                Quaternion.Euler(target.transform.eulerAngles) * offset + target.transform.position, speed);
         }
     }
 }

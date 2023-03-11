@@ -21,6 +21,8 @@ public class Program : MonoBehaviour
     {
         Time_Scale = time;
         Time.timeScale = Time_Scale;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        //Main_Character.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     private void Update()

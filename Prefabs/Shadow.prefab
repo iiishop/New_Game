@@ -98,4 +98,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Alpha_Start: 1
-  Alpha_Mutiplier: 0.8
+  Alpha_Mutiplier: 0.016
