@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBullet : Bullet
+public class Test_cube : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

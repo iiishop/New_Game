@@ -27,13 +27,15 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
         rb2d.velocity = new Vector2(Mathf.Cos((Program.Weapon_Rotation) / 180 * Mathf.PI) * speed,
             Mathf.Sin((Program.Weapon_Rotation) / 180 * Mathf.PI) * speed);
         
-        Invoke("destory",deathTime);
+        Invoke("destory",deathTime);//完成后应去除这行
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
+    private void OnTriggerEnter(Collider other)//添加了碰撞敌人后才会触发伤害
+    {   
+        if (other.gameObject.tag == "Enemy") {
         Hurt();
-        destory();
+        }
+        destory(other.gameObject.tag);
     }
 
     public virtual void Hurt()
@@ -42,7 +44,7 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
         //伤害和其他特殊效果
     }
 
-    public virtual void destory()
+    public virtual void destory(string tag)//为实现双穿添加参数
     {
         Destroy(this.gameObject);
     }
