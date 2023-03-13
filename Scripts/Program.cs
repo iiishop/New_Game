@@ -31,13 +31,13 @@ public class Program : MonoBehaviour
         {
             TimeChange(0.01f);
             //锁定主角的旋转和y轴的移动
-            Main_Character.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            Main_Character.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
         }
         else if (Input.GetKeyDown(KeyCode.T) && Time_Scale == 0.01f)
         {
             TimeChange(1.0f);
             //解锁主角的y轴的移动，但仍然锁定旋转
-            Main_Character.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            Main_Character.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ;
         }
     }
 }

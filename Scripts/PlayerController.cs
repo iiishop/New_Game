@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private float One_Dash_Time; 
     private float One_Dash_Start; 
     
-    private float x, z;
+    private float x;
     private bool Can_Move = true;
 
     private void Start()
@@ -31,9 +31,8 @@ public class PlayerController : MonoBehaviour
     {
         //获取玩家输入,并将其转换为int类型,当其大于0时,将其设置为1,当其小于0时,将其设置为-1
         x = Input.GetAxisRaw("Horizontal");
-        z = Input.GetAxisRaw("Vertical");
-        
-        
+
+
         if (Input.GetKey(KeyCode.A))
         {
             GetComponent<SpriteRenderer>().flipX = true;
@@ -64,16 +63,16 @@ public class PlayerController : MonoBehaviour
     {
         if (Can_Move)
         {
-            Move(x, z);
-            Dash(x, z);
+            Move();
+            Dash();
         }
-        this.GetComponent<Rigidbody>().velocity = new Vector3(0, this.GetComponent<Rigidbody>().velocity.y, 0);
+        this.GetComponent<Rigidbody>().velocity = new Vector3(0, this.GetComponent<Rigidbody>().velocity.y);
         
     }
 
-    private void Move(float x, float z) //后期会去掉z
+    private void Move()
     {
-        if (x != 0 || z != 0)
+        if (x != 0)
         {
             GetComponent<Animator>().SetBool("IsMove", true);
         }
@@ -83,17 +82,17 @@ public class PlayerController : MonoBehaviour
         }
 
         //使用transform来控制玩家的移动
-        transform.Translate(new Vector3(x, this.GetComponent<Rigidbody>().velocity.y, z) * Speed * Time.unscaledDeltaTime);
+        transform.Translate(new Vector3(x, this.GetComponent<Rigidbody>().velocity.y) * Speed * Time.unscaledDeltaTime);
 
         
     }
 
-    private void Dash(float x, float z)
+    private void Dash()
     {
         Dash_Time_Left -= Time.unscaledDeltaTime;
         if (Is_Dashing)
         {
-            transform.Translate(new Vector3(x, 0, z) * Dash_Speed * Time.unscaledDeltaTime); 
+            transform.Translate(new Vector3(x, 0) * Dash_Speed * Time.unscaledDeltaTime); 
         }
         if (Is_Dashing && One_Dash_Start + One_Dash_Time <= Time.realtimeSinceStartup)
         {
@@ -116,22 +115,25 @@ public class PlayerController : MonoBehaviour
         if (!collision.gameObject.CompareTag("Ground"))
         {
             var dis = collision.transform.position - this.transform.position;
-            Can_Move = false;
+            GetComponent<Animator>().SetBool("IsMove", false);
             if (Is_Dashing)
             {
                 transform.Translate(
-                    new Vector3(dis.x > 0 ? -1 : 1, this.GetComponent<Rigidbody>().velocity.y, dis.z > 0 ? -1 : 1) *
+                    new Vector3(dis.x > 0 ? -1 : 1, this.GetComponent<Rigidbody>().velocity.y) *
                     Dash_Speed *
                     Time.unscaledDeltaTime);
             }
-            else if(x!=0 || z!=0)
+            if(x!=0)
             {
-                transform.Translate(
-                    new Vector3(dis.x > 0 ? -1 : 1, this.GetComponent<Rigidbody>().velocity.y, dis.z > 0 ? -1 : 1) *
-                    Speed *
-                    Time.unscaledDeltaTime);
+                Can_Move = dis.x switch
+                {
+                    > 0 when x == 1 => false,
+                    > 0 => true,
+                    < 0 when x == -1 => false,
+                    < 0 => true,
+                    _ => Can_Move
+                };
             }
-            
         }
     }
 
