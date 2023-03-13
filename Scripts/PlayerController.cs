@@ -9,16 +9,15 @@ public class PlayerController : MonoBehaviour
 {
     public float Speed = 3.0f;
 
-    [Header("冲刺设置")] 
-    public float Dash_Time;
+    [Header("冲刺设置")] public float Dash_Time;
     private float Dash_Time_Left;
     public float Dash_Speed;
     private float Dash_CD_Start;
     public float Dash_CD;
     private bool Is_Dashing;
-    private float One_Dash_Time; 
-    private float One_Dash_Start; 
-    
+    private float One_Dash_Time;
+    private float One_Dash_Start;
+
     private float x;
     private bool Can_Move = true;
 
@@ -46,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (Time.realtimeSinceStartup >= Dash_CD_Start + Dash_CD)//CD时间结束
+            if (Time.realtimeSinceStartup >= Dash_CD_Start + Dash_CD) //CD时间结束
             {
                 One_Dash_Start = Time.realtimeSinceStartup;
                 Dash_CD_Start = Time.realtimeSinceStartup;
@@ -54,9 +53,6 @@ public class PlayerController : MonoBehaviour
                 Is_Dashing = true;
             }
         }
-
-        
-        
     }
 
     private void FixedUpdate()
@@ -66,8 +62,8 @@ public class PlayerController : MonoBehaviour
             Move();
             Dash();
         }
+
         this.GetComponent<Rigidbody>().velocity = new Vector3(0, this.GetComponent<Rigidbody>().velocity.y);
-        
     }
 
     private void Move()
@@ -83,8 +79,6 @@ public class PlayerController : MonoBehaviour
 
         //使用transform来控制玩家的移动
         transform.Translate(new Vector3(x, this.GetComponent<Rigidbody>().velocity.y) * Speed * Time.unscaledDeltaTime);
-
-        
     }
 
     private void Dash()
@@ -92,14 +86,15 @@ public class PlayerController : MonoBehaviour
         Dash_Time_Left -= Time.unscaledDeltaTime;
         if (Is_Dashing)
         {
-            transform.Translate(new Vector3(x, 0) * Dash_Speed * Time.unscaledDeltaTime); 
+            transform.Translate(new Vector3(x, 0) * Dash_Speed * Time.unscaledDeltaTime);
         }
+
         if (Is_Dashing && One_Dash_Start + One_Dash_Time <= Time.realtimeSinceStartup)
         {
             if (Dash_Time_Left > 0)
             {
                 One_Dash_Start = Time.realtimeSinceStartup;
-                
+
                 ObjectPool.Instance.GetPool();
             }
             else
@@ -123,7 +118,8 @@ public class PlayerController : MonoBehaviour
                     Dash_Speed *
                     Time.unscaledDeltaTime);
             }
-            if(x!=0)
+
+            if (x != 0)
             {
                 Can_Move = dis.x switch
                 {
