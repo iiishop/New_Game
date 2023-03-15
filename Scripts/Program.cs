@@ -22,7 +22,7 @@ public class Program : MonoBehaviour
         Time_Scale = time;
         Time.timeScale = Time_Scale;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
-        //Main_Character.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        //Main_Character.GetComponent<Rigidbody>().velocity = new Vector3(0,Main_Character.GetComponent<Rigidbody>().velocity.y/Time_Scale);
     }
 
     private void Update()

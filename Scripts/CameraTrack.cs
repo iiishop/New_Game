@@ -13,7 +13,8 @@ public class CameraTrack : MonoBehaviour
         if (target)
         {
             transform.position = Vector3.Lerp(transform.position,
-                Quaternion.Euler(target.transform.eulerAngles) * offset + target.transform.position, speed);
+                Quaternion.Euler(target.transform.eulerAngles) * offset + target.transform.position,
+                speed * Time.unscaledDeltaTime);
         }
     }
 }

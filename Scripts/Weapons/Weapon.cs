@@ -118,7 +118,7 @@ namespace Weapons
             transform.position = Vector3.Lerp(transform.position,
                 Quaternion.Euler(Father.transform.eulerAngles) * new Vector3(Follow_Offset.x * Follow_Face,
                     Follow_Offset.y + Father.transform.position.y, Follow_Offset.z) + Father.transform.position,
-                Follow_Speed);
+                Follow_Speed * Time.unscaledDeltaTime);
         }
     }
 }

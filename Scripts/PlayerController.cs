@@ -53,10 +53,8 @@ public class PlayerController : MonoBehaviour
                 Is_Dashing = true;
             }
         }
-    }
-
-    private void FixedUpdate()
-    {
+        
+        
         if (Can_Move)
         {
             Move();
