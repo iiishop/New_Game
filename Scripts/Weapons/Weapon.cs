@@ -112,13 +112,16 @@ namespace Weapons
         {
             
             //让物体在y轴上下浮动
-            transform.position = new Vector3(transform.position.x,
-                Follow_Offset.y + Father.transform.position.y + Mathf.Sin(Time.unscaledTime * Float_Speed) * Float_Amplitude,
-                transform.position.z);
-            transform.position = Vector3.Lerp(transform.position,
+            var Position = transform.position;
+            var Father_Position = Father.transform.position;
+            Position = new Vector3(Position.x,
+                Follow_Offset.y + Father_Position.y + Mathf.Sin(Time.unscaledTime * Float_Speed) * Float_Amplitude * Time.unscaledDeltaTime,
+                Position.z);
+            Position = Vector3.Lerp(Position,
                 Quaternion.Euler(Father.transform.eulerAngles) * new Vector3(Follow_Offset.x * Follow_Face,
-                    Follow_Offset.y + Father.transform.position.y, Follow_Offset.z) + Father.transform.position,
+                    Follow_Offset.y + Father_Position.y, Follow_Offset.z) + Father_Position,
                 Follow_Speed * Time.unscaledDeltaTime);
+            transform.position = Position;
         }
     }
 }

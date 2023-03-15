@@ -31,11 +31,11 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
 
     private void OnTriggerEnter(Collider other)
     {
-        Hurt();
+        Hurt(other);
         destory();
     }
 
-    public virtual void Hurt()
+    public virtual void Hurt(Collider other)
     {
         //other.gameObject.GetComponent<>()
         //伤害和其他特殊效果

@@ -30,12 +30,15 @@ public class Program : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T) && Time_Scale ==1.0f)
         {
             TimeChange(0.01f);
+            Main_Character.transform.position = new Vector3(this.transform.position.x,
+                this.transform.position.y + 0.01f, this.transform.position.z);
             //锁定主角的旋转和y轴的移动
             Main_Character.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
         }
         else if (Input.GetKeyDown(KeyCode.T) && Time_Scale == 0.01f)
         {
             TimeChange(1.0f);
+            Main_Character.GetComponent<PlayerController>().Can_Move = true;
             //解锁主角的y轴的移动，但仍然锁定旋转
             Main_Character.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ;
         }

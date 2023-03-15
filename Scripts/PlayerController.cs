@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private float One_Dash_Start;
 
     private float x;
-    private bool Can_Move = true;
+    public bool Can_Move = true;
 
     private void Start()
     {
@@ -42,6 +42,11 @@ public class PlayerController : MonoBehaviour
             GetComponent<SpriteRenderer>().flipX = false;
         }
 
+        if (Input.GetKeyUp(KeyCode.A)||Input.GetKeyUp(KeyCode.D))
+        {
+            GetComponent<Animator>().SetBool("IsMove", false);
+        }
+
 
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -53,8 +58,8 @@ public class PlayerController : MonoBehaviour
                 Is_Dashing = true;
             }
         }
-        
-        
+
+
         if (Can_Move)
         {
             Move();
@@ -69,14 +74,14 @@ public class PlayerController : MonoBehaviour
         if (x != 0)
         {
             GetComponent<Animator>().SetBool("IsMove", true);
+            //使用transform来控制玩家的移动
+            transform.Translate(new Vector3(x, this.GetComponent<Rigidbody>().velocity.y) * Speed *
+                                Time.unscaledDeltaTime);
         }
         else
         {
             GetComponent<Animator>().SetBool("IsMove", false);
         }
-
-        //使用transform来控制玩家的移动
-        transform.Translate(new Vector3(x, this.GetComponent<Rigidbody>().velocity.y) * Speed * Time.unscaledDeltaTime);
     }
 
     private void Dash()
@@ -105,28 +110,43 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if (!collision.gameObject.CompareTag("Ground"))
+        
+        if (!collision.gameObject.CompareTag("Ground")||(Program.Time_Scale!=1))
         {
-            var dis = collision.transform.position - this.transform.position;
-            GetComponent<Animator>().SetBool("IsMove", false);
-            if (Is_Dashing)
+            //获取玩家与碰撞体接触的点的坐标
+            var ClosestPoint = collision.GetContact(0).point;
+            var Left = ClosestPoint.x > this.transform.position.x;
+            Debug.Log(Left);
+            Debug.Log(ClosestPoint);
+            Debug.Log(this.transform.position);
+            //GetComponent<Animator>().SetBool("IsMove", false);
+            /*if (Is_Dashing)
             {
                 transform.Translate(
-                    new Vector3(dis.x > 0 ? -1 : 1, this.GetComponent<Rigidbody>().velocity.y) *
+                    new Vector3(!Left ? -1 : 1, this.GetComponent<Rigidbody>().velocity.y) *
                     Dash_Speed *
                     Time.unscaledDeltaTime);
+            }*/
+            //对closestpoint.x保留两位小数
+            ClosestPoint.x = (float) Math.Round(ClosestPoint.x, 2);
+            //对玩家的x坐标保留两位小数
+            var t = (float) Math.Round(this.transform.position.x, 2);
+            if (ClosestPoint.x == t)
+            {
+                Can_Move = true;
+                return;
             }
 
             if (x != 0)
             {
-                Can_Move = dis.x switch
+                if (Left)
                 {
-                    > 0 when x == 1 => false,
-                    > 0 => true,
-                    < 0 when x == -1 => false,
-                    < 0 => true,
-                    _ => Can_Move
-                };
+                    Can_Move = x != 1;
+                }
+                else
+                {
+                    Can_Move = x != -1;
+                }
             }
         }
     }
