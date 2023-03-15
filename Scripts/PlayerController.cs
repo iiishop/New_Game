@@ -116,17 +116,6 @@ public class PlayerController : MonoBehaviour
             //获取玩家与碰撞体接触的点的坐标
             var ClosestPoint = collision.GetContact(0).point;
             var Left = ClosestPoint.x > this.transform.position.x;
-            Debug.Log(Left);
-            Debug.Log(ClosestPoint);
-            Debug.Log(this.transform.position);
-            //GetComponent<Animator>().SetBool("IsMove", false);
-            /*if (Is_Dashing)
-            {
-                transform.Translate(
-                    new Vector3(!Left ? -1 : 1, this.GetComponent<Rigidbody>().velocity.y) *
-                    Dash_Speed *
-                    Time.unscaledDeltaTime);
-            }*/
             //对closestpoint.x保留两位小数
             ClosestPoint.x = (float) Math.Round(ClosestPoint.x, 2);
             //对玩家的x坐标保留两位小数
