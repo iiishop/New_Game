@@ -10,12 +10,12 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
 {
     //成员变量
     public float speed;
-    public double damage;
-    Rigidbody2D rb2d;
+    public float damage;
+    Rigidbody rb;
     public float deathTime = 3f;
     void Start()
     {
-        rb2d = this.GetComponent<Rigidbody2D>();
+        rb = this.GetComponent<Rigidbody>();
         Move();
     }
 
@@ -23,13 +23,13 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
     {
         //rb2d.AddForce(new Vector2(Mathf.Cos((Program.Weapon_Rotation) / 180 * Mathf.PI) , 
         //    Mathf.Sin((Program.Weapon_Rotation) / 180 * Mathf.PI) )*speed);
-        rb2d.velocity = new Vector2(Mathf.Cos((Program.Weapon_Rotation) / 180 * Mathf.PI) * speed,
+        rb.velocity = new Vector2(Mathf.Cos((Program.Weapon_Rotation) / 180 * Mathf.PI) * speed,
             Mathf.Sin((Program.Weapon_Rotation) / 180 * Mathf.PI) * speed);
         
         Invoke("destory",deathTime);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         Hurt(other);
         destory();
@@ -39,6 +39,8 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
     {
         //other.gameObject.GetComponent<>()
         //伤害和其他特殊效果
+        var HP = other.gameObject.GetComponent<CharacterState>().HP;
+        other.gameObject.GetComponent<CharacterState>().ChangeHP(HP-damage);
     }
 
     public virtual void destory()

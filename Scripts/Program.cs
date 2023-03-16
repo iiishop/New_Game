@@ -10,7 +10,7 @@ public class Program : MonoBehaviour
     public static Weapon[] Weapon_Bag = new Weapon[2];
     public static float Weapon_Rotation;
     public static GameObject Main_Character;
-    public Program_Save Program_Save_Object;
+    public static Program_Save Program_Save_Object;
 
     private void Start()
     {
