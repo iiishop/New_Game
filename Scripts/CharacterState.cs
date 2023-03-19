@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 放在每个角色身上，用于管理角色的状态。现在只有血量，后续可以加入更多的状态
+/// </summary>
 public class CharacterState : MonoBehaviour
 {
     public float HP;
@@ -21,7 +24,7 @@ public class CharacterState : MonoBehaviour
             HP = StateManager.HP_Max;
         else
             this.HP = HP;
-        if (HP > 0)
+        if (HP > 1)
         {
             StateManager.HP_Rec = HP;
             Hurted();

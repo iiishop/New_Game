@@ -289,6 +289,7 @@ MonoBehaviour:
   HP_Max: 0
   HP_Now: 0
   HP_Rec: 0
+  HP_Bar: {fileID: 0}
 --- !u!114 &201599391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -842,7 +843,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596969379}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.69, z: 0}
+  m_LocalPosition: {x: 0, y: 1.805, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

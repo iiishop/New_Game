@@ -72,12 +72,41 @@ namespace Weapons
 
         private void Update()
         {
-            ROT();
+            
             Follow();
         }
 
-        private void ROT()
+        public void ROTM()
         {
+            //回正旋转
+            this.transform.localEulerAngles = Vector3.zero;
+            GetComponent<SpriteRenderer>().flipY = false;
+
+            //获取鼠标的坐标，鼠标是屏幕坐标，Z轴为0，这里不做转换  
+            Vector3 mouse = Input.mousePosition;
+            //获取物体坐标，物体坐标是世界坐标，将其转换成屏幕坐标，和鼠标一直  
+            Vector3 obj = Main_Camera.WorldToScreenPoint(transform.position);
+            //屏幕坐标向量相减，得到指向鼠标点的目标向量，即黄色线段  
+            Vector3 direction = mouse - obj;
+            Vector3 Player_Direction = mouse- Main_Camera.WorldToScreenPoint(Father.transform.position);
+            if(Player_Direction.x>=0)
+                Follow_Face = 1;
+            else
+                Follow_Face = -1;
+            //转过中线左右翻转
+            if (direction.x>=0)
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else
+            {
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
+
+        }
+        public void ROT()
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
             //获取鼠标的坐标，鼠标是屏幕坐标，Z轴为0，这里不做转换  
             Vector3 mouse = Input.mousePosition;
             //获取物体坐标，物体坐标是世界坐标，将其转换成屏幕坐标，和鼠标一直  
@@ -87,13 +116,11 @@ namespace Weapons
             //转过中线左右翻转
             if (direction.x>=0)
             {
-                
                 GetComponent<SpriteRenderer>().flipY = false;
                 this.gameObject.transform.GetChild(0).transform.localRotation = new Quaternion(0, 0, 0, 0);
             }
             else
             {
-                
                 GetComponent<SpriteRenderer>().flipY = true;
                 this.gameObject.transform.GetChild(0).transform.localRotation = new Quaternion(180, 0, 0, 0);
             }

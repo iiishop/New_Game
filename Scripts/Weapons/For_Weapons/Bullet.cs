@@ -40,7 +40,11 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
         //other.gameObject.GetComponent<>()
         //伤害和其他特殊效果
         var HP = other.gameObject.GetComponent<CharacterState>().HP;
-        other.gameObject.GetComponent<CharacterState>().ChangeHP(HP-damage);
+        
+        if(HP-damage<0)
+            other.gameObject.GetComponent<CharacterState>().ChangeHP(0);
+        else
+            other.gameObject.GetComponent<CharacterState>().ChangeHP(HP-damage);
     }
 
     public virtual void destory()

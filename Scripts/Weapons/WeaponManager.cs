@@ -25,7 +25,7 @@ public class WeaponManager : MonoBehaviour
     private void Update()
     {
         CheckAni();
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0)&& Input.GetMouseButton(1))
         {
             Program.Weapon_Now.Fire();
         }
@@ -38,6 +38,14 @@ public class WeaponManager : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             Signal.Call();
+        }
+        if (Input.GetMouseButton(1))
+        {
+            Program.Weapon_Now.ROT();
+        }
+        else
+        {
+            Program.Weapon_Now.ROTM();
         }
     }
 
