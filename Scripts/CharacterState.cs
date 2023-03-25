@@ -10,6 +10,8 @@ public class CharacterState : MonoBehaviour
 {
     public float HP;
     public StateManager StateManager;
+    public Vector3 Offset;
+    public float Follow_Speed;
 
     private void Start()
     {
@@ -18,10 +20,24 @@ public class CharacterState : MonoBehaviour
         StateManager.HP_Rec = HP;
     }
 
+    private void Update()
+    {
+        Follow();
+    }
+
+
+    private void Follow()
+    {
+        StateManager.transform.position = Vector3.Lerp(StateManager.transform.position, new Vector3(
+                Offset.x * (GetComponent<SpriteRenderer>().flipX ? -1f : 1f),
+                Offset.y, Offset.z) + this.transform.position,
+            Follow_Speed * Time.unscaledDeltaTime);
+    }
+
     public void ChangeHP(float HP)
     {
-        if(HP>StateManager.HP_Max)
-            HP = StateManager.HP_Max;
+        if (HP > StateManager.HP_Max)
+            this.HP = StateManager.HP_Max;
         else
             this.HP = HP;
         if (HP > 1)
@@ -38,11 +54,9 @@ public class CharacterState : MonoBehaviour
 
     public virtual void Hurted()
     {
-        
     }
 
     public virtual void Die()
     {
-        
     }
 }

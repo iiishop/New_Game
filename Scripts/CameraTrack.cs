@@ -9,6 +9,12 @@ public class CameraTrack : MonoBehaviour
     public Vector3 offset;
     public float speed = 0.5f;
     private float speed_now;
+
+    private void Start()
+    {
+        target = GameObject.FindWithTag("Player");
+    }
+
     void Update()
     {
         if (target)

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
 
 /// <summary>
@@ -13,40 +14,48 @@ public class StateManager : MonoBehaviour
     public float HP_Max;
     public float HP_Now;
     public float HP_Rec;
-    public Image HP_Bar;
+    private Image HP_Bar;
+    private Image Buttle_Ring;
+    private Text Buttle_Value;
 
     private void Start()
     {
-        HP_Bar = this.transform.GetChild(0).GetComponent<Image>();
+        HP_Bar = this.transform.Find("HP_Bar").GetComponent<Image>();
+        Buttle_Ring = this.transform.Find("Buttle_Ring").GetComponent<Image>();
+        Buttle_Value = this.transform.Find("Buttle_Value").GetComponent<Text>();
     }
 
     private void Update()
     {
         if (HP_Rec != HP_Now)
         {
-            ChangeHP(HP_Rec);
-            HP_Bar.fillAmount = HP_Now / HP_Max;
+            HP_Bar.fillAmount = ChangeState(ref HP_Rec, ref HP_Now, HP_Max);
         }
+        Buttle_Ring.fillAmount = (float)Program.Weapon_Now.Now_Magazing / (float)Program.Weapon_Now.Full_Magazing;
+        Buttle_Value.text = Program.Weapon_Now.Now_Magazing.ToString();
     }
 
-    public void ChangeHP(float HP_New)
+    public float ChangeState(ref float State_New, ref float State_Now, float State_Max)
     {
-        if(HP_New!=HP_Now)
-            HP_Now = Mathf.Lerp(HP_Now, HP_New, Lose_Speed * Time.unscaledDeltaTime);
-        if (HP_Now <= HP_New)
-            HP_Now = HP_New;
-            //对HP_New和HP_Now取整，防止出现小数点后面的数值
-        if ((int)HP_New == (int)HP_Now)
-            HP_Rec=HP_Now;
-        if (HP_New > HP_Max)
+        if (State_New != State_Now)
+            State_Now -= Lose_Speed * Time.deltaTime;
+        if (State_Now <= State_New)
+            State_Now = State_New;
+        //对HP_New和HP_Now取整，防止出现小数点后面的数值
+        if ((int)State_New == (int)State_Now)
+            State_New = State_Now;
+        if (State_New > State_Max)
         {
-            HP_Rec = HP_Max;
-            HP_Now = HP_Max;
+            State_New = State_Max;
+            State_Now = State_Max;
         }
 
-        if (HP_New < 1)
-        {
-            HP_Now = 0;
-        }
+        if (State_Now < 1)
+            State_Now = 0;
+        return State_Now / State_Max;
     }
+
+    
+
+
 }

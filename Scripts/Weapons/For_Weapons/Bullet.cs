@@ -31,8 +31,13 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
 
     private void OnTriggerStay(Collider other)
     {
-        Hurt(other);
-        destory();
+        Debug.Log("碰撞"+other.gameObject.name);
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            Hurt(other);
+            destory();
+        }
+        
     }
 
     public virtual void Hurt(Collider other)
