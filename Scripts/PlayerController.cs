@@ -17,29 +17,54 @@ public class PlayerController : MonoBehaviour
     private bool Is_Dashing;
     private float One_Dash_Time;
     private float One_Dash_Start;
+    public float Jump_Force;
+
+    public Animator Ani;
+    public Rigidbody Rb;
+    public SpriteRenderer SR;
 
     private float x;
-    private bool Can_Move = true;
+    public bool Can_Move = true;
+    
+    public bool Is_Grounded = true;
 
     private void Start()
     {
-        One_Dash_Time = Dash_Time / ObjectPool.Instance.ShadowPoolSize;
+        One_Dash_Time = Dash_Time / ObjectPool.Instance.Pool_Size;
+        Ani = GetComponent<Animator>();
+        Rb = GetComponent<Rigidbody>();
+        SR = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
+        Ani.SetFloat("AirSpeed", Rb.velocity.y);
+        
+        
+        
         //获取玩家输入,并将其转换为int类型,当其大于0时,将其设置为1,当其小于0时,将其设置为-1
         x = Input.GetAxisRaw("Horizontal");
 
 
         if (Input.GetKey(KeyCode.A))
         {
-            GetComponent<SpriteRenderer>().flipX = true;
+            SR.flipX = true;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            GetComponent<SpriteRenderer>().flipX = false;
+            SR.flipX = false;
+        }
+
+        if (Input.GetKeyUp(KeyCode.A)||Input.GetKeyUp(KeyCode.D))
+        {
+            Ani.SetBool("IsMove", false);
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Space) && Is_Grounded && Program.Time_Scale == 1.0f)
+        {
+            Rb.AddForce(new Vector3(0, Jump_Force), ForceMode.Impulse);
+            Ani.SetTrigger("Jump");
         }
 
 
@@ -53,32 +78,29 @@ public class PlayerController : MonoBehaviour
                 Is_Dashing = true;
             }
         }
-    }
 
-    private void FixedUpdate()
-    {
+
         if (Can_Move)
         {
             Move();
             Dash();
         }
 
-        this.GetComponent<Rigidbody>().velocity = new Vector3(0, this.GetComponent<Rigidbody>().velocity.y);
+        this.Rb.velocity = new Vector3(0, this.Rb.velocity.y);
     }
 
     private void Move()
     {
         if (x != 0)
         {
-            GetComponent<Animator>().SetBool("IsMove", true);
+            Ani.SetBool("IsMove", true);
+            //使用transform来控制玩家的移动
+            transform.Translate(new Vector3(x, 0) * Speed * Time.unscaledDeltaTime);
         }
         else
         {
-            GetComponent<Animator>().SetBool("IsMove", false);
+            Ani.SetBool("IsMove", false);
         }
-
-        //使用transform来控制玩家的移动
-        transform.Translate(new Vector3(x, this.GetComponent<Rigidbody>().velocity.y) * Speed * Time.unscaledDeltaTime);
     }
 
     private void Dash()
@@ -95,7 +117,7 @@ public class PlayerController : MonoBehaviour
             {
                 One_Dash_Start = Time.realtimeSinceStartup;
 
-                ObjectPool.Instance.GetPool();
+                ObjectPool.Instance.GetPool(ObjectPool.Instance.Shadow_Prefab);
             }
             else
             {
@@ -104,31 +126,45 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    //当玩家与地面接触时,将Is_Grounded设置为true
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            Is_Grounded = true;
+            Ani.SetBool("IsGrounded", true);
+        }
+    }
+
 
     private void OnCollisionStay(Collision collision)
     {
-        if (!collision.gameObject.CompareTag("Ground"))
+
+        if (!collision.gameObject.CompareTag("Ground")||(Program.Time_Scale!=1))
         {
-            var dis = collision.transform.position - this.transform.position;
-            GetComponent<Animator>().SetBool("IsMove", false);
-            if (Is_Dashing)
+            //获取玩家与碰撞体接触的点的坐标
+            var ClosestPoint = collision.GetContact(0).point;
+            var Left = ClosestPoint.x > this.transform.position.x;
+            //对closestpoint.x保留两位小数
+            ClosestPoint.x = (float) Math.Round(ClosestPoint.x, 2);
+            //对玩家的x坐标保留两位小数
+            var t = (float) Math.Round(this.transform.position.x, 2);
+            if (ClosestPoint.x == t)
             {
-                transform.Translate(
-                    new Vector3(dis.x > 0 ? -1 : 1, this.GetComponent<Rigidbody>().velocity.y) *
-                    Dash_Speed *
-                    Time.unscaledDeltaTime);
+                Can_Move = true;
+                return;
             }
 
             if (x != 0)
             {
-                Can_Move = dis.x switch
+                if (Left)
                 {
-                    > 0 when x == 1 => false,
-                    > 0 => true,
-                    < 0 when x == -1 => false,
-                    < 0 => true,
-                    _ => Can_Move
-                };
+                    Can_Move = x != 1;
+                }
+                else
+                {
+                    Can_Move = x != -1;
+                }
             }
         }
     }
@@ -136,5 +172,10 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionExit(Collision other)
     {
         Can_Move = true;
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            Is_Grounded = false;
+            Ani.SetBool("IsGrounded", false);
+        }
     }
 }

@@ -72,12 +72,41 @@ namespace Weapons
 
         private void Update()
         {
-            ROT();
+            
             Follow();
         }
 
-        private void ROT()
+        public void ROTM()
         {
+            //回正旋转
+            this.transform.localEulerAngles = Vector3.zero;
+            GetComponent<SpriteRenderer>().flipY = false;
+
+            //获取鼠标的坐标，鼠标是屏幕坐标，Z轴为0，这里不做转换  
+            Vector3 mouse = Input.mousePosition;
+            //获取物体坐标，物体坐标是世界坐标，将其转换成屏幕坐标，和鼠标一直  
+            Vector3 obj = Main_Camera.WorldToScreenPoint(transform.position);
+            //屏幕坐标向量相减，得到指向鼠标点的目标向量，即黄色线段  
+            Vector3 direction = mouse - obj;
+            Vector3 Player_Direction = mouse- Main_Camera.WorldToScreenPoint(Father.transform.position);
+            if(Player_Direction.x>=0)
+                Follow_Face = 1;
+            else
+                Follow_Face = -1;
+            //转过中线左右翻转
+            if (direction.x>=0)
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else
+            {
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
+
+        }
+        public void ROT()
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
             //获取鼠标的坐标，鼠标是屏幕坐标，Z轴为0，这里不做转换  
             Vector3 mouse = Input.mousePosition;
             //获取物体坐标，物体坐标是世界坐标，将其转换成屏幕坐标，和鼠标一直  
@@ -87,13 +116,11 @@ namespace Weapons
             //转过中线左右翻转
             if (direction.x>=0)
             {
-                
                 GetComponent<SpriteRenderer>().flipY = false;
                 this.gameObject.transform.GetChild(0).transform.localRotation = new Quaternion(0, 0, 0, 0);
             }
             else
             {
-                
                 GetComponent<SpriteRenderer>().flipY = true;
                 this.gameObject.transform.GetChild(0).transform.localRotation = new Quaternion(180, 0, 0, 0);
             }
@@ -112,13 +139,15 @@ namespace Weapons
         {
             
             //让物体在y轴上下浮动
-            transform.position = new Vector3(transform.position.x,
-                Follow_Offset.y + Father.transform.position.y + Mathf.Sin(Time.unscaledTime * Float_Speed) * Float_Amplitude,
-                transform.position.z);
-            transform.position = Vector3.Lerp(transform.position,
-                Quaternion.Euler(Father.transform.eulerAngles) * new Vector3(Follow_Offset.x * Follow_Face,
-                    Follow_Offset.y + Father.transform.position.y, Follow_Offset.z) + Father.transform.position,
-                Follow_Speed);
+            var Position = transform.position;
+            var Father_Position = Father.transform.position;
+            /*Position = new Vector3(Position.x,
+                Follow_Offset.y + Father_Position.y + Mathf.Sin(Time.unscaledTime * Float_Speed) * Float_Amplitude,
+                Position.z);*/
+            Position = Vector3.Lerp(Position, new Vector3(Follow_Offset.x * Follow_Face,
+                    Follow_Offset.y, Follow_Offset.z) + Father_Position,
+                Follow_Speed * Time.unscaledDeltaTime);
+            transform.position = Position;
         }
     }
 }

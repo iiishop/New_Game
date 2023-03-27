@@ -14,35 +14,35 @@ public class Dialog : MonoBehaviour
      * 在需要使用的时候调用Dialog.Instance.setDialog(自定义的对话框内容)
      */
     public static Dialog Instance;
-    public GameObject dialogBox;
-    public Text dialogText;
-    public Image headPicture;
-    public string[] dialogs;
+    public GameObject Dialog_Box;
+    public Text Dialog_Text;
+    public Image Head_Picture;
+    private string[] Dialogs;
     public int index = 0;
-    
+
     public void SetDialog(TextAsset textFile)
     {
-        dialogs=textFile.text.Split('\n');
-        dialogBox.SetActive(true);
+        Dialogs = textFile.text.Split('\n');
+        Dialog_Box.SetActive(true);
         index = 0;
     }
 
     private void Start()
     {
-        dialogBox.SetActive(false);
+        Dialog_Box.SetActive(false);
     }
 
     private void Update()
     {
-        if (dialogBox.activeSelf)
+        if (Dialog_Box.activeSelf)
         {
-            dialogText.text = dialogs[index];
-            if (Input.GetKeyDown(KeyCode.Space)||Input.GetMouseButtonDown(0))
+            Dialog_Text.text = Dialogs[index];
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
             {
                 index++;
-                if (index >= dialogs.Length)
+                if (index >= Dialogs.Length)
                 {
-                    dialogBox.SetActive(false);
+                    Dialog_Box.SetActive(false);
                 }
             }
         }
@@ -50,7 +50,7 @@ public class Dialog : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance!=null && Instance!=this)
+        if (Instance != null && Instance != this)
         {
             Destroy(this);
         }

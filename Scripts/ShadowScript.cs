@@ -24,6 +24,8 @@ public class ShadowScript : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         This_Sprite = this.GetComponent<SpriteRenderer>();
         Player_Sprite = Player.GetComponent<SpriteRenderer>();
+        
+        this.transform.localScale = Player.localScale;
 
         Alpha = Alpha_Start;
         This_Color = new Color(1, 1, 1, Alpha);
