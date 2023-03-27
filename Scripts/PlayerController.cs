@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
 {
     public float Speed = 3.0f;
 
-    [Header("冲刺设置")] public float Dash_Time;
+    [Header("冲刺设置")] 
+    public float Dash_Time;
     private float Dash_Time_Left;
     public float Dash_Speed;
     private float Dash_CD_Start;
@@ -17,20 +18,25 @@ public class PlayerController : MonoBehaviour
     private bool Is_Dashing;
     private float One_Dash_Time;
     private float One_Dash_Start;
+    public int Dash_Size;
+    
+    [Header("跳跃设置")]
     public float Jump_Force;
-
+    
+    [Header("组件")]
     public Animator Ani;
     public Rigidbody Rb;
     public SpriteRenderer SR;
 
-    private float x;
-    public bool Can_Move = true;
     
+    private float x;
+    [Header("变量")]
+    public bool Can_Move = true;
     public bool Is_Grounded = true;
 
     private void Start()
     {
-        One_Dash_Time = Dash_Time / ObjectPool.Instance.Pool_Size;
+        One_Dash_Time = Dash_Time / Dash_Size;
         Ani = GetComponent<Animator>();
         Rb = GetComponent<Rigidbody>();
         SR = GetComponent<SpriteRenderer>();
@@ -38,10 +44,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Ani.SetFloat("AirSpeed", Rb.velocity.y);
-        
-        
-        
         //获取玩家输入,并将其转换为int类型,当其大于0时,将其设置为1,当其小于0时,将其设置为-1
         x = Input.GetAxisRaw("Horizontal");
 
