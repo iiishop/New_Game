@@ -14,6 +14,7 @@ public class StateManager : MonoBehaviour
     public float HP_Max;
     public float HP_Now;
     public float HP_Rec;
+    public bool Is_Main_Character;
     private Image HP_Bar;
     private Image Buttle_Ring;
     private Text Buttle_Value;
@@ -21,8 +22,17 @@ public class StateManager : MonoBehaviour
     private void Start()
     {
         HP_Bar = this.transform.Find("HP_Bar").GetComponent<Image>();
-        Buttle_Ring = this.transform.Find("Buttle_Ring").GetComponent<Image>();
-        Buttle_Value = this.transform.Find("Buttle_Value").GetComponent<Text>();
+        if (Is_Main_Character)
+        {
+            Buttle_Ring = this.transform.Find("Buttle_Ring").GetComponent<Image>();
+            Buttle_Value = this.transform.Find("Buttle_Value").GetComponent<Text>();
+        }
+    }
+
+    private void OnEnable()
+    {
+        HP_Now = HP_Max;
+        HP_Rec = HP_Max;
     }
 
     private void Update()
@@ -31,8 +41,12 @@ public class StateManager : MonoBehaviour
         {
             HP_Bar.fillAmount = ChangeState(ref HP_Rec, ref HP_Now, HP_Max);
         }
-        Buttle_Ring.fillAmount = (float)Program.Weapon_Now.Now_Magazing / (float)Program.Weapon_Now.Full_Magazing;
-        Buttle_Value.text = Program.Weapon_Now.Now_Magazing.ToString();
+
+        if (Is_Main_Character)
+        {
+            Buttle_Ring.fillAmount = (float)Program.Weapon_Now.Now_Magazing / (float)Program.Weapon_Now.Full_Magazing;
+            Buttle_Value.text = Program.Weapon_Now.Now_Magazing.ToString();
+        }
     }
 
     public float ChangeState(ref float State_New, ref float State_Now, float State_Max)
@@ -43,7 +57,7 @@ public class StateManager : MonoBehaviour
             State_Now = State_New;
         //对HP_New和HP_Now取整，防止出现小数点后面的数值
         if ((int)State_New == (int)State_Now)
-            State_New = State_Now;
+            State_Now = State_New;
         if (State_New > State_Max)
         {
             State_New = State_Max;
@@ -54,8 +68,4 @@ public class StateManager : MonoBehaviour
             State_Now = 0;
         return State_Now / State_Max;
     }
-
-    
-
-
 }

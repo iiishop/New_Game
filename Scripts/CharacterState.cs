@@ -12,9 +12,28 @@ public class CharacterState : MonoBehaviour
     public StateManager StateManager;
     public Vector3 Offset;
     public float Follow_Speed;
+    
+    //public GameObject StateManager_Prefab;
+
+
+
+    private SpriteRenderer SR;
 
     private void Start()
     {
+        SR = GetComponent<SpriteRenderer>();
+        if (this.tag != "Player")
+        {
+            var State = ObjectPool.Instance.GetPool(ObjectPool.Instance.State_Prefab);
+            //让状态管理器的父物体为场景中名字为Canvas的物体
+            State.transform.SetParent(GameObject.Find("Canvas").transform);
+            State.GetComponent<RectTransform>().localScale = Vector3.one;
+            
+            StateManager = State.GetComponent<StateManager>();
+        }
+        
+        
+        
         StateManager.HP_Max = HP;
         StateManager.HP_Now = HP;
         StateManager.HP_Rec = HP;
@@ -29,7 +48,7 @@ public class CharacterState : MonoBehaviour
     private void Follow()
     {
         StateManager.transform.position = Vector3.Lerp(StateManager.transform.position, new Vector3(
-                Offset.x * (GetComponent<SpriteRenderer>().flipX ? -1f : 1f),
+                Offset.x * (SR.flipX ? -1f : 1f),
                 Offset.y, Offset.z) + this.transform.position,
             Follow_Speed * Time.unscaledDeltaTime);
     }

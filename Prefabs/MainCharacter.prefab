@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3023815230441619932}
   - component: {fileID: 3023815230441619933}
   - component: {fileID: 3023815230441619909}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MainCharacter
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3023815230441619911
 SpriteRenderer:
@@ -107,7 +107,12 @@ MonoBehaviour:
   Dash_Time: 0.2
   Dash_Speed: 8
   Dash_CD: 0
+  Jump_Force: 8
+  Ani: {fileID: 0}
+  Rb: {fileID: 0}
+  SR: {fileID: 0}
   Can_Move: 1
+  Is_Grounded: 1
 --- !u!114 &3023815230441619905
 MonoBehaviour:
   m_ObjectHideFlags: 0

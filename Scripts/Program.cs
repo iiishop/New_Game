@@ -34,6 +34,7 @@ public class Program : MonoBehaviour
                 this.transform.position.y + 0.01f, this.transform.position.z);
             //锁定主角的旋转和y轴的移动
             Main_Character.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
+            Main_Character.GetComponent<Animator>().SetBool("IsGrounded", true);
         }
         else if (Input.GetKeyDown(KeyCode.T) && Time_Scale == 0.01f)
         {

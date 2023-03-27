@@ -21,8 +21,6 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
 
     public virtual void Move()
     {
-        //rb2d.AddForce(new Vector2(Mathf.Cos((Program.Weapon_Rotation) / 180 * Mathf.PI) , 
-        //    Mathf.Sin((Program.Weapon_Rotation) / 180 * Mathf.PI) )*speed);
         rb.velocity = new Vector2(Mathf.Cos((Program.Weapon_Rotation) / 180 * Mathf.PI) * speed,
             Mathf.Sin((Program.Weapon_Rotation) / 180 * Mathf.PI) * speed);
         
@@ -42,7 +40,6 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
 
     public virtual void Hurt(Collider other)
     {
-        //other.gameObject.GetComponent<>()
         //伤害和其他特殊效果
         var HP = other.gameObject.GetComponent<CharacterState>().HP;
         
