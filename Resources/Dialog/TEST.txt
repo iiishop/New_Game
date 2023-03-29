@@ -1,0 +1,4 @@
+<MainCharacter/MainCharacterSprite>第一句话
+<MainCharacter/M2>第二句话
+<MainCharacter/MainCharacterSprite>3333
+4444

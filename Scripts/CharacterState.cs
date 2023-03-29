@@ -10,7 +10,7 @@ public class CharacterState : MonoBehaviour
 {
     public float HP;
     public bool Died = false;
-    public StateManager StateManager;
+    public StateManager State_Manager;
     public Vector3 Offset;
     public float Follow_Speed;
 
@@ -30,12 +30,12 @@ public class CharacterState : MonoBehaviour
             State.transform.SetParent(GameObject.Find("Canvas").transform);
             State.GetComponent<RectTransform>().localScale = Vector3.one;
             
-            StateManager = State.GetComponent<StateManager>();
+            State_Manager = State.GetComponent<StateManager>();
         }
         
-        StateManager.HP_Max = HP;
-        StateManager.HP_Now = HP;
-        StateManager.HP_Rec = HP;
+        State_Manager.HP_Max = HP;
+        State_Manager.HP_Now = HP;
+        State_Manager.HP_Rec = HP;
     }
 
     private void Update()
@@ -46,7 +46,7 @@ public class CharacterState : MonoBehaviour
     
     private void Follow()
     {
-        StateManager.transform.position = Vector3.Lerp(StateManager.transform.position, new Vector3(
+        State_Manager.transform.position = Vector3.Lerp(State_Manager.transform.position, new Vector3(
                 Offset.x * (SR.flipX ? -1f : 1f),
                 Offset.y, Offset.z) + this.transform.position,
             Follow_Speed * Time.unscaledDeltaTime);
@@ -54,18 +54,18 @@ public class CharacterState : MonoBehaviour
 
     public void ChangeHP(float HP)
     {
-        if (HP > StateManager.HP_Max)
-            this.HP = StateManager.HP_Max;
+        if (HP > State_Manager.HP_Max)
+            this.HP = State_Manager.HP_Max;
         else
             this.HP = HP;
         if (HP > 1)
         {
-            StateManager.HP_Rec = HP;
+            State_Manager.HP_Rec = HP;
             Hurted();
         }
         else if(!Died)
         {
-            StateManager.HP_Rec = 0;
+            State_Manager.HP_Rec = 0;
             Die();
         }
     }
@@ -79,5 +79,10 @@ public class CharacterState : MonoBehaviour
     {
         Ani.SetTrigger("Die");
         Died = true;
+        Invoke("Destroy",3f);
+    }
+    private void Destroy()
+    {
+        Destroy(this.gameObject);
     }
 }

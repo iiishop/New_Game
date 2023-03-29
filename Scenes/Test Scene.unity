@@ -1050,6 +1050,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Dialog_Box: {fileID: 192570822}
   Dialog_Text: {fileID: 1750618461}
+  Speaker_Picture: {fileID: 1118360279}
   index: 0
 --- !u!4 &655869927
 Transform:
@@ -6224,6 +6225,10 @@ PrefabInstance:
       propertyPath: StateManager
       value: 
       objectReference: {fileID: 2107706029}
+    - target: {fileID: 3023815230441619909, guid: 46a0f8eb4142f754d850a98a552d4a15, type: 3}
+      propertyPath: State_Manager
+      value: 
+      objectReference: {fileID: 2107706029}
     - target: {fileID: 3023815230441619910, guid: 46a0f8eb4142f754d850a98a552d4a15, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -6290,9 +6295,8 @@ GameObject:
   - component: {fileID: 1118360277}
   - component: {fileID: 1118360280}
   - component: {fileID: 1118360279}
-  - component: {fileID: 1118360278}
   m_Layer: 5
-  m_Name: MainCharacterSprite
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6315,29 +6319,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -394, y: 141.19}
-  m_SizeDelta: {x: 176.7573, y: 456.7361}
+  m_AnchoredPosition: {x: -377, y: -56}
+  m_SizeDelta: {x: 317.3851, y: 872.4438}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &1118360278
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118360276}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7bf835a3abb67e44993ef94a9dd4ee8a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1118360279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6354,7 +6338,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6461,7 +6445,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: 100
   Died: 0
-  StateManager: {fileID: 0}
+  State_Manager: {fileID: 0}
   Offset: {x: 0, y: 1.6, z: 0}
   Follow_Speed: 100
 --- !u!212 &1239314827
@@ -6627,7 +6611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0, g: 0.16409682, b: 0.4811321, a: 0.36862746}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6968,7 +6952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 0.7035146, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
