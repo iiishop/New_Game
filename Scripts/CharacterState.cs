@@ -9,19 +9,20 @@ using UnityEngine;
 public class CharacterState : MonoBehaviour
 {
     public float HP;
+    public bool Died = false;
     public StateManager StateManager;
     public Vector3 Offset;
     public float Follow_Speed;
-    
-    //public GameObject StateManager_Prefab;
-
-
 
     private SpriteRenderer SR;
+    private Animator Ani;
+    private Rigidbody Rb;
 
     private void Start()
     {
         SR = GetComponent<SpriteRenderer>();
+        Ani = GetComponent<Animator>();
+        Rb = GetComponent<Rigidbody>();
         if (this.tag != "Player")
         {
             var State = ObjectPool.Instance.GetPool(ObjectPool.Instance.State_Prefab);
@@ -32,8 +33,6 @@ public class CharacterState : MonoBehaviour
             StateManager = State.GetComponent<StateManager>();
         }
         
-        
-        
         StateManager.HP_Max = HP;
         StateManager.HP_Now = HP;
         StateManager.HP_Rec = HP;
@@ -42,9 +41,9 @@ public class CharacterState : MonoBehaviour
     private void Update()
     {
         Follow();
+        Ani.SetFloat("AirSpeed", Rb.velocity.y);
     }
-
-
+    
     private void Follow()
     {
         StateManager.transform.position = Vector3.Lerp(StateManager.transform.position, new Vector3(
@@ -64,7 +63,7 @@ public class CharacterState : MonoBehaviour
             StateManager.HP_Rec = HP;
             Hurted();
         }
-        else
+        else if(!Died)
         {
             StateManager.HP_Rec = 0;
             Die();
@@ -73,9 +72,12 @@ public class CharacterState : MonoBehaviour
 
     public virtual void Hurted()
     {
+        Ani.SetTrigger("Hurted");
     }
 
     public virtual void Die()
     {
+        Ani.SetTrigger("Die");
+        Died = true;
     }
 }

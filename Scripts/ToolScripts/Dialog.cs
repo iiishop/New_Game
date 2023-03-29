@@ -16,7 +16,7 @@ public class Dialog : MonoBehaviour
     public static Dialog Instance;
     public GameObject Dialog_Box;
     public Text Dialog_Text;
-    public Image Head_Picture;
+    //public Image Head_Picture;
     private string[] Dialogs;
     public int index = 0;
 

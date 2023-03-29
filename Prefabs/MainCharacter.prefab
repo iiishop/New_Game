@@ -106,7 +106,8 @@ MonoBehaviour:
   Speed: 1.6
   Dash_Time: 0.2
   Dash_Speed: 8
-  Dash_CD: 0
+  Dash_CD: 3
+  Dash_Size: 5
   Jump_Force: 8
   Ani: {fileID: 0}
   Rb: {fileID: 0}

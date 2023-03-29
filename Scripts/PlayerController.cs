@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
 {
     public float Speed = 3.0f;
 
-    [Header("冲刺设置")] public float Dash_Time;
+    [Header("冲刺设置")] 
+    public float Dash_Time;
     private float Dash_Time_Left;
     public float Dash_Speed;
     private float Dash_CD_Start;
@@ -17,20 +18,31 @@ public class PlayerController : MonoBehaviour
     private bool Is_Dashing;
     private float One_Dash_Time;
     private float One_Dash_Start;
+    public int Dash_Size;
+    
+    [Header("跳跃设置")]
     public float Jump_Force;
-
+    public int Jump_Count = 2;
+    private int Jump_Count_Now;
+    
+    [Header("组件")]
     public Animator Ani;
     public Rigidbody Rb;
     public SpriteRenderer SR;
 
+    /// <summary>
+    /// 是horizontal轴的值,用于控制玩家的移动
+    /// </summary>
     private float x;
-    public bool Can_Move = true;
     
+    [Header("变量")]
+    public bool Can_Move = true;
     public bool Is_Grounded = true;
 
     private void Start()
     {
-        One_Dash_Time = Dash_Time / ObjectPool.Instance.Pool_Size;
+        Jump_Count_Now = Jump_Count;
+        One_Dash_Time = Dash_Time / Dash_Size;
         Ani = GetComponent<Animator>();
         Rb = GetComponent<Rigidbody>();
         SR = GetComponent<SpriteRenderer>();
@@ -38,10 +50,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Ani.SetFloat("AirSpeed", Rb.velocity.y);
-        
-        
-        
         //获取玩家输入,并将其转换为int类型,当其大于0时,将其设置为1,当其小于0时,将其设置为-1
         x = Input.GetAxisRaw("Horizontal");
 
@@ -61,12 +69,7 @@ public class PlayerController : MonoBehaviour
             Ani.SetBool("IsMove", false);
         }
         
-        if (Input.GetKeyDown(KeyCode.Space) && Is_Grounded && Program.Time_Scale == 1.0f)
-        {
-            Rb.AddForce(new Vector3(0, Jump_Force), ForceMode.Impulse);
-            Ani.SetTrigger("Jump");
-        }
-
+        Jump();
 
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -87,6 +90,22 @@ public class PlayerController : MonoBehaviour
         }
 
         this.Rb.velocity = new Vector3(0, this.Rb.velocity.y);
+    }
+
+    private void Jump()
+    {
+        if(Is_Grounded && Jump_Count_Now < Jump_Count && Program.Time_Scale == 1.0f && Rb.velocity.y <= 0)
+        {
+            Jump_Count_Now = Jump_Count;
+        }
+        if(Input.GetKeyDown(KeyCode.Space) && Jump_Count_Now > 0 && Program.Time_Scale == 1.0f)
+        {
+            Rb.velocity = new Vector3(Rb.velocity.x, Jump_Force);
+            Ani.SetTrigger("Jump");
+            Ani.SetBool("IsGrounded", false);
+            Is_Grounded = false;
+            Jump_Count_Now--;
+        }
     }
 
     private void Move()
@@ -176,6 +195,10 @@ public class PlayerController : MonoBehaviour
         {
             Is_Grounded = false;
             Ani.SetBool("IsGrounded", false);
+            if (Rb.velocity.y < 0)
+            {
+                Jump_Count_Now--;
+            }
         }
     }
 }
