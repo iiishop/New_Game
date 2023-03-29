@@ -195,6 +195,10 @@ public class PlayerController : MonoBehaviour
         {
             Is_Grounded = false;
             Ani.SetBool("IsGrounded", false);
+            if (Rb.velocity.y < 0)
+            {
+                Jump_Count_Now--;
+            }
         }
     }
 }
