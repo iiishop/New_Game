@@ -49,7 +49,6 @@ public class Dialog : MonoBehaviour
             //比如<张三/1.png>，那么就需要改变图片为Assets/Dialog/下的张三文件夹中的1.png文件
             var temp = Dialogs[index].Split('<', '>');
             //当temp[1]不为空时，并且当前的图片不是temp[1]时，才需要改变图片
-            
             if (temp.Length > 1 )
             {
                 if (Speaker_Picture.sprite.name != temp[1])
@@ -59,12 +58,52 @@ public class Dialog : MonoBehaviour
                     ChangeImage(temp[1]);
                 }
             }
+            
+            //获取对话中的命令，命令被[]包围，并且都是数字
+            var command = Dialogs[index].Split('[', ']');
+            if (command.Length > 1)
+            {
+                //删除对话中的命令信息
+                Dialogs[index] = Dialogs[index].Replace("[" + command[1] + "]", "");
+                //根据命令来执行相应的操作
+                switch (command[1])
+                {
+                    case "1":
+                        //这里是命令1的操作
+                        //命令1是让speaker_picture消失
+                        Speaker_Picture.gameObject.SetActive(false);
+                        break;
+                    case "2":
+                        //这里是命令2的操作
+                        //命令2是让speaker_picture出现
+                        Speaker_Picture.gameObject.SetActive(true);
+                        break;
+                    case "3":
+                        //这里是命令3的操作
+                        //命令3是让屏幕变黑，但是留下对话框的部分
+                        //实现方式是让子物体的BlackScreen子物体active
+                        Dialog_Box.transform.Find("BlackScreen").gameObject.SetActive(true);
+                        break;
+                    case "4":
+                        //这里是命令4的操作
+                        //命令4是让屏幕变亮
+                        //实现方式是让子物体的BlackScreen子物体deactive
+                        Dialog_Box.transform.Find("BlackScreen").gameObject.SetActive(false);
+                        break;
+
+
+                    default:
+                        break;
+                }
+            }
+            
             Dialog_Text.text = Dialogs[index];
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
             {
                 index++;
                 if (index >= Dialogs.Length)
                 {
+                    
                     Dialog_Box.SetActive(false);
                 }
             }
