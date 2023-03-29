@@ -22,20 +22,26 @@ public class PlayerController : MonoBehaviour
     
     [Header("跳跃设置")]
     public float Jump_Force;
+    public int Jump_Count = 2;
+    private int Jump_Count_Now;
     
     [Header("组件")]
     public Animator Ani;
     public Rigidbody Rb;
     public SpriteRenderer SR;
 
-    
+    /// <summary>
+    /// 是horizontal轴的值,用于控制玩家的移动
+    /// </summary>
     private float x;
+    
     [Header("变量")]
     public bool Can_Move = true;
     public bool Is_Grounded = true;
 
     private void Start()
     {
+        Jump_Count_Now = Jump_Count;
         One_Dash_Time = Dash_Time / Dash_Size;
         Ani = GetComponent<Animator>();
         Rb = GetComponent<Rigidbody>();
@@ -63,12 +69,7 @@ public class PlayerController : MonoBehaviour
             Ani.SetBool("IsMove", false);
         }
         
-        if (Input.GetKeyDown(KeyCode.Space) && Is_Grounded && Program.Time_Scale == 1.0f)
-        {
-            Rb.AddForce(new Vector3(0, Jump_Force), ForceMode.Impulse);
-            Ani.SetTrigger("Jump");
-        }
-
+        Jump();
 
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -89,6 +90,22 @@ public class PlayerController : MonoBehaviour
         }
 
         this.Rb.velocity = new Vector3(0, this.Rb.velocity.y);
+    }
+
+    private void Jump()
+    {
+        if(Is_Grounded && Jump_Count_Now < Jump_Count && Program.Time_Scale == 1.0f && Rb.velocity.y <= 0)
+        {
+            Jump_Count_Now = Jump_Count;
+        }
+        if(Input.GetKeyDown(KeyCode.Space) && Jump_Count_Now > 0 && Program.Time_Scale == 1.0f)
+        {
+            Rb.velocity = new Vector3(Rb.velocity.x, Jump_Force);
+            Ani.SetTrigger("Jump");
+            Ani.SetBool("IsGrounded", false);
+            Is_Grounded = false;
+            Jump_Count_Now--;
+        }
     }
 
     private void Move()

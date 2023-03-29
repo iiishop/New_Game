@@ -11,10 +11,17 @@ public class Program : MonoBehaviour
     public static float Weapon_Rotation;
     public static GameObject Main_Character;
     public static Program_Save Program_Save_Object;
+    
+    private Rigidbody Main_Character_Rigidbody;
+    private Animator Main_Character_Animator;
+    private PlayerController Main_Character_Controller;
 
     private void Start()
     {
         Main_Character = this.gameObject;
+        Main_Character_Rigidbody = Main_Character.GetComponent<Rigidbody>();
+        Main_Character_Animator = Main_Character.GetComponent<Animator>();
+        Main_Character_Controller = Main_Character.GetComponent<PlayerController>();
     }
 
     public static void TimeChange(float time)
@@ -22,7 +29,6 @@ public class Program : MonoBehaviour
         Time_Scale = time;
         Time.timeScale = Time_Scale;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
-        //Main_Character.GetComponent<Rigidbody>().velocity = new Vector3(0,Main_Character.GetComponent<Rigidbody>().velocity.y/Time_Scale);
     }
 
     private void Update()
@@ -33,15 +39,15 @@ public class Program : MonoBehaviour
             Main_Character.transform.position = new Vector3(this.transform.position.x,
                 this.transform.position.y + 0.01f, this.transform.position.z);
             //锁定主角的旋转和y轴的移动
-            Main_Character.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
-            Main_Character.GetComponent<Animator>().SetBool("IsGrounded", true);
+            Main_Character_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
+            Main_Character_Animator.SetBool("IsGrounded", true);
         }
         else if (Input.GetKeyDown(KeyCode.T) && Time_Scale == 0.01f)
         {
             TimeChange(1.0f);
-            Main_Character.GetComponent<PlayerController>().Can_Move = true;
+            Main_Character_Controller.Can_Move = true;
             //解锁主角的y轴的移动，但仍然锁定旋转
-            Main_Character.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ;
+            Main_Character_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ;
         }
     }
     
