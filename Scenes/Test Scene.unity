@@ -6174,6 +6174,18 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3023815230441619904, guid: 46a0f8eb4142f754d850a98a552d4a15, type: 3}
+      propertyPath: Grounded_Radius
+      value: 0.6453118
+      objectReference: {fileID: 0}
+    - target: {fileID: 3023815230441619906, guid: 46a0f8eb4142f754d850a98a552d4a15, type: 3}
+      propertyPath: m_Interpolate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3023815230441619906, guid: 46a0f8eb4142f754d850a98a552d4a15, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3023815230441619909, guid: 46a0f8eb4142f754d850a98a552d4a15, type: 3}
       propertyPath: State_Manager
       value: 
@@ -6375,7 +6387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc44de7425cf3c24ea68339babcc5630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 100
+  HP: 1000
   Died: 0
   State_Manager: {fileID: 0}
   Offset: {x: 0, y: 1.6, z: 0}

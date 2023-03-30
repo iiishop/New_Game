@@ -38,11 +38,6 @@ public class PlayerController : MonoBehaviour
     [Header("变量")]
     public bool Can_Move = true;
     public bool Is_Grounded = true;
-    /// <summary>
-    /// 指的是玩家的碰撞体的半径，用于判断玩家是在地面上还是卡在地面中
-    /// 目前是这个值，但后续可能会改
-    /// </summary>
-    public float Grounded_Radius = 0.6453121f;
 
     private void Start()
     {
@@ -163,33 +158,66 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-
         if ((Program.Time_Scale!=1))
         {
+            Collider Player_Collider = GetComponent<Collider>();
+            Collider Collision_Collider = collision.gameObject.GetComponent<Collider>();
+            Vector2 Collision_Center = Collision_Collider.bounds.center;
+            Vector2 Player_Center = Player_Collider.bounds.center;
+            var Collision_Radius = Collision_Collider.bounds.size.x / 2;
+            var Player_Radius = Player_Collider.bounds.size.x / 2;
+            var Collision_Height = Collision_Collider.bounds.size.y / 2;
+            var Player_Height = Player_Collider.bounds.size.y / 2;
+            var Collision_Top = Collision_Center.y + Collision_Height;
+            var Collision_Bottom = Collision_Center.y - Collision_Height;
+            var Player_Top = Player_Center.y + Player_Height;
+            var Player_Bottom = Player_Center.y - Player_Height;
+            var Collision_Left = Collision_Center.x - Collision_Radius;
+            var Collision_Right = Collision_Center.x + Collision_Radius;
+            var Player_Left = Player_Center.x - Player_Radius;
+            var Player_Right = Player_Center.x + Player_Radius;
+            var Left_Distance = Collision_Left - Player_Right;
+            var Right_Distance = Collision_Right - Player_Left;
+            //float Top_Distance = Collision_Top - Player_Bottom;
+            //float Bottom_Distance = Collision_Bottom - Player_Top;
+            
+            if (Right_Distance > 0 && Collision_Center.x < Player_Center.x && Collision_Top > Player_Bottom && Collision_Bottom < Player_Top)
+            {
+                this.transform.position = new Vector3(this.transform.position.x + Right_Distance, this.transform.position.y, this.transform.position.z);
+            }
+            if (Left_Distance < 0 && Collision_Center.x > Player_Center.x && Collision_Top > Player_Bottom && Collision_Bottom < Player_Top)
+            {
+                this.transform.position = new Vector3(this.transform.position.x + Left_Distance, this.transform.position.y, this.transform.position.z);
+            }
+            
+            
+            
+            /*
             //获取玩家与碰撞体接触的点的坐标
-            var ClosestPoint = collision.GetContact(0).point;
-            var Left = ClosestPoint.x > this.transform.position.x;
-            //对closestpoint.x保留两位小数
-            ClosestPoint.x = (float) Math.Round(ClosestPoint.x, 2);
-            //对玩家的x坐标保留两位小数
-            var t = (float) Math.Round(this.transform.position.x, 2);
-            if (ClosestPoint.x == t && this.transform.position.y- ClosestPoint.y >=Grounded_Radius )
-            {
-                Can_Move = true;
-                return;
-            }
+            //var ClosestPoint = collision.GetContact(0).point;
+            //var Left = ClosestPoint.x > this.transform.position.x;
+            ////对closestpoint.x保留两位小数
+            //ClosestPoint.x = (float) Math.Round(ClosestPoint.x, 2);
+            ////对玩家的x坐标保留两位小数
+            //var t = (float) Math.Round(this.transform.position.x, 2);
+            //Debug.Log(this.transform.position.y - ClosestPoint.y);
+            //if (ClosestPoint.x == t && this.transform.position.y- ClosestPoint.y >=Grounded_Radius )
+            //{
+            //    Can_Move = true;
+            //    return;
+            //}
 
-            if (x != 0)
-            {
-                if (Left)
-                {
-                    Can_Move = x != 1;
-                }
-                else
-                {
-                    Can_Move = x != -1;
-                }
-            }
+            //if (x != 0)
+            //{
+            //    if (Left)
+            //    {
+            //        Can_Move = x != 1;
+            //    }
+            //    else
+            //    {
+            //        Can_Move = x != -1;
+            //    }
+            //}*/
         }
     }
 

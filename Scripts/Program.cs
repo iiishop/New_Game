@@ -29,6 +29,9 @@ public class Program : MonoBehaviour
         Time_Scale = time;
         Time.timeScale = Time_Scale;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        //Q:在Unity修改Time.timeScale后，如何让物理引擎的碰撞检测和刚体的运动速度也跟着改变？
+        //A:https://blog.csdn.net/qq_41855420/article/details/107100100
+        
     }
 
     private void Update()

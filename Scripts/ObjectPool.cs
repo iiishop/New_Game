@@ -31,7 +31,6 @@ public class ObjectPool : MonoBehaviour
     /// </summary>
     private void FillPool(int Size)
     {
-        Debug.Log("FillPool");
         for (int i = 0; i < Size; i++)
         {
             foreach (var Prefab in Prefabs)
@@ -68,7 +67,6 @@ public class ObjectPool : MonoBehaviour
     public GameObject GetPool(GameObject Object)
     {
         var NAME = Object.name+"(Clone)";
-        Debug.Log(Object.name+Available_Objects_Dictionary[NAME].Count.ToString());
         if (Available_Objects_Dictionary[NAME].Count == 0)
         {
             FillPool(1);

@@ -109,11 +109,13 @@ MonoBehaviour:
   Dash_CD: 3
   Dash_Size: 5
   Jump_Force: 8
+  Jump_Count: 2
   Ani: {fileID: 0}
   Rb: {fileID: 0}
   SR: {fileID: 0}
   Can_Move: 1
   Is_Grounded: 1
+  Grounded_Radius: 0.6453
 --- !u!114 &3023815230441619905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 100
-  StateManager: {fileID: 0}
+  Died: 0
+  State_Manager: {fileID: 0}
   Offset: {x: -0.7, y: 0.54, z: -0.2}
   Follow_Speed: 6
