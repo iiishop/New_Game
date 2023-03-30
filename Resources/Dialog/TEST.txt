@@ -1,7 +1,8 @@
 <MainCharacter/MainCharacterSprite>第一句话
 <MainCharacter/M2>第二句话
 <MainCharacter/MainCharacterSprite>3333
-[1]立绘消失
+[1][3]立绘消失，并且变黑
 [2]立绘出现
-[3]变黑
+<MainCharacter/M2>[1]立绘切换，并且消失
+[2]立绘出现
 [4]变亮
