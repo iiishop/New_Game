@@ -39,5 +39,7 @@ public class EnemyController : MonoBehaviour
         {
             Ani.SetBool("IsGrounded", true);
         }
+        
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -0.6f);
     }
 }

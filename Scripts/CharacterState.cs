@@ -83,6 +83,7 @@ public class CharacterState : MonoBehaviour
     }
     private void Destroy()
     {
+        ObjectPool.Instance.ReturnPool(State_Manager.gameObject);
         Destroy(this.gameObject);
     }
 }

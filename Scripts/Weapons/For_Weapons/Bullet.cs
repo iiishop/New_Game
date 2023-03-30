@@ -14,6 +14,12 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
     public float damage;
     Rigidbody rb;
     public float deathTime = 3f;
+    public bool isPlayerBullet = true;
+    
+    public bool canPassCharacter = false;
+    public bool canPassWall = false;
+    
+    private List<GameObject> HitList = new List<GameObject>();
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
@@ -31,16 +37,27 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
     private void OnTriggerStay(Collider other)
     {
         Debug.Log("碰撞"+other.gameObject.name);
-        if (other.gameObject.CompareTag("Enemy")&&other.gameObject.GetComponent<CharacterState>().HP>0)
+        if (other.gameObject.CompareTag("Enemy")&&other.gameObject.GetComponent<CharacterState>().HP>0&&isPlayerBullet&&!HitList.Contains(other.gameObject))
         {
             Hurt(other);
-            Destroy();
+            if(!canPassCharacter)
+                Destroy();
         }
+        else if (other.gameObject.CompareTag("Player")&&other.gameObject.GetComponent<CharacterState>().HP>0&&!isPlayerBullet&&!HitList.Contains(other.gameObject))
+        {
+            Hurt(other);
+            if(!canPassCharacter)
+                Destroy();
+        }
+        else if(!canPassWall&& !HitList.Contains(other.gameObject))
+            Destroy();
+        
         
     }
 
     public virtual void Hurt(Collider other)
     {
+        HitList.Add(other.gameObject);
         var BloodBroad = ObjectPool.Instance.GetPool(ObjectPool.Instance.Prefabs[2]);
         BloodBroad.GetComponent<BloodBroad>().Other = other.gameObject;
         BloodBroad.transform.SetParent(GameObject.Find("Canvas").transform);

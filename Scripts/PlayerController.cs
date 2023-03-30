@@ -189,9 +189,6 @@ public class PlayerController : MonoBehaviour
             {
                 this.transform.position = new Vector3(this.transform.position.x + Left_Distance, this.transform.position.y, this.transform.position.z);
             }
-            
-            
-            
             /*
             //获取玩家与碰撞体接触的点的坐标
             //var ClosestPoint = collision.GetContact(0).point;
