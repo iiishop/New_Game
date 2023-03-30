@@ -6077,6 +6077,7 @@ MonoBehaviour:
   Follow_Offset: {x: 0.45, y: 0.85, z: 0}
   Float_Speed: 1
   Float_Amplitude: 0.06
+  SR: {fileID: 0}
 --- !u!212 &817269354
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6871,8 +6872,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pool_Size: 5
-  Shadow_Prefab: {fileID: 5170232149180462432, guid: 82ac444c1d68cfa49aacf8fd1d7f3f2d, type: 3}
-  State_Prefab: {fileID: 706930242728779222, guid: f1bc18973b49361458d1cf1723986c49, type: 3}
+  Prefabs:
+  - {fileID: 5170232149180462432, guid: 82ac444c1d68cfa49aacf8fd1d7f3f2d, type: 3}
+  - {fileID: 706930242728779222, guid: f1bc18973b49361458d1cf1723986c49, type: 3}
+  - {fileID: 430941141650244799, guid: a7cc59412335a01418e93b75c5684128, type: 3}
 --- !u!4 &1972957789
 Transform:
   m_ObjectHideFlags: 0

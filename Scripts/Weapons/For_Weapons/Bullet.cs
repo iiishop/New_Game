@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Weapons;
 
 [System.Serializable]
@@ -24,22 +25,28 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
         rb.velocity = new Vector2(Mathf.Cos((Program.Weapon_Rotation) / 180 * Mathf.PI) * speed,
             Mathf.Sin((Program.Weapon_Rotation) / 180 * Mathf.PI) * speed);
         
-        Invoke("destory",deathTime);
+        Invoke("Destroy",deathTime);
     }
 
     private void OnTriggerStay(Collider other)
     {
         Debug.Log("碰撞"+other.gameObject.name);
-        if (other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy")&&other.gameObject.GetComponent<CharacterState>().HP>0)
         {
             Hurt(other);
-            destory();
+            Destroy();
         }
         
     }
 
     public virtual void Hurt(Collider other)
     {
+        var BloodBroad = ObjectPool.Instance.GetPool(ObjectPool.Instance.Prefabs[2]);
+        BloodBroad.GetComponent<BloodBroad>().Other = other.gameObject;
+        BloodBroad.transform.SetParent(GameObject.Find("Canvas").transform);
+        BloodBroad.GetComponent<BloodBroad>().OnTextChange(damage.ToString());
+        var hit = other.ClosestPointOnBounds(transform.position)-other.gameObject.transform.position;
+        BloodBroad.GetComponent<BloodBroad>().Offset_Now = BloodBroad.GetComponent<BloodBroad>().Offset + hit;
         //伤害和其他特殊效果
         var HP = other.gameObject.GetComponent<CharacterState>().HP;
         
@@ -49,7 +56,7 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
             other.gameObject.GetComponent<CharacterState>().ChangeHP(HP-damage);
     }
 
-    public virtual void destory()
+    public virtual void Destroy()
     {
         Destroy(this.gameObject);
     }

@@ -29,9 +29,12 @@ namespace Weapons
         [Header("漂浮设置")]
         public float Float_Speed;
         public float Float_Amplitude;
+        [Header("组件")] 
+        public SpriteRenderer SR;
 
         private void Start()
         {
+            SR = GetComponent<SpriteRenderer>();
             Father = Program.Main_Character;
         }
 
@@ -72,7 +75,6 @@ namespace Weapons
 
         private void Update()
         {
-            
             Follow();
         }
 
@@ -80,33 +82,23 @@ namespace Weapons
         {
             //回正旋转
             this.transform.localEulerAngles = Vector3.zero;
-            GetComponent<SpriteRenderer>().flipY = false;
+            SR.flipY = false;
 
             //获取鼠标的坐标，鼠标是屏幕坐标，Z轴为0，这里不做转换  
             Vector3 mouse = Input.mousePosition;
-            //获取物体坐标，物体坐标是世界坐标，将其转换成屏幕坐标，和鼠标一直  
+            //获取物体坐标，物体坐标是世界坐标，将其转换成屏幕坐标，和鼠标一致  
             Vector3 obj = Main_Camera.WorldToScreenPoint(transform.position);
             //屏幕坐标向量相减，得到指向鼠标点的目标向量，即黄色线段  
             Vector3 direction = mouse - obj;
             Vector3 Player_Direction = mouse- Main_Camera.WorldToScreenPoint(Father.transform.position);
-            if(Player_Direction.x>=0)
-                Follow_Face = 1;
-            else
-                Follow_Face = -1;
+            Follow_Face = Player_Direction.x >= 0 ? 1 : -1;
             //转过中线左右翻转
-            if (direction.x>=0)
-            {
-                GetComponent<SpriteRenderer>().flipX = false;
-            }
-            else
-            {
-                GetComponent<SpriteRenderer>().flipX = true;
-            }
+            SR.flipX = !(direction.x>=0);
 
         }
         public void ROT()
         {
-            GetComponent<SpriteRenderer>().flipX = false;
+            SR.flipX = false;
             //获取鼠标的坐标，鼠标是屏幕坐标，Z轴为0，这里不做转换  
             Vector3 mouse = Input.mousePosition;
             //获取物体坐标，物体坐标是世界坐标，将其转换成屏幕坐标，和鼠标一直  
@@ -116,19 +108,16 @@ namespace Weapons
             //转过中线左右翻转
             if (direction.x>=0)
             {
-                GetComponent<SpriteRenderer>().flipY = false;
+                SR.flipY = false;
                 this.gameObject.transform.GetChild(0).transform.localRotation = new Quaternion(0, 0, 0, 0);
             }
             else
             {
-                GetComponent<SpriteRenderer>().flipY = true;
+                SR.flipY = true;
                 this.gameObject.transform.GetChild(0).transform.localRotation = new Quaternion(180, 0, 0, 0);
             }
             Vector3 Player_Direction = mouse- Main_Camera.WorldToScreenPoint(Father.transform.position);
-            if(Player_Direction.x>=0)
-                Follow_Face = 1;
-            else
-                Follow_Face = -1;
+            Follow_Face = Player_Direction.x >= 0 ? 1 : -1;
 
             this.transform.localEulerAngles = new Vector3(0, this.transform.localEulerAngles.y,
                 Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
