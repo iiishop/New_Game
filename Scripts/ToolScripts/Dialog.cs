@@ -63,37 +63,40 @@ public class Dialog : MonoBehaviour
             var command = Dialogs[index].Split('[', ']');
             if (command.Length > 1)
             {
-                //删除对话中的命令信息
-                Dialogs[index] = Dialogs[index].Replace("[" + command[1] + "]", "");
-                //根据命令来执行相应的操作
-                switch (command[1])
+                for (int i = 1; i < command.Length;i++)
                 {
-                    case "1":
-                        //这里是命令1的操作
-                        //命令1是让speaker_picture消失
-                        Speaker_Picture.gameObject.SetActive(false);
-                        break;
-                    case "2":
-                        //这里是命令2的操作
-                        //命令2是让speaker_picture出现
-                        Speaker_Picture.gameObject.SetActive(true);
-                        break;
-                    case "3":
-                        //这里是命令3的操作
-                        //命令3是让屏幕变黑，但是留下对话框的部分
-                        //实现方式是让子物体的BlackScreen子物体active
-                        Dialog_Box.transform.Find("BlackScreen").gameObject.SetActive(true);
-                        break;
-                    case "4":
-                        //这里是命令4的操作
-                        //命令4是让屏幕变亮
-                        //实现方式是让子物体的BlackScreen子物体deactive
-                        Dialog_Box.transform.Find("BlackScreen").gameObject.SetActive(false);
-                        break;
+                    //删除对话中的命令信息
+                    Dialogs[index] = Dialogs[index].Replace("[" + command[i] + "]", "");
+                    //根据命令来执行相应的操作
+                    switch (command[i])
+                    {
+                        case "1":
+                            //这里是命令1的操作
+                            //命令1是让speaker_picture消失
+                            Speaker_Picture.gameObject.SetActive(false);
+                            break;
+                        case "2":
+                            //这里是命令2的操作
+                            //命令2是让speaker_picture出现
+                            Speaker_Picture.gameObject.SetActive(true);
+                            break;
+                        case "3":
+                            //这里是命令3的操作
+                            //命令3是让屏幕变黑，但是留下对话框的部分
+                            //实现方式是让子物体的BlackScreen子物体active
+                            Dialog_Box.transform.Find("BlackScreen").gameObject.SetActive(true);
+                            break;
+                        case "4":
+                            //这里是命令4的操作
+                            //命令4是让屏幕变亮
+                            //实现方式是让子物体的BlackScreen子物体deactive
+                            Dialog_Box.transform.Find("BlackScreen").gameObject.SetActive(false);
+                            break;
 
 
-                    default:
-                        break;
+                        default:
+                            break;
+                    }
                 }
             }
             
