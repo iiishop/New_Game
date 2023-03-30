@@ -35,14 +35,14 @@ public class Program : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T) && Time_Scale ==1.0f)
         {
-            TimeChange(0.01f);
+            TimeChange(0.001f);
             Main_Character.transform.position = new Vector3(this.transform.position.x,
-                this.transform.position.y + 0.01f, this.transform.position.z);
+                this.transform.position.y + 0.02f, this.transform.position.z);
             //锁定主角的旋转和y轴的移动
             Main_Character_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
             Main_Character_Animator.SetBool("IsGrounded", true);
         }
-        else if (Input.GetKeyDown(KeyCode.T) && Time_Scale == 0.01f)
+        else if (Input.GetKeyDown(KeyCode.T) && Time_Scale == 0.001f)
         {
             TimeChange(1.0f);
             Main_Character_Controller.Can_Move = true;

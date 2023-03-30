@@ -38,6 +38,11 @@ public class PlayerController : MonoBehaviour
     [Header("变量")]
     public bool Can_Move = true;
     public bool Is_Grounded = true;
+    /// <summary>
+    /// 指的是玩家的碰撞体的半径，用于判断玩家是在地面上还是卡在地面中
+    /// 目前是这个值，但后续可能会改
+    /// </summary>
+    public float Grounded_Radius = 0.6453121f;
 
     private void Start()
     {
@@ -159,7 +164,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionStay(Collision collision)
     {
 
-        if (!collision.gameObject.CompareTag("Ground")||(Program.Time_Scale!=1))
+        if ((Program.Time_Scale!=1))
         {
             //获取玩家与碰撞体接触的点的坐标
             var ClosestPoint = collision.GetContact(0).point;
@@ -168,7 +173,7 @@ public class PlayerController : MonoBehaviour
             ClosestPoint.x = (float) Math.Round(ClosestPoint.x, 2);
             //对玩家的x坐标保留两位小数
             var t = (float) Math.Round(this.transform.position.x, 2);
-            if (ClosestPoint.x == t)
+            if (ClosestPoint.x == t && this.transform.position.y- ClosestPoint.y >=Grounded_Radius )
             {
                 Can_Move = true;
                 return;
