@@ -9,8 +9,7 @@ public class ObjectPool : MonoBehaviour
     
     public int Pool_Size = 10;
 
-    public GameObject Shadow_Prefab;
-    public GameObject State_Prefab;
+    public List<GameObject> Prefabs = new List<GameObject>();
 
     private Dictionary<string,Queue<GameObject>> Available_Objects_Dictionary = new Dictionary<string, Queue<GameObject>>();
 
@@ -30,16 +29,16 @@ public class ObjectPool : MonoBehaviour
     /// <summary>
     /// 这个函数用来填充对象池，对象池是一个队列，用来存储可用的对象
     /// </summary>
-    public void FillPool()
+    private void FillPool()
     {
         for (int i = 0; i < Pool_Size; i++)
-        { 
-            ReturnPool(Shadow_Prefab);
-            ReturnPool(State_Prefab);
+        {
+            foreach (var Prefab in Prefabs)
+            {
+                ReturnPool(Prefab);
+            }
         }
-        
     }
-    
     /// <summary>
     /// 这个函数用来将对象放回对象池，放回对象池的对象会被设置为不可用
     /// </summary>
@@ -67,11 +66,6 @@ public class ObjectPool : MonoBehaviour
     /// <returns>获取的对象</returns>
     public GameObject GetPool(GameObject Prefab)
     {
-        if (!Available_Objects_Dictionary.ContainsKey(Prefab.name))
-        {
-            Available_Objects_Dictionary.Add(Prefab.name,new Queue<GameObject>());
-        }
-
         if (Available_Objects_Dictionary[Prefab.name].Count == 0)
         {
             ReturnPool(Prefab);

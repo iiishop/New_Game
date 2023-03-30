@@ -23,9 +23,9 @@ public class Cartridge : MonoBehaviour
         rb.velocity = new Vector3(Mathf.Cos((Program.Weapon_Rotation+90) / 180 * Mathf.PI) * force2,
             Mathf.Sin((Program.Weapon_Rotation + 90) / 180 * Mathf.PI) * Force, force2);
         
-        Invoke("destory",deathTime);
+        Invoke("Destroy",deathTime);
     }
-    public virtual void destory()
+    public virtual void Destroy()
     {
         Destroy(this.gameObject);
     }

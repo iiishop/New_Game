@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
             {
                 One_Dash_Start = Time.realtimeSinceStartup;
 
-                ObjectPool.Instance.GetPool(ObjectPool.Instance.Shadow_Prefab);
+                ObjectPool.Instance.GetPool(ObjectPool.Instance.Prefabs[0]);
             }
             else
             {
