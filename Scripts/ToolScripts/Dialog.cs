@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +17,7 @@ public class Dialog : MonoBehaviour
      */
     public static Dialog Instance;
     public GameObject Dialog_Box;
-    public Text Dialog_Text;
+    public TextMeshProUGUI Dialog_Text;
     public Image Speaker_Picture;
     private string[] Dialogs;
     public int index = 0;
@@ -27,6 +28,7 @@ public class Dialog : MonoBehaviour
         Dialogs = textFile.text.Split('\n');
         Dialog_Box.SetActive(true);
         index = 0;
+        Program.Main_Character.GetComponent<PlayerController>().Can_Move= false;
     }
 
     private void ChangeImage(string Name)
@@ -106,7 +108,7 @@ public class Dialog : MonoBehaviour
                 index++;
                 if (index >= Dialogs.Length)
                 {
-                    
+                    Program.Main_Character.GetComponent<PlayerController>().Can_Move = true;
                     Dialog_Box.SetActive(false);
                 }
             }

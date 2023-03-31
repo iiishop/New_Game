@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
@@ -17,7 +18,7 @@ public class StateManager : MonoBehaviour
     public bool Is_Main_Character;
     private Image HP_Bar;
     private Image Buttle_Ring;
-    private Text Buttle_Value;
+    private TextMeshProUGUI Buttle_Value;
 
     private void Start()
     {
@@ -25,7 +26,7 @@ public class StateManager : MonoBehaviour
         if (Is_Main_Character)
         {
             Buttle_Ring = this.transform.Find("Buttle_Ring").GetComponent<Image>();
-            Buttle_Value = this.transform.Find("Buttle_Value").GetComponent<Text>();
+            Buttle_Value = this.transform.Find("Buttle_Value").GetComponent<TextMeshProUGUI>();
         }
     }
 
