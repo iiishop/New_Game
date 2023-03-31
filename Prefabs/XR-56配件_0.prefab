@@ -101,10 +101,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   damage: 20
-  deathTime: 300
+  deathTime: 10
   isPlayerBullet: 1
-  canPassCharacter: 1
-  canPassWall: 1
+  canPassCharacter: 0
+  canPassWall: 0
 --- !u!54 &6333413922500450120
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -22,14 +22,14 @@ public class ObjectPool : MonoBehaviour
         else
         {
             Instance = this;
-            FillPool(Pool_Size);
+            FillPool(Pool_Size, Prefabs);
         }
     }
 
     /// <summary>
     /// 这个函数用来填充对象池，对象池是一个队列，用来存储可用的对象
     /// </summary>
-    private void FillPool(int Size)
+    private void FillPool(int Size, List<GameObject> Prefabs)
     {
         for (int i = 0; i < Size; i++)
         {
@@ -66,10 +66,10 @@ public class ObjectPool : MonoBehaviour
     /// <returns>获取的对象</returns>
     public GameObject GetPool(GameObject Object)
     {
-        var NAME = Object.name+"(Clone)";
+        var NAME = Object.name + "(Clone)";
         if (Available_Objects_Dictionary[NAME].Count == 0)
         {
-            FillPool(1);
+            FillPool(1, new List<GameObject>(){Object});
         }
 
         var obj = Available_Objects_Dictionary[NAME].Dequeue();

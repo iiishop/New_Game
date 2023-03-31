@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
         
         Jump();
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             if (Time.realtimeSinceStartup >= Dash_CD_Start + Dash_CD) //CD时间结束
             {
