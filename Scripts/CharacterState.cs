@@ -26,8 +26,8 @@ public class CharacterState : MonoBehaviour
         if (this.tag != "Player")
         {
             var State = ObjectPool.Instance.GetPool(ObjectPool.Instance.Prefabs[1]);
-            //让状态管理器的父物体为场景中名字为Canvas的物体
-            State.transform.SetParent(GameObject.Find("Canvas").transform);
+            //让状态管理器的父物体为场景中TAG为StateCanvas的物体
+            State.transform.SetParent(GameObject.FindGameObjectWithTag("StateCanvas").transform);
             State.GetComponent<RectTransform>().localScale = Vector3.one;
             
             State_Manager = State.GetComponent<StateManager>();
