@@ -25,6 +25,7 @@ public class StateManager : MonoBehaviour
     private void Start()
     {
         HP_Bar = this.transform.Find("HP_Bar").GetComponent<Image>();
+        transform.parent.GetComponent<Canvas>().worldCamera = Camera.main;
     }
 
     private void OnEnable()
