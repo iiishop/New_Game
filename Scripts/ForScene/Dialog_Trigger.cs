@@ -18,6 +18,7 @@ public class Dialog_Trigger : MonoBehaviour
                 Dialog.Instance.SetDialog(Dialog_Text);
             }
             Is_Triggered = true;
+            transform.GetChild(0).gameObject.SetActive(false);
         }
         
     }
@@ -25,10 +26,15 @@ public class Dialog_Trigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         In_Trigger = true;
+        if (!Is_Triggered)
+        {
+            transform.GetChild(0).gameObject.SetActive(true);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
        In_Trigger = false; 
+         transform.GetChild(0).gameObject.SetActive(false);
     }
 }

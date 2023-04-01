@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class DEBUG : MonoBehaviour
+public  class DEBUG : MonoBehaviour
 {
     public static DEBUG Instance;
 
@@ -25,6 +25,7 @@ public class DEBUG : MonoBehaviour
     {
         //换行显示内容
         TMP.text += Info + "\n";
+        Debug.Log(Info);
     }
     private void Start()
     {
