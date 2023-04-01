@@ -21,7 +21,7 @@ public  class DEBUG : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void Display_Info(string Info)
+    public void Display_Info(string Info)
     {
         //换行显示内容
         TMP.text += Info + "\n";

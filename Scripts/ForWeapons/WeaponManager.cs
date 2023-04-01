@@ -5,8 +5,18 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
+    public WeaponManager Instance;
     public Weapons.Weapon wp; //For test
     public static Signal Signal = new Signal();
+
+
+    private void Awake()
+    {
+        if(Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     /// <summary>
     /// 调用这个函数会更换武器
@@ -66,6 +76,7 @@ public class WeaponManager : MonoBehaviour
             {
                 Program.Weapon_Now.Ani.SetBool("Reload", false);
                 Program.Weapon_Now.Is_Reloading = false;
+                Program.Weapon_Now.Reload_Ani_Time_Left = Program.Weapon_Now.Reload_Ani_Time;
             }
         }
     }

@@ -14,11 +14,12 @@ namespace Weapons
         public GameObject Cartridge;        //弹壳
         public GameObject Cartridge_Ejector;//弹壳弹出口
         public string Special_Mode;         //特殊模式，比如说追踪，穿透等等(由,分割)
-        public Animator Ani;                //动画控制器
+        public float Fire_Ani_Time;         //开火动画时间
+        public float Reload_Ani_Time;       //装弹动画时间
+        public float Reload_Ani_Time_Left;  //剩下需要的装弹动画时间
         public int Full_Magazing = 0;       //弹夹容量
         public int Now_Magazing = 0;        //当前弹夹内的子弹数量
         public bool Is_Reloading = false;   //是否正在装弹
-        public ParticleSystem Fire_Particle;
         private GameObject New_Bullet;
         public Camera Main_Camera;
         private GameObject Father;
@@ -26,20 +27,31 @@ namespace Weapons
         public float Follow_Speed;
         public Vector3 Follow_Offset;
         private int Follow_Face = 1;
-        [Header("漂浮设置")]
-        public float Float_Speed;
-        public float Float_Amplitude;
+        //[Header("漂浮设置")]
+        //public float Float_Speed;
+        //public float Float_Amplitude;
         [Header("组件")] 
         public SpriteRenderer SR;
+        public Animator Ani;                //动画控制器
+        public ParticleSystem Fire_Particle;
 
         private void Start()
         {
+            Main_Camera = Camera.main;
+            Ani = GetComponent<Animator>();
             SR = GetComponent<SpriteRenderer>();
             Father = Program.Main_Character;
+            Fire_Ani_Time = Program.GetAnimatorLength(Ani, "Fire");
+            Reload_Ani_Time = Program.GetAnimatorLength(Ani, "Reload");
+            Reload_Ani_Time_Left = Reload_Ani_Time;
+            
+            
         }
 
         public virtual void Reload()
         {
+            if(Now_Magazing == Full_Magazing)
+                return;
             Now_Magazing = Full_Magazing;
             Ani.SetBool("Reload", true);
             Is_Reloading = true;

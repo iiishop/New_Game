@@ -22,6 +22,7 @@ public class Dialog : MonoBehaviour
     private string[] Dialogs;
     public int index = 0;
     string Path = "Dialog/";
+    
 
     public void SetDialog(TextAsset textFile)
     {
