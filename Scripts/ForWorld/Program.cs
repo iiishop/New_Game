@@ -1,7 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
-using UnityEditor.Animations;
+//using UnityEditor.Animations;
 using UnityEngine;
 using Weapons;
 
@@ -50,7 +50,7 @@ public class Program : MonoBehaviour
     {
         //动画片段时间长度
         float length = 0;
-        float speed = 0;
+        float speed = 1;
         AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
         foreach (AnimationClip clip in clips)
         {
@@ -61,15 +61,15 @@ public class Program : MonoBehaviour
             }
         }
         //获取当前动画的播放速度
-        var animController = animator.runtimeAnimatorController as AnimatorController;
-        if (animController)
-        {
-            for (int i = 0; i < animController.layers[0].stateMachine.states.Length; i++)
-            {
-                if(animController.layers[0].stateMachine.states[i].state.nameHash == Animator.StringToHash(name))
-                    speed = animController.layers[0].stateMachine.states[i].state.speed;
-            }
-        }
+        //var animController = animator.runtimeAnimatorController as AnimatorController;
+        //if (animController)
+        //{
+        //    for (int i = 0; i < animController.layers[0].stateMachine.states.Length; i++)
+        //    {
+        //        if(animController.layers[0].stateMachine.states[i].state.nameHash == Animator.StringToHash(name))
+        //            speed = animController.layers[0].stateMachine.states[i].state.speed;
+        //    }
+        //}
         return length/speed;
     }
     
