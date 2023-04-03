@@ -73,9 +73,8 @@ public class Program : MonoBehaviour
         return length/speed;
     }
     
-    //一个方法，用于在t秒内，每次调用返回一个数，数值从a到b。如果b大于a，那么返回的数值会从小到大，反之则从大到小。如果t为0，那么返回的数值为b。
     /// <summary>
-    /// 
+    /// 一个方法，用于在t秒内，每次调用返回一个数，数值从a到b。如果b大于a，那么返回的数值会从小到大，反之dd则从大到小。如果t为0，那么返回的数值为b。
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
