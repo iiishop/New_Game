@@ -72,7 +72,6 @@ namespace Weapons
         public virtual void Shot()
         {
             Program.Weapon_Rotation = this.gameObject.transform.localEulerAngles.z;
-            
             Fire_Particle.Play();
             Ani.SetBool("Fire", true);
             Now_Magazing--;
