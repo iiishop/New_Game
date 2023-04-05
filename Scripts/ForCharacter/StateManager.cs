@@ -16,18 +16,16 @@ public class StateManager : MonoBehaviour
     public float HP_Now;
     public float HP_Rec;
     public bool Is_Main_Character;
-    private Image HP_Bar;
-    private Image Buttle_Ring;
-    private TextMeshProUGUI Buttle_Value;
+    [Header("管理的信息")]
+    public Image HP_Bar;
+    public Image Bullet_Ring;
+    public TextMeshProUGUI Bullet_Value;
+
 
     private void Start()
     {
         HP_Bar = this.transform.Find("HP_Bar").GetComponent<Image>();
-        if (Is_Main_Character)
-        {
-            Buttle_Ring = this.transform.Find("Buttle_Ring").GetComponent<Image>();
-            Buttle_Value = this.transform.Find("Buttle_Value").GetComponent<TextMeshProUGUI>();
-        }
+        transform.parent.GetComponent<Canvas>().worldCamera = Camera.main;
     }
 
     private void OnEnable()
@@ -45,8 +43,17 @@ public class StateManager : MonoBehaviour
 
         if (Is_Main_Character)
         {
-            Buttle_Ring.fillAmount = (float)Program.Weapon_Now.Now_Magazing / (float)Program.Weapon_Now.Full_Magazing;
-            Buttle_Value.text = Program.Weapon_Now.Now_Magazing.ToString();
+            //如果program.weapon_now正在播放reload动画
+            if (Program.Weapon_Now.Is_Reloading)
+            {
+                Bullet_Value.text = "Reloading";
+                Bullet_Ring.fillAmount = Program.NumberLerp(Bullet_Ring.fillAmount, 1, ref Program.Weapon_Now.Reload_Ani_Time_Left);
+            }
+            else
+            {
+                Bullet_Value.text = Program.Weapon_Now.Now_Magazing.ToString();
+                Bullet_Ring.fillAmount = (float)Program.Weapon_Now.Now_Magazing / (float)Program.Weapon_Now.Full_Magazing;
+            }
         }
     }
 

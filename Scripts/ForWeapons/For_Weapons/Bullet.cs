@@ -80,7 +80,7 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
         var hit = other.ClosestPointOnBounds(transform.position)-other.gameObject.transform.position;
         var BloodBroad = ObjectPool.Instance.GetPool(ObjectPool.Instance.Prefabs[2]);
         BloodBroad.GetComponent<BloodBroad>().Other = other.gameObject;
-        BloodBroad.transform.SetParent(GameObject.Find("Canvas").transform);
+        BloodBroad.transform.SetParent(GameObject.FindWithTag("StateCanvas").transform);
         BloodBroad.GetComponent<BloodBroad>().OnTextChange(damage.ToString());
         BloodBroad.GetComponent<BloodBroad>().Offset_Now = BloodBroad.GetComponent<BloodBroad>().Offset + hit;
     }
