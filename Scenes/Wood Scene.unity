@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.023038574, g: 0.016273677, b: 0.016123295, a: 1}
+  m_IndirectSpecularColor: {r: 0.023027726, g: 0.016265616, b: 0.0161179, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -199,6 +199,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1229696008476986100, guid: e741ad301443a8b409010f97e2f7432f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1229696008476986101, guid: e741ad301443a8b409010f97e2f7432f, type: 3}
       propertyPath: m_Name
       value: XR-56
@@ -251,7 +255,28 @@ PrefabInstance:
       propertyPath: SizeBySpeedModule.curve.maxCurve.m_Curve.Array.data[1].outWeight
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5347891417111638706, guid: e741ad301443a8b409010f97e2f7432f, type: 3}
+      propertyPath: Muzzle
+      value: 
+      objectReference: {fileID: 193467511}
+    - target: {fileID: 5347891417111638706, guid: e741ad301443a8b409010f97e2f7432f, type: 3}
+      propertyPath: Follow_Speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5347891417111638706, guid: e741ad301443a8b409010f97e2f7432f, type: 3}
+      propertyPath: Full_Magazing
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5347891417111638706, guid: e741ad301443a8b409010f97e2f7432f, type: 3}
+      propertyPath: Follow_Offset.x
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 5347891417111638706, guid: e741ad301443a8b409010f97e2f7432f, type: 3}
+      propertyPath: Follow_Offset.y
+      value: 0.85
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5347891417111638706, guid: e741ad301443a8b409010f97e2f7432f, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: e741ad301443a8b409010f97e2f7432f, type: 3}
 --- !u!1001 &155221980
@@ -313,6 +338,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
+--- !u!1 &193467511 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1229696008897446632, guid: e741ad301443a8b409010f97e2f7432f, type: 3}
+  m_PrefabInstance: {fileID: 88075857}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &272876027 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9219010990855172730, guid: 88df3939f5c7c7d4f84f71d6551289a5, type: 3}
@@ -1326,6 +1356,18 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1025353754034991039, guid: 73ed9969cc097c64bbd6ff5aaf79bc0e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025353755532982200, guid: 73ed9969cc097c64bbd6ff5aaf79bc0e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025353755802431032, guid: 73ed9969cc097c64bbd6ff5aaf79bc0e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4384989736120709604, guid: 73ed9969cc097c64bbd6ff5aaf79bc0e, type: 3}
       propertyPath: m_Name
       value: Display Settings

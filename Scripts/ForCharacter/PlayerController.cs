@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     public float Speed = 3.0f;
 
-    [Header("冲刺设置")] 
+    [Header("冲刺设置")]
     public float Dash_Time;
     private float Dash_Time_Left;
     public float Dash_Speed;
@@ -19,12 +19,17 @@ public class PlayerController : MonoBehaviour
     private float One_Dash_Time;
     private float One_Dash_Start;
     public int Dash_Size;
-    
+
     [Header("跳跃设置")]
     public float Jump_Force;
     public int Jump_Count = 2;
     private int Jump_Count_Now;
-    
+    public bool Is_Air;
+    public float Jump_Up_Speed;
+    public float Jump_Up_Time;
+    public float Jump_Up_Time_Left;
+    public float Up_Start_Velocity;
+
     [Header("组件")]
     public Animator Ani;
     public Rigidbody Rb;
@@ -34,7 +39,7 @@ public class PlayerController : MonoBehaviour
     /// 是horizontal轴的值,用于控制玩家的移动
     /// </summary>
     private float x;
-    
+
     [Header("变量")]
     public bool Can_Move = true;
     public bool Is_Grounded = true;
@@ -64,11 +69,11 @@ public class PlayerController : MonoBehaviour
             SR.flipX = false;
         }
 
-        if (Input.GetKeyUp(KeyCode.A)||Input.GetKeyUp(KeyCode.D))
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
         {
             Ani.SetBool("IsMove", false);
         }
-        
+
         Jump();
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -94,17 +99,41 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if(Is_Grounded && Jump_Count_Now < Jump_Count && Program.Time_Scale == 1.0f && Rb.velocity.y <= 0)
+        //当Is_Air为true时,开始计时,当计时结束后将Rb的useGravity设置为true
+        if (Is_Air)
+        {
+            Jump_Up_Time_Left -= Time.unscaledDeltaTime;
+            if (Jump_Up_Time_Left <= 0)
+            {
+                Rb.useGravity = true;
+
+            }
+        }
+        if (Is_Grounded && Jump_Count_Now < Jump_Count && Program.Time_Scale == 1.0f && Rb.velocity.y <= 0)
         {
             Jump_Count_Now = Jump_Count;
+
         }
-        if(Input.GetKeyDown(KeyCode.Space) && Jump_Count_Now > 0 && Program.Time_Scale == 1.0f)
+        if (Input.GetKeyDown(KeyCode.Space) && Jump_Count_Now > 0 && Program.Time_Scale == 1.0f)
         {
-            Rb.velocity = new Vector3(Rb.velocity.x, Jump_Force);
+            Rb.velocity = new Vector3(Rb.velocity.x, Jump_Up_Speed);
             Ani.SetTrigger("Jump");
             Ani.SetBool("IsGrounded", false);
             Is_Grounded = false;
             Jump_Count_Now--;
+        }
+        // 当起跳后仍然按住空格时,并且玩家的速度变成0，给予玩家一个稳定的向上速度，使玩家能够更好的控制跳跃高度
+        if (Input.GetKey(KeyCode.Space) && !Is_Grounded && Rb.velocity.y <= Up_Start_Velocity && Program.Time_Scale == 1.0f && !Is_Air)
+        {
+            Rb.velocity = new Vector3(Rb.velocity.x, Jump_Force);
+            Rb.useGravity = false;
+            Is_Air = true;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            Is_Air = false;
+            Jump_Up_Time_Left = Jump_Up_Time;
+            Rb.useGravity = true;
         }
     }
 
@@ -148,9 +177,10 @@ public class PlayerController : MonoBehaviour
     //当玩家与地面接触时,将Is_Grounded设置为true
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             Is_Grounded = true;
+
             Ani.SetBool("IsGrounded", true);
         }
     }
@@ -158,7 +188,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if ((Program.Time_Scale!=1))
+        if ((Program.Time_Scale != 1))
         {
             Collider Player_Collider = GetComponent<Collider>();
             Collider Collision_Collider = collision.gameObject.GetComponent<Collider>();
@@ -180,7 +210,7 @@ public class PlayerController : MonoBehaviour
             var Right_Distance = Collision_Right - Player_Left;
             //float Top_Distance = Collision_Top - Player_Bottom;
             //float Bottom_Distance = Collision_Bottom - Player_Top;
-            
+
             if (Right_Distance > 0 && Collision_Center.x < Player_Center.x && Collision_Top > Player_Bottom && Collision_Bottom < Player_Top)
             {
                 this.transform.position = new Vector3(this.transform.position.x + Right_Distance, this.transform.position.y, this.transform.position.z);

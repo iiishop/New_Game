@@ -37,7 +37,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3023815230441619911
 SpriteRenderer:
@@ -108,14 +108,18 @@ MonoBehaviour:
   Dash_Speed: 8
   Dash_CD: 3
   Dash_Size: 5
-  Jump_Force: 8
+  Jump_Force: 6
   Jump_Count: 2
+  Is_Air: 0
+  Jump_Up_Speed: 6
+  Jump_Up_Time: 0.3
+  Jump_Up_Time_Left: 0
+  Up_Start_Velocity: 5
   Ani: {fileID: 0}
   Rb: {fileID: 0}
   SR: {fileID: 0}
   Can_Move: 1
   Is_Grounded: 1
-  Grounded_Radius: 0.6453
 --- !u!114 &3023815230441619905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,7 +147,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 120
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!95 &3023815230441619907
 Animator:
   serializedVersion: 4
@@ -176,6 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b70c8bb19981aa54697328c0e7d9708d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Instance: {fileID: 0}
   wp: {fileID: 0}
 --- !u!136 &3023815230441619933
 CapsuleCollider:
