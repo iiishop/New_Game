@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     [Header("跳跃设置")]
     public float Jump_Force;
     public int Jump_Count = 2;
-    private int Jump_Count_Now;
+    public int Jump_Count_Now;
     public bool Is_Air;
     public float Jump_Up_Speed;
     public float Jump_Up_Time;
@@ -51,6 +51,11 @@ public class PlayerController : MonoBehaviour
         Ani = GetComponent<Animator>();
         Rb = GetComponent<Rigidbody>();
         SR = GetComponent<SpriteRenderer>();
+
+        //跳跃初始化。加入前第一次跳跃会有问题
+        Is_Air = false;
+        Jump_Up_Time_Left = Jump_Up_Time;
+        Rb.useGravity = true;
     }
 
     private void Update()
@@ -74,7 +79,6 @@ public class PlayerController : MonoBehaviour
             Ani.SetBool("IsMove", false);
         }
 
-        Jump();
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -92,6 +96,7 @@ public class PlayerController : MonoBehaviour
         {
             Move();
             Dash();
+            Jump();
         }
 
         this.Rb.velocity = new Vector3(0, this.Rb.velocity.y);
@@ -99,6 +104,32 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
+        if (Is_Grounded && Jump_Count_Now < Jump_Count && Program.Time_Scale == 1.0f && Rb.velocity.y <= 0)
+        {
+            Jump_Count_Now = Jump_Count;
+        }
+        // 当起跳后仍然按住空格时,并且玩家的速度变成0，给予玩家一个稳定的向上速度，使玩家能够更好的控制跳跃高度
+        if (Input.GetKey(KeyCode.Space) && !Is_Grounded && Rb.velocity.y <= Up_Start_Velocity && Program.Time_Scale == 1.0f && !Is_Air && Jump_Count_Now > 0)
+        {
+            DEBUG.Instance.Display_Info("Jump");
+            Is_Air = true;
+            Rb.useGravity = false;
+            Rb.velocity = new Vector3(Rb.velocity.x, Jump_Up_Speed);
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && Jump_Count_Now > 0 && Program.Time_Scale == 1.0f)
+        {
+            Rb.velocity = new Vector3(Rb.velocity.x, Jump_Force);
+            Ani.SetTrigger("Jump");
+            Ani.SetBool("IsGrounded", false);
+            Is_Grounded = false;
+            Jump_Count_Now--;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            Is_Air = false;
+            Jump_Up_Time_Left = Jump_Up_Time;
+            Rb.useGravity = true;
+        }
         //当Is_Air为true时,开始计时,当计时结束后将Rb的useGravity设置为true
         if (Is_Air)
         {
@@ -106,34 +137,7 @@ public class PlayerController : MonoBehaviour
             if (Jump_Up_Time_Left <= 0)
             {
                 Rb.useGravity = true;
-
             }
-        }
-        if (Is_Grounded && Jump_Count_Now < Jump_Count && Program.Time_Scale == 1.0f && Rb.velocity.y <= 0)
-        {
-            Jump_Count_Now = Jump_Count;
-
-        }
-        if (Input.GetKeyDown(KeyCode.Space) && Jump_Count_Now > 0 && Program.Time_Scale == 1.0f)
-        {
-            Rb.velocity = new Vector3(Rb.velocity.x, Jump_Up_Speed);
-            Ani.SetTrigger("Jump");
-            Ani.SetBool("IsGrounded", false);
-            Is_Grounded = false;
-            Jump_Count_Now--;
-        }
-        // 当起跳后仍然按住空格时,并且玩家的速度变成0，给予玩家一个稳定的向上速度，使玩家能够更好的控制跳跃高度
-        if (Input.GetKey(KeyCode.Space) && !Is_Grounded && Rb.velocity.y <= Up_Start_Velocity && Program.Time_Scale == 1.0f && !Is_Air)
-        {
-            Rb.velocity = new Vector3(Rb.velocity.x, Jump_Force);
-            Rb.useGravity = false;
-            Is_Air = true;
-        }
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            Is_Air = false;
-            Jump_Up_Time_Left = Jump_Up_Time;
-            Rb.useGravity = true;
         }
     }
 

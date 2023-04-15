@@ -30,7 +30,7 @@ namespace Weapons
         //[Header("漂浮设置")]
         //public float Float_Speed;
         //public float Float_Amplitude;
-        [Header("组件")] 
+        [Header("组件")]
         public SpriteRenderer SR;
         public Animator Ani;                //动画控制器
         public ParticleSystem Fire_Particle;
@@ -44,13 +44,13 @@ namespace Weapons
             Fire_Ani_Time = Program.GetAnimatorLength(Ani, "Fire");
             Reload_Ani_Time = Program.GetAnimatorLength(Ani, "Reload");
             Reload_Ani_Time_Left = Reload_Ani_Time;
-            
-            
+
+
         }
 
         public virtual void Reload()
         {
-            if(Now_Magazing == Full_Magazing)
+            if (Now_Magazing == Full_Magazing)
                 return;
             Now_Magazing = Full_Magazing;
             Ani.SetBool("Reload", true);
@@ -77,7 +77,7 @@ namespace Weapons
             Now_Magazing--;
             New_Bullet = Instantiate(Bullet, Muzzle.transform.position, Muzzle.transform.rotation);
             Instantiate(Cartridge, Cartridge_Ejector.transform.position, Cartridge_Ejector.transform.rotation);
-            
+
         }
         public virtual bool CheckFire()
         {
@@ -101,10 +101,10 @@ namespace Weapons
             Vector3 obj = Main_Camera.WorldToScreenPoint(transform.position);
             //屏幕坐标向量相减，得到指向鼠标点的目标向量，即黄色线段  
             Vector3 direction = mouse - obj;
-            Vector3 Player_Direction = mouse- Main_Camera.WorldToScreenPoint(Father.transform.position);
+            Vector3 Player_Direction = mouse - Main_Camera.WorldToScreenPoint(Father.transform.position);
             Follow_Face = Player_Direction.x >= 0 ? 1 : -1;
             //转过中线左右翻转
-            SR.flipX = !(direction.x>=0);
+            SR.flipX = !(direction.x >= 0);
 
         }
         public void ROT()
@@ -117,7 +117,7 @@ namespace Weapons
             //屏幕坐标向量相减，得到指向鼠标点的目标向量，即黄色线段  
             Vector3 direction = mouse - obj;
             //转过中线左右翻转
-            if (direction.x>=0)
+            if (direction.x >= 0)
             {
                 SR.flipY = false;
                 this.gameObject.transform.GetChild(0).transform.localRotation = new Quaternion(0, 0, 0, 0);
@@ -127,7 +127,7 @@ namespace Weapons
                 SR.flipY = true;
                 this.gameObject.transform.GetChild(0).transform.localRotation = new Quaternion(180, 0, 0, 0);
             }
-            Vector3 Player_Direction = mouse- Main_Camera.WorldToScreenPoint(Father.transform.position);
+            Vector3 Player_Direction = mouse - Main_Camera.WorldToScreenPoint(Father.transform.position);
             Follow_Face = Player_Direction.x >= 0 ? 1 : -1;
 
             this.transform.localEulerAngles = new Vector3(0, this.transform.localEulerAngles.y,
@@ -137,7 +137,7 @@ namespace Weapons
 
         private void Follow()
         {
-            
+
             //让物体在y轴上下浮动
             var Position = transform.position;
             var Father_Position = Father.transform.position;

@@ -110,6 +110,7 @@ MonoBehaviour:
   Dash_Size: 5
   Jump_Force: 6
   Jump_Count: 2
+  Jump_Count_Now: 0
   Is_Air: 0
   Jump_Up_Speed: 6
   Jump_Up_Time: 0.3
@@ -193,9 +194,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.1
-  m_Height: 0.52075475
+  m_Height: 0.5
   m_Direction: 1
-  m_Center: {x: 0, y: 0.0022525787, z: 0}
+  m_Center: {x: 0, y: 0.009, z: 0}
 --- !u!114 &3023815230441619909
 MonoBehaviour:
   m_ObjectHideFlags: 0
