@@ -40,6 +40,7 @@ public class Program : MonoBehaviour
 
     private void Start()
     {
+        Program_Save_Object = Program_Save.Instance;
 
         Main_Character = this.gameObject;
         Main_Character_Rigidbody = Main_Character.GetComponent<Rigidbody>();

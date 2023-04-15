@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Weapons;
 public class WeaponManager : MonoBehaviour
 {
-    public WeaponManager Instance;
+    public static WeaponManager Instance;
+    public List<Weapon> Weapon_Inventory = new List<Weapon>();
     public Weapons.Weapon wp; //For test
     public static Signal Signal = new Signal();
 

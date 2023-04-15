@@ -61,26 +61,29 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         //获取玩家输入,并将其转换为int类型,当其大于0时,将其设置为1,当其小于0时,将其设置为-1
-        x = Input.GetAxisRaw("Horizontal");
 
 
-        if (Input.GetKey(KeyCode.A))
+
+        if (Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Left"]) && x == 0)
         {
             SR.flipX = true;
+            x = -1;
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Right"]) && x == 0)
         {
             SR.flipX = false;
+            x = 1;
         }
 
-        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+        if (Input.GetKeyUp(Program.Instance.Program_Save_Object.Key_Settings["Left"]) || Input.GetKeyUp(Program.Instance.Program_Save_Object.Key_Settings["Right"]))
         {
+            x = 0;
             Ani.SetBool("IsMove", false);
         }
 
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["Dash"]) && !Is_Dashing)
         {
             if (Time.realtimeSinceStartup >= Dash_CD_Start + Dash_CD) //CD时间结束
             {

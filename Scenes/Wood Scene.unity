@@ -776,6 +776,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
+--- !u!1 &157381267 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3023815230441619934, guid: 46a0f8eb4142f754d850a98a552d4a15, type: 3}
+  m_PrefabInstance: {fileID: 7816084228007465722}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &193467511 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1229696008897446632, guid: e741ad301443a8b409010f97e2f7432f, type: 3}
@@ -1861,6 +1866,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3023815230441619910, guid: 46a0f8eb4142f754d850a98a552d4a15, type: 3}
   m_PrefabInstance: {fileID: 7816084228007465722}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1423526916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157381267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51f74be3d8a19b2418f7829fed05322e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player_Weapon_Inventory:
+  - {fileID: 1390786994}
 --- !u!1 &1432806975
 GameObject:
   m_ObjectHideFlags: 1
@@ -4057,6 +4076,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 7816084228585140965}
     m_Modifications:
+    - target: {fileID: 3023815230441619905, guid: 46a0f8eb4142f754d850a98a552d4a15, type: 3}
+      propertyPath: Program_Save_Object
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3023815230441619909, guid: 46a0f8eb4142f754d850a98a552d4a15, type: 3}
       propertyPath: State_Manager
       value: 
@@ -4109,6 +4132,14 @@ PrefabInstance:
       propertyPath: wp
       value: 
       objectReference: {fileID: 1390786994}
+    - target: {fileID: 3023815230441619932, guid: 46a0f8eb4142f754d850a98a552d4a15, type: 3}
+      propertyPath: Weapon_Inventory.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3023815230441619932, guid: 46a0f8eb4142f754d850a98a552d4a15, type: 3}
+      propertyPath: Weapon_Inventory.Array.data[0]
+      value: 
+      objectReference: {fileID: 1229696008476986100, guid: e741ad301443a8b409010f97e2f7432f, type: 3}
     - target: {fileID: 3023815230441619934, guid: 46a0f8eb4142f754d850a98a552d4a15, type: 3}
       propertyPath: m_Name
       value: MainCharacter

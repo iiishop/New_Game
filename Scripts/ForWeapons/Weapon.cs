@@ -9,6 +9,7 @@ namespace Weapons
     [System.Serializable]
     public class Weapon : MonoBehaviour
     {
+        public int ID;
         public GameObject Bullet;           //子弹的预制体
         public GameObject Muzzle;           //枪口
         public GameObject Cartridge;        //弹壳
