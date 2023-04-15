@@ -44,15 +44,15 @@ public class StateManager : MonoBehaviour
         if (Is_Main_Character)
         {
             //如果program.weapon_now正在播放reload动画
-            if (Program.Weapon_Now.Is_Reloading)
+            if (Program.Instance.Weapon_Now.Is_Reloading)
             {
                 Bullet_Value.text = "Reloading";
-                Bullet_Ring.fillAmount = Program.NumberLerp(Bullet_Ring.fillAmount, 1, ref Program.Weapon_Now.Reload_Ani_Time_Left);
+                Bullet_Ring.fillAmount = Program.Instance.NumberLerp(Bullet_Ring.fillAmount, 1, ref Program.Instance.Weapon_Now.Reload_Ani_Time_Left);
             }
             else
             {
-                Bullet_Value.text = Program.Weapon_Now.Now_Magazing.ToString();
-                Bullet_Ring.fillAmount = (float)Program.Weapon_Now.Now_Magazing / (float)Program.Weapon_Now.Full_Magazing;
+                Bullet_Value.text = Program.Instance.Weapon_Now.Now_Magazing.ToString();
+                Bullet_Ring.fillAmount = (float)Program.Instance.Weapon_Now.Now_Magazing / (float)Program.Instance.Weapon_Now.Full_Magazing;
             }
         }
     }

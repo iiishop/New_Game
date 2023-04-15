@@ -20,7 +20,7 @@ public class MousePoint : MonoBehaviour
 
     private void Start()
     {
-        CS = Program.Main_Character.GetComponent<CharacterState>();
+        CS = Program.Instance.Main_Character.GetComponent<CharacterState>();
         Main_Camera = Camera.main;
         //隐藏鼠标
         Cursor.visible = false;
@@ -31,26 +31,25 @@ public class MousePoint : MonoBehaviour
         Vector3 Pos = Camera.main.WorldToScreenPoint(transform.position);
         Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Pos.z);
         transform.position = Main_Camera.ScreenToWorldPoint(mousePos);
-        transform.position = new Vector3(transform.position.x, transform.position.y, CS.transform.position.z-3f);
-        
+        transform.position = new Vector3(transform.position.x, transform.position.y, CS.transform.position.z - 3f);
+
 
         Bullet_Ring_Function();
     }
 
     private void Bullet_Ring_Function()
     {
-        if (Program.Weapon_Now.Is_Reloading)
+        if (Program.Instance.Weapon_Now.Is_Reloading)
         {
-            
+
             Bullet_Ring.transform.Rotate(0, 0, Rotate_Speed_Reload * Time.unscaledDeltaTime);
         }
         else
         {
             Bullet_Ring.transform.Rotate(0, 0, Rotate_Speed * Time.unscaledDeltaTime);
         }
-        Bullet_Ring.transform.position = Program.Lerp2Tagert(Bullet_Ring.transform.position, this.transform.position , new Vector3(Offset.x, Offset.y, 0), Follow_Speed);
+        Bullet_Ring.transform.position = Program.Instance.Lerp2Tagert(Bullet_Ring.transform.position, this.transform.position, new Vector3(Offset.x, Offset.y, 0), Follow_Speed);
 
     }
-    
+
 }
-  

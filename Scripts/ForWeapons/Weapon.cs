@@ -40,9 +40,9 @@ namespace Weapons
             Main_Camera = Camera.main;
             Ani = GetComponent<Animator>();
             SR = GetComponent<SpriteRenderer>();
-            Father = Program.Main_Character;
-            Fire_Ani_Time = Program.GetAnimatorLength(Ani, "Fire");
-            Reload_Ani_Time = Program.GetAnimatorLength(Ani, "Reload");
+            Father = Program.Instance.Main_Character;
+            Fire_Ani_Time = Program.Instance.GetAnimatorLength(Ani, "Fire");
+            Reload_Ani_Time = Program.Instance.GetAnimatorLength(Ani, "Reload");
             Reload_Ani_Time_Left = Reload_Ani_Time;
 
 
@@ -71,7 +71,7 @@ namespace Weapons
         /// </summary>
         public virtual void Shot()
         {
-            Program.Weapon_Rotation = this.gameObject.transform.localEulerAngles.z;
+            Program.Instance.Weapon_Rotation = this.gameObject.transform.localEulerAngles.z;
             Fire_Particle.Play();
             Ani.SetBool("Fire", true);
             Now_Magazing--;

@@ -104,19 +104,19 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (Is_Grounded && Jump_Count_Now < Jump_Count && Program.Time_Scale == 1.0f && Rb.velocity.y <= 0)
+        if (Is_Grounded && Jump_Count_Now < Jump_Count && Program.Instance.Time_Scale == 1.0f && Rb.velocity.y <= 0)
         {
             Jump_Count_Now = Jump_Count;
         }
         // 当起跳后仍然按住空格时,并且玩家的速度变成0，给予玩家一个稳定的向上速度，使玩家能够更好的控制跳跃高度
-        if (Input.GetKey(KeyCode.Space) && !Is_Grounded && Rb.velocity.y <= Up_Start_Velocity && Program.Time_Scale == 1.0f && !Is_Air && Jump_Count_Now > 0)
+        if (Input.GetKey(KeyCode.Space) && !Is_Grounded && Rb.velocity.y <= Up_Start_Velocity && Program.Instance.Time_Scale == 1.0f && !Is_Air && Jump_Count_Now > 0)
         {
             DEBUG.Instance.Display_Info("Jump");
             Is_Air = true;
             Rb.useGravity = false;
             Rb.velocity = new Vector3(Rb.velocity.x, Jump_Up_Speed);
         }
-        if (Input.GetKeyDown(KeyCode.Space) && Jump_Count_Now > 0 && Program.Time_Scale == 1.0f)
+        if (Input.GetKeyDown(KeyCode.Space) && Jump_Count_Now > 0 && Program.Instance.Time_Scale == 1.0f)
         {
             Rb.velocity = new Vector3(Rb.velocity.x, Jump_Force);
             Ani.SetTrigger("Jump");
@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if ((Program.Time_Scale != 1))
+        if ((Program.Instance.Time_Scale != 1))
         {
             Collider Player_Collider = GetComponent<Collider>();
             Collider Collision_Collider = collision.gameObject.GetComponent<Collider>();

@@ -8,7 +8,23 @@ public class Program_Save : ScriptableObject
 {
     public List<Weapon> Weapon_Inventory = new List<Weapon>();
     //定义一个名为Key_Settings的字典，用于存储按键设置，并且重载添加方法，保证其中的键值对不会重复
-    public Dictionary<string, KeyCode> Key_Settings = new Dictionary<string, KeyCode>();
+    public Dictionary<string, KeyCode> Key_Settings = new Dictionary<string, KeyCode>()
+    {
+        {"Down", KeyCode.S},
+        {"Left", KeyCode.A},
+        {"Right", KeyCode.D},
+        {"Jump", KeyCode.Space},
+        {"Dash", KeyCode.LeftShift},
+        {"Attack", KeyCode.Mouse0},
+        {"Skill", KeyCode.Mouse1},
+        {"Inventory", KeyCode.Tab},
+        {"Pause", KeyCode.Escape},
+        {"Map", KeyCode.M},
+        {"Menu", KeyCode.Escape},
+        {"Save", KeyCode.F5},
+        {"Load", KeyCode.F9},
+        {"Debug", KeyCode.F12},
+    };
     public Dictionary<KeyCode, string> Key_Settings_Reverse = new Dictionary<KeyCode, string>();
     /// <summary>
     /// 这个方法用于更新按键设置
