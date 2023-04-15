@@ -61,26 +61,29 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         //获取玩家输入,并将其转换为int类型,当其大于0时,将其设置为1,当其小于0时,将其设置为-1
-        x = Input.GetAxisRaw("Horizontal");
 
 
-        if (Input.GetKey(KeyCode.A))
+
+        if (Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Left"]) && x == 0)
         {
             SR.flipX = true;
+            x = -1;
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Right"]) && x == 0)
         {
             SR.flipX = false;
+            x = 1;
         }
 
-        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+        if (Input.GetKeyUp(Program.Instance.Program_Save_Object.Key_Settings["Left"]) || Input.GetKeyUp(Program.Instance.Program_Save_Object.Key_Settings["Right"]))
         {
+            x = 0;
             Ani.SetBool("IsMove", false);
         }
 
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["Dash"]) && !Is_Dashing)
         {
             if (Time.realtimeSinceStartup >= Dash_CD_Start + Dash_CD) //CD时间结束
             {
@@ -104,19 +107,19 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (Is_Grounded && Jump_Count_Now < Jump_Count && Program.Time_Scale == 1.0f && Rb.velocity.y <= 0)
+        if (Is_Grounded && Jump_Count_Now < Jump_Count && Program.Instance.Time_Scale == 1.0f && Rb.velocity.y <= 0)
         {
             Jump_Count_Now = Jump_Count;
         }
         // 当起跳后仍然按住空格时,并且玩家的速度变成0，给予玩家一个稳定的向上速度，使玩家能够更好的控制跳跃高度
-        if (Input.GetKey(KeyCode.Space) && !Is_Grounded && Rb.velocity.y <= Up_Start_Velocity && Program.Time_Scale == 1.0f && !Is_Air && Jump_Count_Now > 0)
+        if (Input.GetKey(KeyCode.Space) && !Is_Grounded && Rb.velocity.y <= Up_Start_Velocity && Program.Instance.Time_Scale == 1.0f && !Is_Air && Jump_Count_Now > 0)
         {
             DEBUG.Instance.Display_Info("Jump");
             Is_Air = true;
             Rb.useGravity = false;
             Rb.velocity = new Vector3(Rb.velocity.x, Jump_Up_Speed);
         }
-        if (Input.GetKeyDown(KeyCode.Space) && Jump_Count_Now > 0 && Program.Time_Scale == 1.0f)
+        if (Input.GetKeyDown(KeyCode.Space) && Jump_Count_Now > 0 && Program.Instance.Time_Scale == 1.0f)
         {
             Rb.velocity = new Vector3(Rb.velocity.x, Jump_Force);
             Ani.SetTrigger("Jump");
@@ -192,7 +195,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if ((Program.Time_Scale != 1))
+        if ((Program.Instance.Time_Scale != 1))
         {
             Collider Player_Collider = GetComponent<Collider>();
             Collider Collision_Collider = collision.gameObject.GetComponent<Collider>();

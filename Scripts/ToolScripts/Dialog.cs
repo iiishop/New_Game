@@ -22,14 +22,14 @@ public class Dialog : MonoBehaviour
     private string[] Dialogs;
     public int index = 0;
     string Path = "Dialog/";
-    
+
 
     public void SetDialog(TextAsset textFile)
     {
         Dialogs = textFile.text.Split('\n');
         Dialog_Box.SetActive(true);
         index = 0;
-        Program.Main_Character.GetComponent<PlayerController>().Can_Move= false;
+        Program.Instance.Main_Character.GetComponent<PlayerController>().Can_Move = false;
     }
 
     private void ChangeImage(string Name)
@@ -52,7 +52,7 @@ public class Dialog : MonoBehaviour
             //比如<张三/1.png>，那么就需要改变图片为Assets/Dialog/下的张三文件夹中的1.png文件
             var temp = Dialogs[index].Split('<', '>');
             //当temp[1]不为空时，并且当前的图片不是temp[1]时，才需要改变图片
-            if (temp.Length > 1 )
+            if (temp.Length > 1)
             {
                 if (Speaker_Picture.sprite.name != temp[1])
                 {
@@ -61,12 +61,12 @@ public class Dialog : MonoBehaviour
                     ChangeImage(temp[1]);
                 }
             }
-            
+
             //获取对话中的命令，命令被[]包围，并且都是数字
             var command = Dialogs[index].Split('[', ']');
             if (command.Length > 1)
             {
-                for (int i = 1; i < command.Length;i++)
+                for (int i = 1; i < command.Length; i++)
                 {
                     //删除对话中的命令信息
                     Dialogs[index] = Dialogs[index].Replace("[" + command[i] + "]", "");
@@ -102,14 +102,14 @@ public class Dialog : MonoBehaviour
                     }
                 }
             }
-            
+
             Dialog_Text.text = Dialogs[index];
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
             {
                 index++;
                 if (index >= Dialogs.Length)
                 {
-                    Program.Main_Character.GetComponent<PlayerController>().Can_Move = true;
+                    Program.Instance.Main_Character.GetComponent<PlayerController>().Can_Move = true;
                     Dialog_Box.SetActive(false);
                 }
             }

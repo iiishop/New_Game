@@ -10,19 +10,29 @@ using Weapons;
 /// </summary>
 public class Program : MonoBehaviour
 {
+    public static Program Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
     /// <summary>
     /// 当前的时间缩放比例
     /// </summary>
-    public static float Time_Scale = 1.0f;
+    public float Time_Scale = 1.0f;
     /// <summary>
     /// 缩放时间技能会缩放的时间比率
     /// </summary>
-    public static float Scaled_Time = 0.1f;
-    public static Weapon Weapon_Now;
-    public static Weapon[] Weapon_Bag = new Weapon[2];
-    public static float Weapon_Rotation;
-    public static GameObject Main_Character;
-    public static Program_Save Program_Save_Object;
+    public float Scaled_Time = 0.1f;
+    public Weapon Weapon_Now;
+    public Weapon[] Weapon_Bag = new Weapon[2];
+    public float Weapon_Rotation;
+    public GameObject Main_Character;
+    public Program_Save Program_Save_Object;
 
     private Rigidbody Main_Character_Rigidbody;
     private Animator Main_Character_Animator;
@@ -30,6 +40,8 @@ public class Program : MonoBehaviour
 
     private void Start()
     {
+        Program_Save_Object = Program_Save.Instance;
+
         Main_Character = this.gameObject;
         Main_Character_Rigidbody = Main_Character.GetComponent<Rigidbody>();
         Main_Character_Animator = Main_Character.GetComponent<Animator>();
@@ -39,7 +51,7 @@ public class Program : MonoBehaviour
     /// 改变时间
     /// </summary>
     /// <param name="time">改变后的时间</param>
-    public static void TimeChange(float time)
+    public void TimeChange(float time)
     {
         Time_Scale = time;
         Time.timeScale = Time_Scale;
@@ -82,7 +94,7 @@ public class Program : MonoBehaviour
     /// <param name="speed">运动速度</param>
     /// <param name="is_unscaled_time">是否使用unscaledDeltaTime</param>
     /// <returns>下一帧self需要到达的位置</returns>
-    public static Vector3 Lerp2Tagert(Vector3 self, Vector3 target, Vector3 offset, float speed, bool is_unscaled_time = true)
+    public Vector3 Lerp2Tagert(Vector3 self, Vector3 target, Vector3 offset, float speed, bool is_unscaled_time = true)
     {
         Vector3 target_position = target + offset;
         Vector3 new_position;
@@ -104,7 +116,7 @@ public class Program : MonoBehaviour
     /// <param animator="animator">Animator组件</param> 
     /// <param name="name">要获得的动画片段名字</param>
     /// <returns>这个动画的原始长度（与播放速度无关）</returns>
-    public static float GetAnimatorLength(Animator animator, string name)
+    public float GetAnimatorLength(Animator animator, string name)
     {
         //动画片段时间长度
         float length = 0;
@@ -139,7 +151,7 @@ public class Program : MonoBehaviour
     /// <param name="b">结束的数值</param>
     /// <param name="t">变换的时间</param>
     /// <returns></returns>
-    public static float NumberLerp(float a, float b, ref float t)
+    public float NumberLerp(float a, float b, ref float t)
     {
         if (t <= 0)
         {
