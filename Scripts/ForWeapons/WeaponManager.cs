@@ -6,6 +6,11 @@ using Weapons;
 public class WeaponManager : MonoBehaviour
 {
     public static WeaponManager Instance;
+    /// <summary>
+    /// 表示游戏中现存的所有武器
+    /// </summary>
+    /// <typeparam name="Weapon"></typeparam>
+    /// <returns></returns>
     public List<Weapon> Weapon_Inventory = new List<Weapon>();
     public Weapons.Weapon wp; //For test
     public static Signal Signal = new Signal();
@@ -36,21 +41,21 @@ public class WeaponManager : MonoBehaviour
     private void Update()
     {
         CheckAni();
-        if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
+        if (Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Shoot"]) && Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Aim"]))
         {
             Program.Instance.Weapon_Now.Fire();
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["Reload"]))
         {
             Program.Instance.Weapon_Now.Reload();
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetKeyUp(Program.Instance.Program_Save_Object.Key_Settings["Shoot"]))
         {
             Signal.Call();
         }
-        if (Input.GetMouseButton(1))
+        if (Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Aim"]))
         {
             Program.Instance.Weapon_Now.ROT();
         }

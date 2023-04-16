@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2542595089192356335
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2542595089192356331}
+  - component: {fileID: 2542595089192356330}
+  - component: {fileID: 2542595089192356329}
+  - component: {fileID: 2542595089192356328}
+  m_Layer: 0
+  m_Name: Program
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2542595089192356331
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2542595089192356335}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 20.07903, y: 8.0811615, z: 16.706665}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2542595089192356330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2542595089192356335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b70c8bb19981aa54697328c0e7d9708d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Weapon_Inventory:
+  - {fileID: 1229696008476986100, guid: e741ad301443a8b409010f97e2f7432f, type: 3}
+  wp: {fileID: 0}
+--- !u!114 &2542595089192356329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2542595089192356335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6366c98a699744e9b8885b48a77b3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Time_Scale: 1
+  Scaled_Time: 0.1
+  Weapon_Now: {fileID: 0}
+  Weapon_Bag:
+  - {fileID: 0}
+  - {fileID: 0}
+  Weapon_Rotation: 0
+  Main_Character: {fileID: 0}
+  Program_Save_Object: {fileID: 0}
+--- !u!114 &2542595089192356328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2542595089192356335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51f74be3d8a19b2418f7829fed05322e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player_Weapon_Inventory:
+  - {fileID: 0}

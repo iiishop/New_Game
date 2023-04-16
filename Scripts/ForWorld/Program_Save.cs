@@ -37,7 +37,8 @@ public class Program_Save : MonoBehaviour
     private void Start()
     {
         Key_Init();
-        LoadDatas();
+        //LoadDatas();
+        SaveDatas();
     }
 
     /// <summary>
@@ -114,14 +115,18 @@ public class Program_Save : MonoBehaviour
     /// </summary>
     public void Key_Init()
     {
-        if (Key_Settings.Count > 0)
-        {
-            return;
-        }
         Key_Settings.Add("Dash", KeyCode.LeftShift);
         Key_Settings.Add("Left", KeyCode.A);
         Key_Settings.Add("Right", KeyCode.D);
         Key_Settings.Add("Jump", KeyCode.Space);
+        Key_Settings.Add("Aim", KeyCode.Mouse1);
+        Key_Settings.Add("Shoot", KeyCode.Mouse0);
+        Key_Settings.Add("Reload", KeyCode.R);
+        Key_Settings.Add("WeaponChange", KeyCode.Q);
+        Key_Settings.Add("Trigger", KeyCode.E);
+        Key_Settings.Add("SpecialSkill", KeyCode.T);
+        Key_Settings.Add("DialogNext1", KeyCode.Z);
+        Key_Settings.Add("DialogNext2", KeyCode.Return);
 
         //将Key_Settings中的键值对反转，存储到Key_Settings_Reverse中
         foreach (var item in Key_Settings)

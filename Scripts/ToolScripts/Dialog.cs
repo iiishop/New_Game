@@ -104,7 +104,7 @@ public class Dialog : MonoBehaviour
             }
 
             Dialog_Text.text = Dialogs[index];
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["DialogNext1"]) || Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["DialogNext2"]))
             {
                 index++;
                 if (index >= Dialogs.Length)

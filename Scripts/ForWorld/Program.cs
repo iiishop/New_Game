@@ -42,7 +42,8 @@ public class Program : MonoBehaviour
     {
         Program_Save_Object = Program_Save.Instance;
 
-        Main_Character = this.gameObject;
+        //从场景中寻找tag为Player的物体，并将其赋值给Main_Character
+        Main_Character = GameObject.FindGameObjectWithTag("Player");
         Main_Character_Rigidbody = Main_Character.GetComponent<Rigidbody>();
         Main_Character_Animator = Main_Character.GetComponent<Animator>();
         Main_Character_Controller = Main_Character.GetComponent<PlayerController>();
@@ -67,7 +68,7 @@ public class Program : MonoBehaviour
     /// <param name="time">缩放后的时间</param>
     public void ChangeTheTime(float time)
     {
-        if (Input.GetKeyDown(KeyCode.T) && Time_Scale == 1.0f)
+        if (Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["SpecialSkill"]) && Time_Scale == 1.0f)
         {
             TimeChange(time);
             Main_Character.transform.position = new Vector3(this.transform.position.x,
@@ -76,7 +77,7 @@ public class Program : MonoBehaviour
             Main_Character_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
             Main_Character_Animator.SetBool("IsGrounded", true);
         }
-        else if (Input.GetKeyDown(KeyCode.T) && Time_Scale == time)
+        else if (Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["SpecialSkill"]) && Time_Scale == time)
         {
             TimeChange(1.0f);
             Main_Character_Controller.Can_Move = true;
@@ -150,7 +151,7 @@ public class Program : MonoBehaviour
     /// <param name="a">起始的数值</param>
     /// <param name="b">结束的数值</param>
     /// <param name="t">变换的时间</param>
-    /// <returns></returns>
+    /// <returns>下一帧这个变量需要成为的值</returns>
     public float NumberLerp(float a, float b, ref float t)
     {
         if (t <= 0)
