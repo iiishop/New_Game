@@ -33,10 +33,12 @@ public class Program : MonoBehaviour
     public float Weapon_Rotation;
     public GameObject Main_Character;
     public Program_Save Program_Save_Object;
-
     private Rigidbody Main_Character_Rigidbody;
     private Animator Main_Character_Animator;
     private PlayerController Main_Character_Controller;
+
+
+
 
     private void Start()
     {
@@ -48,6 +50,14 @@ public class Program : MonoBehaviour
         Main_Character_Animator = Main_Character.GetComponent<Animator>();
         Main_Character_Controller = Main_Character.GetComponent<PlayerController>();
     }
+
+
+    private void Update()
+    {
+        ChangeTheTime(Scaled_Time);
+    }
+
+
     /// <summary>
     /// 改变时间
     /// </summary>
@@ -58,6 +68,7 @@ public class Program : MonoBehaviour
         Time.timeScale = Time_Scale;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
+
 
     /// <summary>
     /// 用于改变时间的方法。
@@ -86,6 +97,7 @@ public class Program : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// 用于让物体线性运动到目标点的方法
     /// </summary>
@@ -110,6 +122,7 @@ public class Program : MonoBehaviour
 
         return new_position;
     }
+
 
     /// <summary>
     /// 获得animator下某个动画片段的时长方法
@@ -145,6 +158,7 @@ public class Program : MonoBehaviour
         return length / speed;
     }
 
+
     /// <summary>
     /// 一个方法，用于在t秒内，每次调用返回一个数，数值从a到b。如果b大于a，那么返回的数值会从小到大，反之dd则从大到小。如果t为0，那么返回的数值为b。
     /// </summary>
@@ -165,11 +179,4 @@ public class Program : MonoBehaviour
             return res;
         }
     }
-
-
-    private void Update()
-    {
-        ChangeTheTime(Scaled_Time);
-    }
-
 }

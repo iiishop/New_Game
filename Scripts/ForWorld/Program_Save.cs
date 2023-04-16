@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 public class Program_Save : MonoBehaviour
 {
+
     public static Program_Save Instance;
 
     private void Awake()
@@ -23,37 +24,48 @@ public class Program_Save : MonoBehaviour
     /// </summary>
     class SaveData
     {
-        public int[] Player_Weapon_Inventory;
+        public List<int> Player_Weapon_Inventory = new List<int>();
+    }
+    class KeyData
+    {
         public Dictionary<string, KeyCode> Key_Settings;
+    }
+    class SettingData
+    {
+
     }
 
     SaveData Save_Data = new SaveData();
+    KeyData Key_Data = new KeyData();
+    SettingData Setting_Data = new SettingData();
 
     public List<Weapon> Player_Weapon_Inventory = new List<Weapon>();
     public Dictionary<string, KeyCode> Key_Settings = new Dictionary<string, KeyCode>();
     public Dictionary<KeyCode, string> Key_Settings_Reverse = new Dictionary<KeyCode, string>();
 
 
+
+
     private void Start()
     {
         Key_Init();
-        //LoadDatas();
-        SaveDatas();
+        LoadDatas(ref Key_Data, "Key_Data");
+        //ApplyDatas();
+        //SaveDatas(Key_Data, "Key_Data");
     }
+
 
     /// <summary>
     /// 这个方法用于将需要保存的数据处理成可以转换成为json的形式
     /// </summary>
-    public void ProcessDatas()
+    private void ProcessDatas()
     {
         //处理需要保存的数据
-        Save_Data.Key_Settings = Key_Settings;
-        Save_Data.Player_Weapon_Inventory = new int[Player_Weapon_Inventory.Count];
-        int i = 0;
+        Key_Data.Key_Settings = Key_Settings;
+        Save_Data.Player_Weapon_Inventory.Clear();
         foreach (var item in Player_Weapon_Inventory)
         {
-            Save_Data.Player_Weapon_Inventory[i] = item.ID;
-            i++;
+            Save_Data.Player_Weapon_Inventory.Add(item.ID);
         }
     }
 
@@ -61,14 +73,16 @@ public class Program_Save : MonoBehaviour
     /// <summary>
     /// 这个方法用于将处理完的数据保存到本地
     /// </summary>
-    /// <param name="path">为储存的文件名称，例如"\\Datas.json"表示存储到streamingAssetsPath/Datas.json中</param>
-    public void SaveDatas(string path = "\\Datas.json")
+    /// <param name="Data">为需要保存的数据</param>
+    public void SaveDatas(object Data, string Name)
     {
+        var path = "\\" + Name + ".json";
+        //把所有数据都处理成可以转换成为json的形式，不一定会全部保存
         ProcessDatas();
 
 
         //将数据保存到本地
-        string json = JsonConvert.SerializeObject(Save_Data);
+        string json = JsonConvert.SerializeObject(Data);
         string fileUrl = Application.streamingAssetsPath + path;
         using (StreamWriter sw = new StreamWriter(fileUrl))
         {
@@ -85,13 +99,14 @@ public class Program_Save : MonoBehaviour
     /// 这个方法用于从本地加载数据，并将数据应用到游戏中
     /// </summary>
     /// <param name="path">为读取的文件名称，例如"\\Datas.json"表示从streamingAssetsPath/Datas.json读取</param>
-    public void LoadDatas(string path = "\\Datas.json")
+    public void LoadDatas<T>(ref T Data, string Name)
     {
+        var path = "\\" + Name + ".json";
         string fileUrl = Application.streamingAssetsPath + path;
         using (StreamReader sr = new StreamReader(fileUrl))
         {
             string json = sr.ReadToEnd();
-            Save_Data = JsonConvert.DeserializeObject<SaveData>(json);
+            Data = JsonConvert.DeserializeObject<T>(json);
             sr.Close();
             sr.Dispose();
         }
@@ -101,9 +116,9 @@ public class Program_Save : MonoBehaviour
     /// <summary>
     /// 这个方法用于将数据应用到游戏中
     /// </summary>
-    public void ApplyDatas()
+    private void ApplyDatas()
     {
-        Key_Settings = Save_Data.Key_Settings;
+        Key_Settings = Key_Data.Key_Settings;
         foreach (var item in Save_Data.Player_Weapon_Inventory)
         {
             Player_Weapon_Inventory.Add(WeaponManager.Instance.Weapon_Inventory[item]);
@@ -164,7 +179,7 @@ public class Program_Save : MonoBehaviour
                 Key_Settings_Reverse.Add(Key_Code, Key_Name);
             }
         }
-        SaveDatas();
+        SaveDatas(Key_Data, "Key_Data");
         return "Success";
     }
 }
