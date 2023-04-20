@@ -40,29 +40,33 @@ public class WeaponManager : MonoBehaviour
 
     private void Update()
     {
-        CheckAni();
-        if (Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Shoot"]) && Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Aim"]))
+        if (Program.Instance.Is_In_Game)
         {
-            Program.Instance.Weapon_Now.Fire();
+            CheckAni();
+            if (Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Shoot"]) && Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Aim"]))
+            {
+                Program.Instance.Weapon_Now.Fire();
+            }
+
+            if (Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["Reload"]))
+            {
+                Program.Instance.Weapon_Now.Reload();
+            }
+
+            if (Input.GetKeyUp(Program.Instance.Program_Save_Object.Key_Settings["Shoot"]))
+            {
+                Signal.Call();
+            }
+            if (Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Aim"]))
+            {
+                Program.Instance.Weapon_Now.ROT();
+            }
+            else
+            {
+                Program.Instance.Weapon_Now.ROTM();
+            }
         }
 
-        if (Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["Reload"]))
-        {
-            Program.Instance.Weapon_Now.Reload();
-        }
-
-        if (Input.GetKeyUp(Program.Instance.Program_Save_Object.Key_Settings["Shoot"]))
-        {
-            Signal.Call();
-        }
-        if (Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Aim"]))
-        {
-            Program.Instance.Weapon_Now.ROT();
-        }
-        else
-        {
-            Program.Instance.Weapon_Now.ROTM();
-        }
     }
 
     /// <summary>

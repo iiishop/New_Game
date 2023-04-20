@@ -36,6 +36,7 @@ public class Program : MonoBehaviour
     private Rigidbody Main_Character_Rigidbody;
     private Animator Main_Character_Animator;
     private PlayerController Main_Character_Controller;
+    public bool Is_In_Game = false;
 
 
 
@@ -45,10 +46,23 @@ public class Program : MonoBehaviour
         Program_Save_Object = Program_Save.Instance;
 
         //从场景中寻找tag为Player的物体，并将其赋值给Main_Character
-        Main_Character = GameObject.FindGameObjectWithTag("Player");
-        Main_Character_Rigidbody = Main_Character.GetComponent<Rigidbody>();
-        Main_Character_Animator = Main_Character.GetComponent<Animator>();
-        Main_Character_Controller = Main_Character.GetComponent<PlayerController>();
+        //判断能否在场景中寻找tag为Player的物体
+        if (GameObject.FindGameObjectWithTag("Player") != null)
+        {
+            Is_In_Game = true;
+        }
+        else
+        {
+            Is_In_Game = false;
+        }
+
+        if (Is_In_Game)
+        {
+            Main_Character = GameObject.FindGameObjectWithTag("Player");
+            Main_Character_Rigidbody = Main_Character.GetComponent<Rigidbody>();
+            Main_Character_Animator = Main_Character.GetComponent<Animator>();
+            Main_Character_Controller = Main_Character.GetComponent<PlayerController>();
+        }
     }
 
 
@@ -82,8 +96,8 @@ public class Program : MonoBehaviour
         if (Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["SpecialSkill"]) && Time_Scale == 1.0f)
         {
             TimeChange(time);
-            Main_Character.transform.position = new Vector3(this.transform.position.x,
-                this.transform.position.y + 0.02f, this.transform.position.z);
+            Main_Character.transform.position = new Vector3(Main_Character.transform.position.x,
+                Main_Character.transform.position.y + 0.02f, Main_Character.transform.position.z);
             //锁定主角的旋转和y轴的移动
             Main_Character_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
             Main_Character_Animator.SetBool("IsGrounded", true);

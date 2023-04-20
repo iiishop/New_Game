@@ -20,23 +20,21 @@ public class Program_Save : MonoBehaviour
 
     [System.Serializable]
     /// <summary>
-    /// 这个类用于存储一些需要保存的数据，是一个中间类，用于将数据保存到本地
+    /// 这个类用于存储一些游戏内容中需要保存的数据，是一个中间类，用于将数据保存到本地
     /// </summary>
     class SaveData
     {
         public List<int> Player_Weapon_Inventory = new List<int>();
     }
-    class KeyData
+    /// <summary>
+    /// 这个类用于存储设置部分需要保存的数据，是一个中间类，用于将数据保存到本地
+    /// </summary>
+    class SettingData
     {
         public Dictionary<string, KeyCode> Key_Settings;
     }
-    class SettingData
-    {
-
-    }
 
     SaveData Save_Data = new SaveData();
-    KeyData Key_Data = new KeyData();
     SettingData Setting_Data = new SettingData();
 
     public List<Weapon> Player_Weapon_Inventory = new List<Weapon>();
@@ -49,9 +47,15 @@ public class Program_Save : MonoBehaviour
     private void Start()
     {
         Key_Init();
-        LoadDatas(ref Key_Data, "Key_Data");
-        //ApplyDatas();
-        //SaveDatas(Key_Data, "Key_Data");
+        if (LoadDatas(ref Setting_Data, "Setting_Data") == 0)
+        {
+            //如果没有读取到数据，则初始化数据
+            Key_Init();
+
+
+            //将数据保存到本地
+            SaveDatas(Setting_Data, "Setting_Data");
+        }
     }
 
 
@@ -61,7 +65,7 @@ public class Program_Save : MonoBehaviour
     private void ProcessDatas()
     {
         //处理需要保存的数据
-        Key_Data.Key_Settings = Key_Settings;
+        Setting_Data.Key_Settings = Key_Settings;
         Save_Data.Player_Weapon_Inventory.Clear();
         foreach (var item in Player_Weapon_Inventory)
         {
@@ -74,7 +78,7 @@ public class Program_Save : MonoBehaviour
     /// 这个方法用于将处理完的数据保存到本地
     /// </summary>
     /// <param name="Data">为需要保存的数据</param>
-    public void SaveDatas(object Data, string Name)
+    public void SaveDatas<T>(T Data, string Name)
     {
         var path = "\\" + Name + ".json";
         //把所有数据都处理成可以转换成为json的形式，不一定会全部保存
@@ -99,18 +103,29 @@ public class Program_Save : MonoBehaviour
     /// 这个方法用于从本地加载数据，并将数据应用到游戏中
     /// </summary>
     /// <param name="path">为读取的文件名称，例如"\\Datas.json"表示从streamingAssetsPath/Datas.json读取</param>
-    public void LoadDatas<T>(ref T Data, string Name)
+    /// <returns>返回1表示读取成功，返回0表示读取失败</returns>
+    public int LoadDatas<T>(ref T Data, string Name)
     {
         var path = "\\" + Name + ".json";
         string fileUrl = Application.streamingAssetsPath + path;
-        using (StreamReader sr = new StreamReader(fileUrl))
+        //如果存在，则读取数据
+        if (File.Exists(fileUrl))
         {
-            string json = sr.ReadToEnd();
-            Data = JsonConvert.DeserializeObject<T>(json);
-            sr.Close();
-            sr.Dispose();
+            using (StreamReader sr = new StreamReader(fileUrl))
+            {
+                string json = sr.ReadToEnd();
+                Data = JsonConvert.DeserializeObject<T>(json);
+                sr.Close();
+                sr.Dispose();
+            }
+            ApplyDatas();
+            return 1;
         }
-        ApplyDatas();
+        else
+        {
+            //如果不存在，则返回
+            return 0;
+        }
     }
 
     /// <summary>
@@ -118,11 +133,21 @@ public class Program_Save : MonoBehaviour
     /// </summary>
     private void ApplyDatas()
     {
-        Key_Settings = Key_Data.Key_Settings;
+        //Save_Data部分
+        Player_Weapon_Inventory.Clear();
         foreach (var item in Save_Data.Player_Weapon_Inventory)
         {
             Player_Weapon_Inventory.Add(WeaponManager.Instance.Weapon_Inventory[item]);
         }
+
+        //Setting_Data部分
+        Key_Settings = Setting_Data.Key_Settings;
+        Key_Settings_Reverse.Clear();
+        foreach (var item in Key_Settings)
+        {
+            Key_Settings_Reverse.Add(item.Value, item.Key);
+        }
+
     }
 
     /// <summary>
@@ -134,6 +159,7 @@ public class Program_Save : MonoBehaviour
         Key_Settings.Add("Left", KeyCode.A);
         Key_Settings.Add("Right", KeyCode.D);
         Key_Settings.Add("Jump", KeyCode.Space);
+        Key_Settings.Add("Crouch", KeyCode.LeftControl);
         Key_Settings.Add("Aim", KeyCode.Mouse1);
         Key_Settings.Add("Shoot", KeyCode.Mouse0);
         Key_Settings.Add("Reload", KeyCode.R);
@@ -159,27 +185,23 @@ public class Program_Save : MonoBehaviour
     /// <returns>是否成功。若为“Success”则成功更改，否则为冲突的按键名称</returns>
     public string SetKey(string Key_Name, KeyCode Key_Code)
     {
-        //如果Key_Code已经存在于字典中，则返回此Key_Code对应的键名
-        if (Key_Settings.ContainsValue(Key_Code))
+        if (Key_Settings.ContainsValue(Key_Code) && Key_Settings_Reverse[Key_Code] != Key_Name)
         {
             return Key_Settings_Reverse[Key_Code];
         }
         else
         {
-            //将Key_Name对应的值更新为Key_Code
             Key_Settings[Key_Name] = Key_Code;
-            //如果Key_Settings_Reverse中已经存在Key_Code，则更新其对应的键名
             if (Key_Settings_Reverse.ContainsKey(Key_Code))
             {
                 Key_Settings_Reverse[Key_Code] = Key_Name;
             }
-            //否则，添加新的键值对
             else
             {
                 Key_Settings_Reverse.Add(Key_Code, Key_Name);
             }
         }
-        SaveDatas(Key_Data, "Key_Data");
+        //SaveDatas(Setting_Data, "Setting_Data");
         return "Success";
     }
 }
