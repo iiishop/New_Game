@@ -110,10 +110,10 @@ MonoBehaviour:
   Jump_Count: 2
   Jump_Count_Now: 0
   Is_Air: 0
-  Jump_Up_Speed: 6
-  Jump_Up_Time: 0.3
+  Jump_Up_Speed: 4
+  Jump_Up_Time: 0.1
   Jump_Up_Time_Left: 0
-  Up_Start_Velocity: 5
+  Up_Start_Velocity: 4.5
   Ani: {fileID: 0}
   Rb: {fileID: 0}
   SR: {fileID: 0}

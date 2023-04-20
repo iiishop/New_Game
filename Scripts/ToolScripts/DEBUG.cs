@@ -25,6 +25,10 @@ public class DEBUG : MonoBehaviour
     }
     public void Display_Info(string Info)
     {
+        //获取调用这个函数的类名和行数
+        var t = new System.Diagnostics.StackTrace(true).GetFrame(1);
+        Info = t.GetMethod().DeclaringType.Name + " " + t.GetFileLineNumber() + "行: " + Info;
+
         Debug.Log(Info);
         //换行显示内容
         TMP.text += Info + "\n";
