@@ -32,6 +32,8 @@ public class Program_Save : MonoBehaviour
     class SettingData
     {
         public Dictionary<string, KeyCode> Key_Settings;
+        public bool Is_Full_Screen;
+        public float Global_Volume;
     }
 
     SaveData Save_Data = new SaveData();
@@ -46,7 +48,6 @@ public class Program_Save : MonoBehaviour
 
     private void Start()
     {
-        Key_Init();
         if (LoadDatas(ref Setting_Data, "Setting_Data") == 0)
         {
             //如果没有读取到数据，则初始化数据
@@ -64,13 +65,23 @@ public class Program_Save : MonoBehaviour
     /// </summary>
     private void ProcessDatas()
     {
-        //处理需要保存的数据
-        Setting_Data.Key_Settings = Key_Settings;
+        //处理Save_Data部分
+
         Save_Data.Player_Weapon_Inventory.Clear();
+        DEBUG.Instance.Display_Info(Player_Weapon_Inventory.Count.ToString());
         foreach (var item in Player_Weapon_Inventory)
         {
-            Save_Data.Player_Weapon_Inventory.Add(item.ID);
+            DEBUG.Instance.Display_Info(item.ID.ToString());
+            if (item != null)
+            {
+                Save_Data.Player_Weapon_Inventory.Add(item.ID);
+            }
         }
+
+        //处理Setting_Data部分
+        Setting_Data.Key_Settings = Key_Settings;
+        Setting_Data.Is_Full_Screen = Screen.fullScreen;
+        Setting_Data.Global_Volume = AudioListener.volume;
     }
 
 
@@ -147,6 +158,8 @@ public class Program_Save : MonoBehaviour
         {
             Key_Settings_Reverse.Add(item.Value, item.Key);
         }
+        Screen.fullScreen = Setting_Data.Is_Full_Screen;
+        AudioListener.volume = Setting_Data.Global_Volume;
 
     }
 

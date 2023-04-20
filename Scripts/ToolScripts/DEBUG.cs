@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public  class DEBUG : MonoBehaviour
+public class DEBUG : MonoBehaviour
 {
     public static DEBUG Instance;
+    public GameObject Debug_Panel;
 
-    private TextMeshProUGUI TMP;
+    public TMP_InputField TMP;
+    private TextMeshProUGUI Text;
     //单例模式
     private void Awake()
     {
@@ -23,22 +25,27 @@ public  class DEBUG : MonoBehaviour
     }
     public void Display_Info(string Info)
     {
+        Debug.Log(Info);
         //换行显示内容
         TMP.text += Info + "\n";
-        Debug.Log(Info);
+
     }
     private void Start()
     {
-        TMP = transform.Find("DEBUG_INFO").GetComponent<TextMeshProUGUI>();
-        TMP.gameObject.SetActive(false);
+        Text = TMP.GetComponent<TextMeshProUGUI>();
+        Debug_Panel.SetActive(false);
     }
 
     private void Update()
     {
-       //按F11来切换显示
+        //按F11来切换显示
         if (Input.GetKeyDown(KeyCode.F11))
         {
-            TMP.gameObject.SetActive(!TMP.gameObject.activeSelf);
-        } 
+            Debug_Panel.SetActive(!Debug_Panel.activeSelf);
+        }
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            Display_Info("F12");
+        }
     }
 }

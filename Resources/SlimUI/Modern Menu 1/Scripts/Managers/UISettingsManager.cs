@@ -50,7 +50,7 @@ namespace SlimUI.ModernMenu
         public void Start()
         {
             // check slider values
-            musicSlider.GetComponent<Slider>().value = PlayerPrefs.GetFloat("MusicVolume");
+            musicSlider.GetComponent<Slider>().value = AudioListener.volume;
             sensitivityXSlider.GetComponent<Slider>().value = PlayerPrefs.GetFloat("XSensitivity");
             sensitivityYSlider.GetComponent<Slider>().value = PlayerPrefs.GetFloat("YSensitivity");
             mouseSmoothSlider.GetComponent<Slider>().value = PlayerPrefs.GetFloat("MouseSmoothing");
@@ -92,7 +92,8 @@ namespace SlimUI.ModernMenu
         public void MusicSlider()
         {
             //PlayerPrefs.SetFloat("MusicVolume", sliderValue);
-            PlayerPrefs.SetFloat("MusicVolume", musicSlider.GetComponent<Slider>().value);
+            //PlayerPrefs.SetFloat("MusicVolume", musicSlider.GetComponent<Slider>().value);
+            AudioListener.volume = musicSlider.GetComponent<Slider>().value;
         }
 
     }
