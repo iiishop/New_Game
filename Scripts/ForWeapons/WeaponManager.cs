@@ -2,17 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Weapons;
 public class WeaponManager : MonoBehaviour
 {
-    public WeaponManager Instance;
+    public static WeaponManager Instance;
+    /// <summary>
+    /// 表示游戏中现存的所有武器
+    /// </summary>
+    /// <typeparam name="Weapon"></typeparam>
+    /// <returns></returns>
+    public List<Weapon> Weapon_Inventory = new List<Weapon>();
     public Weapons.Weapon wp; //For test
     public static Signal Signal = new Signal();
 
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
             Instance = this;
         else
             Destroy(gameObject);
@@ -23,40 +29,44 @@ public class WeaponManager : MonoBehaviour
     /// </summary>
     private void ChangeWeapon()
     {
-        Program.Weapon_Now =
-            Program.Weapon_Now == Program.Weapon_Bag[0] ? Program.Weapon_Bag[1] : Program.Weapon_Bag[0];
+        Program.Instance.Weapon_Now =
+            Program.Instance.Weapon_Now == Program.Instance.Weapon_Bag[0] ? Program.Instance.Weapon_Bag[1] : Program.Instance.Weapon_Bag[0];
     }
 
     private void Start()
     {
-        Program.Weapon_Now = wp; //For test
+        Program.Instance.Weapon_Now = wp; //For test
     }
 
     private void Update()
     {
-        CheckAni();
-        if (Input.GetMouseButton(0)&& Input.GetMouseButton(1))
+        if (Program.Instance.Is_In_Game)
         {
-            Program.Weapon_Now.Fire();
+            CheckAni();
+            if (Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Shoot"]) && Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Aim"]))
+            {
+                Program.Instance.Weapon_Now.Fire();
+            }
+
+            if (Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["Reload"]))
+            {
+                Program.Instance.Weapon_Now.Reload();
+            }
+
+            if (Input.GetKeyUp(Program.Instance.Program_Save_Object.Key_Settings["Shoot"]))
+            {
+                Signal.Call();
+            }
+            if (Input.GetKey(Program.Instance.Program_Save_Object.Key_Settings["Aim"]))
+            {
+                Program.Instance.Weapon_Now.ROT();
+            }
+            else
+            {
+                Program.Instance.Weapon_Now.ROTM();
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Program.Weapon_Now.Reload();
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            Signal.Call();
-        }
-        if (Input.GetMouseButton(1))
-        {
-            Program.Weapon_Now.ROT();
-        }
-        else
-        {
-            Program.Weapon_Now.ROTM();
-        }
     }
 
     /// <summary>
@@ -64,19 +74,19 @@ public class WeaponManager : MonoBehaviour
     /// </summary>
     private void CheckAni()
     {
-        AnimatorStateInfo info = Program.Weapon_Now.Ani.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo info = Program.Instance.Weapon_Now.Ani.GetCurrentAnimatorStateInfo(0);
         if (info.normalizedTime >= 1.0f)
         {
             if (info.IsName("Fire"))
             {
-                Program.Weapon_Now.Ani.SetBool("Fire", false);
+                Program.Instance.Weapon_Now.Ani.SetBool("Fire", false);
             }
 
             if (info.IsName("Reload"))
             {
-                Program.Weapon_Now.Ani.SetBool("Reload", false);
-                Program.Weapon_Now.Is_Reloading = false;
-                Program.Weapon_Now.Reload_Ani_Time_Left = Program.Weapon_Now.Reload_Ani_Time;
+                Program.Instance.Weapon_Now.Ani.SetBool("Reload", false);
+                Program.Instance.Weapon_Now.Is_Reloading = false;
+                Program.Instance.Weapon_Now.Reload_Ani_Time_Left = Program.Instance.Weapon_Now.Reload_Ani_Time;
             }
         }
     }

@@ -10,41 +10,79 @@ using Weapons;
 /// </summary>
 public class Program : MonoBehaviour
 {
+    public static Program Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
     /// <summary>
     /// 当前的时间缩放比例
     /// </summary>
-    public static float Time_Scale = 1.0f;
+    public float Time_Scale = 1.0f;
     /// <summary>
     /// 缩放时间技能会缩放的时间比率
     /// </summary>
-    public static float Scaled_Time = 0.1f;
-    public static Weapon Weapon_Now;
-    public static Weapon[] Weapon_Bag = new Weapon[2];
-    public static float Weapon_Rotation;
-    public static GameObject Main_Character;
-    public static Program_Save Program_Save_Object;
-
+    public float Scaled_Time = 0.1f;
+    public Weapon Weapon_Now;
+    public Weapon[] Weapon_Bag = new Weapon[2];
+    public float Weapon_Rotation;
+    public GameObject Main_Character;
+    public Program_Save Program_Save_Object;
     private Rigidbody Main_Character_Rigidbody;
     private Animator Main_Character_Animator;
     private PlayerController Main_Character_Controller;
+    public bool Is_In_Game = false;
+
+
+
 
     private void Start()
     {
-        Main_Character = this.gameObject;
-        Main_Character_Rigidbody = Main_Character.GetComponent<Rigidbody>();
-        Main_Character_Animator = Main_Character.GetComponent<Animator>();
-        Main_Character_Controller = Main_Character.GetComponent<PlayerController>();
+        Program_Save_Object = Program_Save.Instance;
+
+        //从场景中寻找tag为Player的物体，并将其赋值给Main_Character
+        //判断能否在场景中寻找tag为Player的物体
+        if (GameObject.FindGameObjectWithTag("Player") != null)
+        {
+            Is_In_Game = true;
+        }
+        else
+        {
+            Is_In_Game = false;
+        }
+
+        if (Is_In_Game)
+        {
+            Main_Character = GameObject.FindGameObjectWithTag("Player");
+            Main_Character_Rigidbody = Main_Character.GetComponent<Rigidbody>();
+            Main_Character_Animator = Main_Character.GetComponent<Animator>();
+            Main_Character_Controller = Main_Character.GetComponent<PlayerController>();
+        }
     }
+
+
+    private void Update()
+    {
+        ChangeTheTime(Scaled_Time);
+    }
+
+
     /// <summary>
     /// 改变时间
     /// </summary>
     /// <param name="time">改变后的时间</param>
-    public static void TimeChange(float time)
+    public void TimeChange(float time)
     {
         Time_Scale = time;
         Time.timeScale = Time_Scale;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
+
 
     /// <summary>
     /// 用于改变时间的方法。
@@ -55,16 +93,16 @@ public class Program : MonoBehaviour
     /// <param name="time">缩放后的时间</param>
     public void ChangeTheTime(float time)
     {
-        if (Input.GetKeyDown(KeyCode.T) && Time_Scale == 1.0f)
+        if (Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["SpecialSkill"]) && Time_Scale == 1.0f)
         {
             TimeChange(time);
-            Main_Character.transform.position = new Vector3(this.transform.position.x,
-                this.transform.position.y + 0.02f, this.transform.position.z);
+            Main_Character.transform.position = new Vector3(Main_Character.transform.position.x,
+                Main_Character.transform.position.y + 0.02f, Main_Character.transform.position.z);
             //锁定主角的旋转和y轴的移动
             Main_Character_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
             Main_Character_Animator.SetBool("IsGrounded", true);
         }
-        else if (Input.GetKeyDown(KeyCode.T) && Time_Scale == time)
+        else if (Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["SpecialSkill"]) && Time_Scale == time)
         {
             TimeChange(1.0f);
             Main_Character_Controller.Can_Move = true;
@@ -72,6 +110,7 @@ public class Program : MonoBehaviour
             Main_Character_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ;
         }
     }
+
 
     /// <summary>
     /// 用于让物体线性运动到目标点的方法
@@ -82,7 +121,7 @@ public class Program : MonoBehaviour
     /// <param name="speed">运动速度</param>
     /// <param name="is_unscaled_time">是否使用unscaledDeltaTime</param>
     /// <returns>下一帧self需要到达的位置</returns>
-    public static Vector3 Lerp2Tagert(Vector3 self, Vector3 target, Vector3 offset, float speed, bool is_unscaled_time = true)
+    public Vector3 Lerp2Tagert(Vector3 self, Vector3 target, Vector3 offset, float speed, bool is_unscaled_time = true)
     {
         Vector3 target_position = target + offset;
         Vector3 new_position;
@@ -98,13 +137,14 @@ public class Program : MonoBehaviour
         return new_position;
     }
 
+
     /// <summary>
     /// 获得animator下某个动画片段的时长方法
     /// </summary>
     /// <param animator="animator">Animator组件</param> 
     /// <param name="name">要获得的动画片段名字</param>
     /// <returns>这个动画的原始长度（与播放速度无关）</returns>
-    public static float GetAnimatorLength(Animator animator, string name)
+    public float GetAnimatorLength(Animator animator, string name)
     {
         //动画片段时间长度
         float length = 0;
@@ -132,14 +172,15 @@ public class Program : MonoBehaviour
         return length / speed;
     }
 
+
     /// <summary>
     /// 一个方法，用于在t秒内，每次调用返回一个数，数值从a到b。如果b大于a，那么返回的数值会从小到大，反之dd则从大到小。如果t为0，那么返回的数值为b。
     /// </summary>
     /// <param name="a">起始的数值</param>
     /// <param name="b">结束的数值</param>
     /// <param name="t">变换的时间</param>
-    /// <returns></returns>
-    public static float NumberLerp(float a, float b, ref float t)
+    /// <returns>下一帧这个变量需要成为的值</returns>
+    public float NumberLerp(float a, float b, ref float t)
     {
         if (t <= 0)
         {
@@ -152,11 +193,4 @@ public class Program : MonoBehaviour
             return res;
         }
     }
-
-
-    private void Update()
-    {
-        ChangeTheTime(Scaled_Time);
-    }
-
 }
