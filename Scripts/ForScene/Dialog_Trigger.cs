@@ -11,7 +11,7 @@ public class Dialog_Trigger : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E)&&In_Trigger)
+        if (Input.GetKeyDown(Program.Instance.Program_Save_Object.Key_Settings["Trigger"]) && In_Trigger)
         {
             if (!Is_Triggered)
             {
@@ -20,7 +20,7 @@ public class Dialog_Trigger : MonoBehaviour
             Is_Triggered = true;
             transform.GetChild(0).gameObject.SetActive(false);
         }
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,7 +34,7 @@ public class Dialog_Trigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-       In_Trigger = false; 
-         transform.GetChild(0).gameObject.SetActive(false);
+        In_Trigger = false;
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 }

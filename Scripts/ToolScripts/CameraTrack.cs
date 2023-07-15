@@ -19,7 +19,7 @@ public class CameraTrack : MonoBehaviour
     {
         if (target)
         {
-            speed_now = speed*(transform.position - target.transform.position).magnitude; 
+            speed_now = speed * (transform.position - target.transform.position).magnitude;
             transform.position = Vector3.Lerp(transform.position,
                 Quaternion.Euler(target.transform.eulerAngles) * offset + target.transform.position,
                 speed * Time.unscaledDeltaTime);

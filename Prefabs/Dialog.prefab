@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\u8FD9\u662F\u4E00\u4E2ADEMO"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b4df01ab56ded4a43a615ff04c7ada7a, type: 2}
   m_sharedMaterial: {fileID: -5459410016884986833, guid: b4df01ab56ded4a43a615ff04c7ada7a, type: 2}
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 27
+  m_fontSizeBase: 27
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -320,7 +320,7 @@ Transform:
   m_Children:
   - {fileID: 9219010991322665050}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9219010990855172731
 MonoBehaviour:
@@ -432,7 +432,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9219010991322665050
 RectTransform:
   m_ObjectHideFlags: 0
