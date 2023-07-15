@@ -123,7 +123,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 1b0a6b720d9c01145af5b52122e0382b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CarPaint2_BRDFColorMap:
@@ -650,7 +650,7 @@ Material:
     - _MetallicRemapMin2: 0
     - _MetallicRemapMin3: 0
     - _Mode: 1
-    - _NormalMapKwToggle: 0
+    - _NormalMapKwToggle: 1
     - _NormalMapSpace: 0
     - _NormalMapSpace0: 0
     - _NormalMapSpace1: 0
