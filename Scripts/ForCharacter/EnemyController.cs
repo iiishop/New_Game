@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using Spine.Unity;
+using Tools;
 
 public class EnemyController : MonoBehaviour
 {
@@ -13,48 +14,44 @@ public class EnemyController : MonoBehaviour
     private SpriteRenderer SR;
     private CharacterState CS;
     public bool IsSpine = false;
-    private bool IsFlip = false;
+    public bool IsFlip = false;
     [Header("行为模式管理")]
     /// <summary>
     /// 用以判断角色是可移动的还是固定式的
     /// </summary>
-    public bool IsMove = false;
+    public bool Can_Move = false;
+    public float Move_Speed;
     /// <summary>
     /// 创建检测碰撞箱的参数，分别是左右上下的大小
     /// </summary>
-    public Vector4 CheckBox;
+    public Vector4 Check_Collider_Size;
     /// <summary>
     /// 创建检测碰撞箱的参数，分别是前方深度与后方深度，默认为0.3f
     /// </summary>
-    public Vector2 CheckBoxOffset = new Vector2(0.3f, 0.3f);
+    public Vector2 Check_Collider_Offset = new Vector2(0.3f, 0.3f);
     public List<Attack_Mode> AttackModes = new List<Attack_Mode>();
     private Collider CheckCollider;
-    private GameObject Manager;
+    private GameObject CheckBox;
 
 
 
     void Start()
     {
         Rb = GetComponent<Rigidbody>();
-        if (!IsSpine)
-        {
-            Ani = GetComponent<Animator>();
-        }
-        else
-        {
-            SA = GetComponent<SkeletonAnimation>();
-        }
+        Ani = GetComponent<Animator>();
+        SA = GetComponent<SkeletonAnimation>();
         SR = GetComponent<SpriteRenderer>();
         CS = GetComponent<CharacterState>();
 
-        Manager = new GameObject("Manager");
-        var t = Manager.AddComponent<ForCheckBox>();
-        Manager.transform.SetParent(this.transform);
-        CheckCollider = Manager.AddComponent<BoxCollider>();
+        CheckBox = new GameObject("CheckBox");
+        var t = CheckBox.AddComponent<ForCheckBox>();
+        t.Enemy = this.gameObject;
+        CheckBox.transform.SetParent(this.transform);
+        CheckCollider = CheckBox.AddComponent<BoxCollider>();
         CheckCollider.isTrigger = true;
-        Manager.transform.localPosition = Vector3.zero;
-        Manager.transform.localScale = new Vector3(CheckBox.x + CheckBox.y, CheckBox.z + CheckBox.w, CheckBoxOffset.x + CheckBoxOffset.y);
-        Manager.transform.localPosition = new Vector3((CheckBox.y - CheckBox.x) / 2, (CheckBox.z - CheckBox.w) / 2, (CheckBoxOffset.y - CheckBoxOffset.x) / 2);
+        CheckBox.transform.localPosition = Vector3.zero;
+        CheckBox.transform.localScale = new Vector3(Check_Collider_Size.x + Check_Collider_Size.y, Check_Collider_Size.z + Check_Collider_Size.w, Check_Collider_Offset.x + Check_Collider_Offset.y);
+        CheckBox.transform.localPosition = new Vector3((Check_Collider_Size.y - Check_Collider_Size.x) / 2, (Check_Collider_Size.z - Check_Collider_Size.w) / 2, (Check_Collider_Offset.y - Check_Collider_Offset.x) / 2);
 
         foreach (var attackMode in AttackModes)
         {
@@ -65,7 +62,6 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        //IsFlip = IsSpine ? SA.skeleton.ScaleX < 0 : SR.flipX;
 
     }
     private void OnCollisionExit(Collision other)
@@ -78,14 +74,7 @@ public class EnemyController : MonoBehaviour
             }
             else
             {
-                if (SA.AnimationName != "Jump")
-                {
-                    SA.AnimationState.SetAnimation(0, "Stalling", true);
-                }
-                else
-                {
-                    SA.AnimationState.AddAnimation(0, "Stalling", true, 0);
-                }
+                SA.PlaySpineAnimation("Stalling", true, SA.AnimationName != "Jump");
             }
         }
     }
@@ -98,6 +87,10 @@ public class EnemyController : MonoBehaviour
             {
                 Ani.SetBool("IsGrounded", true);
             }
+            else
+            {
+                SA.PlaySpineAnimation("Idle", true);
+            }
         }
 
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -0.6f);
@@ -105,8 +98,9 @@ public class EnemyController : MonoBehaviour
     /// <summary>
     /// 用以让角色左右翻转
     /// </summary>
-    private void CharacterFlip()
+    public void CharacterFlip()
     {
+        //DONE:只翻转角色会导致攻击模式的枪口朝向错误
         IsFlip = !IsFlip;
         if (!IsSpine)
         {
@@ -116,11 +110,25 @@ public class EnemyController : MonoBehaviour
         {
             SA.skeleton.ScaleX = IsFlip ? -1 : 1;
         }
-    }
-    private bool Check()
-    {
+        foreach (var attackMode in AttackModes)
+        {
+            attackMode.Gun.transform.Rotate(0, 0, 180 - 2 * attackMode.Gun.transform.rotation.eulerAngles.z);
+            attackMode.attack_position.transform.Rotate(0, 0, 180 - 2 * attackMode.attack_position.transform.rotation.eulerAngles.z);
+            attackMode.Gun.transform.localPosition = attackMode.Gun.transform.localPosition.Flip();
 
-        return true;
+            attackMode.AttackCheck.transform.localPosition = attackMode.AttackCheck.transform.localPosition.Flip();
+        }
+        //翻转CheckBox
+        CheckBox.transform.localPosition = CheckBox.transform.localPosition.Flip();
+    }
+    public void Move()
+    {
+        //TODO:向当前面朝方向进行移动操作
+        Rb.velocity = new Vector3(IsFlip ? -Move_Speed : Move_Speed, Rb.velocity.y, 0);
+    }
+    public void Stop()
+    {
+        Rb.velocity = new Vector3(0, Rb.velocity.y, 0);
     }
 }
 
@@ -133,8 +141,12 @@ public class Attack_Mode
     /// </summary>
     public bool Is_Shoot = true;
     public GameObject Gun;
-    public float Shoot_Speed;
+    public float Shoot_Wait_Time;
+    /// <summary>
+    /// 枪口转动的速度rad/s
+    /// </summary>
     public float Gun_Rot_Speed;
+    public float[] Rot_Range = new float[2];
     /// <summary>
     /// 攻击模式的父物体，用于管理，即角色
     /// </summary>
@@ -156,13 +168,14 @@ public class Attack_Mode
     /// <summary>
     /// 挂载攻击检测的物体
     /// </summary>
-    private GameObject AttackCheck;
+    public GameObject AttackCheck;
     public void Start()
     {
         AttackCheck = new GameObject($"AttackCheck{id}");
         var t = AttackCheck.AddComponent<ForAttackCheck>();
-        t.Attack_Prefab = attack;
-        t.Attack_Position = attack_position;
+        t.AM = this;
+        t.FCB = Father.GetComponentInChildren<ForCheckBox>();
+        t.SA = Father.GetComponentInChildren<SkeletonAnimation>();
 
         AttackCheck.transform.SetParent(Father.transform);
         attack_collider = AttackCheck.AddComponent<BoxCollider>();

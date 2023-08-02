@@ -21,16 +21,20 @@ public class Bullet : MonoBehaviour//缺少碰撞后销毁、伤害计算
     public bool canPassWall = false;
 
     private List<GameObject> HitList = new List<GameObject>();
+    public bool is_Enemy_Bullet = false;
+    public float Weapon_Rotation;
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        Move();
+        if (!is_Enemy_Bullet)
+            Weapon_Rotation = Program.Instance.Weapon_Rotation;
+        Move(Weapon_Rotation);
     }
 
-    public virtual void Move()
+    public virtual void Move(float Weapon_Rotation)
     {
-        rb.velocity = new Vector2(Mathf.Cos((Program.Instance.Weapon_Rotation) / 180 * Mathf.PI) * speed,
-            Mathf.Sin((Program.Instance.Weapon_Rotation) / 180 * Mathf.PI) * speed);
+        rb.velocity = new Vector2(Mathf.Cos((Weapon_Rotation) / 180 * Mathf.PI) * speed,
+            Mathf.Sin((Weapon_Rotation) / 180 * Mathf.PI) * speed);
 
         Invoke("Destroy", deathTime);
     }

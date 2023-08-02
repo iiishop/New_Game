@@ -17,12 +17,13 @@ Material:
   - _DOUBLESIDED_ON
   - _ENABLE_FOG_ON_TRANSPARENT
   - _SURFACE_TYPE_TRANSPARENT
+  - _TRANSPARENT_WRITES_MOTION_VEC
   - _WINDQUALITY_BEST
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 2750
   stringTagMap:
     MotionVector: User
     RenderType: Transparent
@@ -83,7 +84,7 @@ Material:
     - _DepthOffsetEnable: 0
     - _DoubleSidedEnable: 1
     - _DoubleSidedGIMode: 0
-    - _DoubleSidedNormalMode: 0
+    - _DoubleSidedNormalMode: 2
     - _DstBlend: 10
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
@@ -100,7 +101,7 @@ Material:
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
     - _RefractionModel: 0
-    - _RenderQueueType: 4
+    - _RenderQueueType: 3
     - _RequireSplitLighting: 0
     - _SrcBlend: 1
     - _StencilComp: 8
@@ -124,20 +125,20 @@ Material:
     - _TransparentDepthPostpassEnable: 0
     - _TransparentDepthPrepassEnable: 0
     - _TransparentSortPriority: 0
-    - _TransparentWritingMotionVec: 0
+    - _TransparentWritingMotionVec: 1
     - _TransparentZWrite: 0
     - _Use8Neighbourhood: 1
     - _UseShadowThreshold: 0
     - _WINDQUALITY: 4
     - _WindQuality: 1
-    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestDepthEqualForOpaque: 8
     - _ZTestGBuffer: 3
-    - _ZTestTransparent: 4
+    - _ZTestTransparent: 8
     - _ZWrite: 0
     m_Colors:
     - Diffusion_Profile_Asset: {r: 1.1335678e+25, g: -1.9367572e-36, b: -2.4064528e+30, a: 1.645306e-31}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DoubleSidedConstants: {r: -1, g: -1, b: -1, a: 0}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _HueVariationColor: {r: 1, g: 0.5019608, b: 0, a: 0.2}
     - _OutlineColor: {r: 1, g: 1, b: 0, a: 1}
